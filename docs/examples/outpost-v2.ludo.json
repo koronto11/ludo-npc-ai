@@ -1,0 +1,367 @@
+{
+  "format": "ludo-npc-project",
+  "schema_version": 2,
+  "project_id": "sample-wasteland-outpost",
+  "name": "荒原驿站",
+  "revision": 1,
+  "content_revision": 1,
+  "layout_revision": 1,
+  "content": {
+    "world": {
+      "name": "赤沙边境",
+      "district": "",
+      "premise": "补给稀缺的荒原中，驿站等待一支失约的商队。",
+      "rules": [
+        "人物只能谈论自己已知的事实。",
+        "商队抵达前，补给不会自行增加。"
+      ],
+      "tone": "",
+      "clock_unit": "day"
+    },
+    "characters": [
+      {
+        "id": "keeper",
+        "name": "夏岚",
+        "description": "",
+        "tags": [],
+        "kind": "character",
+        "role": "驿站守门人",
+        "importance": "supporting",
+        "goals": [
+          "保护驿站并找回失踪的商队"
+        ],
+        "boundary": "",
+        "personality": [],
+        "voice": "简短谨慎",
+        "story": "",
+        "uncertainties": [],
+        "confirmed_fields": [
+          "name",
+          "role"
+        ]
+      }
+    ],
+    "locations": [
+      {
+        "id": "outpost",
+        "name": "红砂驿站",
+        "description": "",
+        "tags": [],
+        "kind": "location",
+        "role": "",
+        "parent_id": null
+      },
+      {
+        "id": "gate",
+        "name": "东门",
+        "description": "",
+        "tags": [],
+        "kind": "location",
+        "role": "",
+        "parent_id": "outpost"
+      }
+    ],
+    "factions": [
+      {
+        "id": "caravan-guild",
+        "name": "行路人商会",
+        "description": "",
+        "tags": [],
+        "kind": "faction",
+        "role": "",
+        "policies": [
+          "优先向驿站供应饮水"
+        ]
+      }
+    ],
+    "facts": [
+      {
+        "id": "caravan-arrival",
+        "name": "商队抵达",
+        "description": "商队在第三天带来饮水。",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 3,
+        "visibility": "private"
+      }
+    ],
+    "variables": [
+      {
+        "id": "supplies",
+        "name": "剩余饮水",
+        "description": "",
+        "tags": [],
+        "kind": "variable",
+        "value_type": "number",
+        "default": 2
+      }
+    ],
+    "events": [
+      {
+        "id": "arrival",
+        "name": "商队抵达驿站",
+        "description": "",
+        "tags": [],
+        "kind": "event",
+        "scheduled_at": 3,
+        "enabled": true,
+        "priority": 0,
+        "condition": {
+          "op": "always"
+        },
+        "effects": [
+          {
+            "op": "increment_variable",
+            "variable_id": "supplies",
+            "amount": 5
+          },
+          {
+            "op": "grant_knowledge",
+            "character_id": "keeper",
+            "fact_id": "caravan-arrival"
+          }
+        ],
+        "affected_character_ids": [
+          "keeper"
+        ],
+        "trigger_policy": "once"
+      }
+    ],
+    "rules": [
+      {
+        "id": "water-alert",
+        "name": "缺水警戒",
+        "description": "",
+        "tags": [],
+        "kind": "rule",
+        "enabled": true,
+        "condition": {
+          "op": "variable",
+          "variable_id": "supplies",
+          "comparison": "lte",
+          "value": 1
+        },
+        "effects": [
+          {
+            "op": "set_behavior",
+            "character_id": "keeper",
+            "behavior": "限制访客进入储水间"
+          }
+        ]
+      }
+    ],
+    "dialogues": [
+      {
+        "id": "gate-conversation",
+        "name": "东门询问",
+        "description": "",
+        "tags": [],
+        "kind": "dialogue",
+        "character_id": "keeper",
+        "entry_node_id": "greeting",
+        "entry_routes": [],
+        "nodes": [
+          {
+            "id": "greeting",
+            "label": "",
+            "speaker_id": "keeper",
+            "text": "带了水吗？没有的话，先别走太远。",
+            "condition": {
+              "op": "always"
+            },
+            "effects": [],
+            "options": [
+              {
+                "id": "ask-arrival",
+                "text": "商队到了吗？",
+                "condition": {
+                  "op": "knows",
+                  "character_id": "keeper",
+                  "fact_id": "caravan-arrival"
+                },
+                "effects": [],
+                "target_node_id": "arrival-answer"
+              },
+              {
+                "id": "leave",
+                "text": "我稍后再来。",
+                "condition": {
+                  "op": "always"
+                },
+                "effects": [],
+                "target_node_id": null
+              }
+            ]
+          },
+          {
+            "id": "arrival-answer",
+            "label": "",
+            "speaker_id": "keeper",
+            "text": "第三天清晨来的，水囊已经入库。",
+            "condition": {
+              "op": "knows",
+              "character_id": "keeper",
+              "fact_id": "caravan-arrival"
+            },
+            "effects": [],
+            "options": []
+          }
+        ]
+      }
+    ],
+    "texts": [
+      {
+        "id": "water-notice",
+        "name": "饮水告示",
+        "description": "",
+        "tags": [],
+        "kind": "text",
+        "text_type": "quest",
+        "body": "每位旅人只领取一壶饮水。",
+        "author_id": "keeper",
+        "condition": {
+          "op": "variable",
+          "variable_id": "supplies",
+          "comparison": "lte",
+          "value": 1
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "keeper-guild",
+        "source": {
+          "kind": "character",
+          "id": "keeper"
+        },
+        "target": {
+          "kind": "faction",
+          "id": "caravan-guild"
+        },
+        "label": "等待商会补给",
+        "category": "social"
+      }
+    ],
+    "initial_state": {
+      "tick": 0,
+      "variables": {},
+      "characters": {
+        "keeper": {
+          "location_id": "gate",
+          "behavior": "守候商队",
+          "known_fact_ids": []
+        }
+      }
+    },
+    "drafts": [
+      {
+        "id": "keeper-story-draft",
+        "name": "守门人的往事草稿",
+        "description": "",
+        "tags": [],
+        "target": {
+          "kind": "character",
+          "id": "keeper"
+        },
+        "operation": "update",
+        "base_content_revision": 1,
+        "basis_hash": "",
+        "base_values": {},
+        "status": "pending",
+        "patch": {
+          "story": "夏岚曾在荒原救下一位迷路的商队领队。"
+        },
+        "applied_fields": [],
+        "task_id": null,
+        "source_refs": [
+          {
+            "kind": "faction",
+            "id": "caravan-guild"
+          }
+        ],
+        "model": "",
+        "issues": []
+      }
+    ],
+    "simulation_cases": [
+      {
+        "id": "case-before",
+        "name": "商队抵达之前",
+        "description": "",
+        "tags": [],
+        "at_tick": 2,
+        "location_id": null,
+        "variable_overrides": {},
+        "choices": [],
+        "scene_changes": [],
+        "seed": 0,
+        "notes": ""
+      },
+      {
+        "id": "case-after",
+        "name": "商队抵达之后",
+        "description": "",
+        "tags": [],
+        "at_tick": 3,
+        "location_id": null,
+        "variable_overrides": {},
+        "choices": [
+          {
+            "tick": 3,
+            "dialogue_id": "gate-conversation",
+            "option_id": "ask-arrival",
+            "action": "choice",
+            "record_id": null,
+            "sequence": null
+          }
+        ],
+        "scene_changes": [],
+        "seed": 0,
+        "notes": ""
+      }
+    ],
+    "generation_history": []
+  },
+  "editor": {
+    "canvases": [
+      {
+        "id": "outpost-board",
+        "name": "驿站人物与补给",
+        "description": "",
+        "tags": [],
+        "nodes": [
+          {
+            "entity": {
+              "kind": "character",
+              "id": "keeper"
+            },
+            "position": {
+              "x": 100,
+              "y": 180
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "event",
+              "id": "arrival"
+            },
+            "position": {
+              "x": 450,
+              "y": 180
+            },
+            "visible": true
+          }
+        ],
+        "edges": []
+      }
+    ],
+    "legacy_preview": null
+  },
+  "metadata": {
+    "created_at": "2026-10-05T00:00:00Z",
+    "updated_at": "2026-10-05T00:00:00Z",
+    "migration": null
+  }
+}

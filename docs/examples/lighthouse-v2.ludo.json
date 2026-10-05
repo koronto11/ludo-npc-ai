@@ -1,0 +1,1379 @@
+{
+  "format": "ludo-npc-project",
+  "schema_version": 2,
+  "project_id": "legacy-9c1ba52b2e1ea4bc67633603a1954d31",
+  "name": "灯港失踪案",
+  "revision": 1,
+  "content_revision": 1,
+  "layout_revision": 1,
+  "content": {
+    "world": {
+      "name": "灯港",
+      "district": "码头区",
+      "premise": "灯港依靠鲸油贸易生存。最近三个月，海上失踪人数不断增加。",
+      "rules": [
+        "公会控制航运与工作机会",
+        "城内禁止公开使用亡灵术"
+      ],
+      "tone": "克制、悬疑；人物有自己的生活与利益。",
+      "clock_unit": "day"
+    },
+    "characters": [
+      {
+        "id": "eve",
+        "name": "伊芙",
+        "description": "在旧港诊所救治船员，始终没有放弃寻找弟弟。",
+        "tags": [],
+        "kind": "character",
+        "role": "船医",
+        "importance": "key",
+        "goals": [
+          "找到失踪的弟弟"
+        ],
+        "boundary": "不伤害无辜者",
+        "personality": [],
+        "voice": "",
+        "story": "在旧港诊所救治船员，始终没有放弃寻找弟弟。",
+        "uncertainties": [
+          "失踪案幕后组织"
+        ],
+        "confirmed_fields": [
+          "name",
+          "role",
+          "goals",
+          "boundary",
+          "uncertainties"
+        ]
+      },
+      {
+        "id": "lorn",
+        "name": "洛恩",
+        "description": "与伊芙相互信任",
+        "tags": [],
+        "kind": "character",
+        "role": "码头工头",
+        "importance": "supporting",
+        "goals": [
+          "维护工人生计"
+        ],
+        "boundary": "不出卖工人",
+        "personality": [],
+        "voice": "",
+        "story": "与伊芙相互信任",
+        "uncertainties": [
+          "伊芙弟弟的去向"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "mela",
+        "name": "梅拉",
+        "description": "掌握码头传闻\n提供伊芙去向",
+        "tags": [],
+        "kind": "character",
+        "role": "酒馆老板",
+        "importance": "supporting",
+        "goals": [
+          "保护来往客人"
+        ],
+        "boundary": "不泄露客人的隐私",
+        "personality": [],
+        "voice": "",
+        "story": "掌握码头传闻\n提供伊芙去向",
+        "uncertainties": [
+          "传闻背后的真实原因"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "kas",
+        "name": "卡斯",
+        "description": "执行公会命令",
+        "tags": [],
+        "kind": "character",
+        "role": "巡逻队员",
+        "importance": "supporting",
+        "goals": [
+          "执行公会命令"
+        ],
+        "boundary": "不伤害家人",
+        "personality": [],
+        "voice": "",
+        "story": "执行公会命令",
+        "uncertainties": [
+          "搜查名单的真正目的"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-0",
+        "name": "渔夫阿林",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-1",
+        "name": "登记员朵拉",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-2",
+        "name": "搬运工米洛",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-3",
+        "name": "船匠菲恩",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-4",
+        "name": "卖报人纳雅",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-5",
+        "name": "水手奥伦",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-6",
+        "name": "小贩莉娅",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      },
+      {
+        "id": "resident-7",
+        "name": "守夜人亨克",
+        "description": "灯港的一位普通居民。",
+        "tags": [],
+        "kind": "character",
+        "role": "背景居民",
+        "importance": "background",
+        "goals": [
+          "维持码头生活"
+        ],
+        "boundary": "不牵涉公会争端",
+        "personality": [],
+        "voice": "",
+        "story": "灯港的一位普通居民。",
+        "uncertainties": [
+          "失踪案的真相"
+        ],
+        "confirmed_fields": []
+      }
+    ],
+    "locations": [
+      {
+        "id": "clinic",
+        "name": "旧港诊所",
+        "description": "伊芙的常驻工作地",
+        "tags": [],
+        "kind": "location",
+        "role": "地点",
+        "parent_id": null
+      },
+      {
+        "id": "location-abandoned-lighthouse",
+        "name": "废弃灯塔",
+        "description": "",
+        "tags": [],
+        "kind": "location",
+        "role": "",
+        "parent_id": null
+      }
+    ],
+    "factions": [
+      {
+        "id": "guild",
+        "name": "港务公会",
+        "description": "控制航运与工作机会",
+        "tags": [],
+        "kind": "faction",
+        "role": "阵营",
+        "policies": []
+      }
+    ],
+    "facts": [
+      {
+        "id": "fact-eve-initial",
+        "name": "伊芙已知",
+        "description": "船员身上出现异常伤口",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-lorn-initial",
+        "name": "洛恩已知",
+        "description": "公会扣留了失踪船员的工资",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-mela-initial",
+        "name": "梅拉已知",
+        "description": "码头的传闻与伊芙去向",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-kas-initial",
+        "name": "卡斯已知",
+        "description": "公会的搜查名单",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-0-initial",
+        "name": "渔夫阿林已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-1-initial",
+        "name": "登记员朵拉已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-2-initial",
+        "name": "搬运工米洛已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-3-initial",
+        "name": "船匠菲恩已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-4-initial",
+        "name": "卖报人纳雅已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-5-initial",
+        "name": "水手奥伦已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-6-initial",
+        "name": "小贩莉娅已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-resident-7-initial",
+        "name": "守夜人亨克已知",
+        "description": "港口最近的失踪传闻",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-relic-found",
+        "name": "遗物已找到",
+        "description": "弟弟的遗物已被找到",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 2,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-guild-threat",
+        "name": "公会追捕",
+        "description": "公会正在追捕知情者",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 3,
+        "visibility": "private"
+      },
+      {
+        "id": "fact-relic-origin",
+        "name": "遗物来源",
+        "description": "玩家说明了遗物的船员来源",
+        "tags": [],
+        "kind": "fact",
+        "truth": "true",
+        "available_at": 1,
+        "visibility": "private"
+      }
+    ],
+    "variables": [
+      {
+        "id": "var-evidence-public",
+        "name": "证据公开",
+        "description": "",
+        "tags": [],
+        "kind": "variable",
+        "value_type": "boolean",
+        "default": true
+      },
+      {
+        "id": "var-eve-trust",
+        "name": "伊芙信任",
+        "description": "",
+        "tags": [],
+        "kind": "variable",
+        "value_type": "number",
+        "default": 1
+      },
+      {
+        "id": "var-eve-protected",
+        "name": "保护承诺",
+        "description": "",
+        "tags": [],
+        "kind": "variable",
+        "value_type": "boolean",
+        "default": false
+      },
+      {
+        "id": "var-relic-origin-told",
+        "name": "已说明遗物来源",
+        "description": "",
+        "tags": [],
+        "kind": "variable",
+        "value_type": "boolean",
+        "default": false
+      }
+    ],
+    "events": [
+      {
+        "id": "relic",
+        "name": "遗物出现",
+        "description": "玩家获得弟弟的遗物",
+        "tags": [],
+        "kind": "event",
+        "scheduled_at": 2,
+        "enabled": true,
+        "priority": 0,
+        "condition": {
+          "op": "always"
+        },
+        "effects": [
+          {
+            "op": "grant_knowledge",
+            "character_id": "eve",
+            "fact_id": "fact-relic-found"
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "eve",
+            "behavior": "私下调查弟弟的去向"
+          }
+        ],
+        "affected_character_ids": [
+          "eve"
+        ],
+        "trigger_policy": "once"
+      },
+      {
+        "id": "retaliation",
+        "name": "公会报复",
+        "description": "证据公开后触发报复",
+        "tags": [],
+        "kind": "event",
+        "scheduled_at": 3,
+        "enabled": true,
+        "priority": 0,
+        "condition": {
+          "op": "variable",
+          "variable_id": "var-evidence-public",
+          "comparison": "eq",
+          "value": true
+        },
+        "effects": [
+          {
+            "op": "grant_knowledge",
+            "character_id": "eve",
+            "fact_id": "fact-guild-threat"
+          },
+          {
+            "op": "move_character",
+            "character_id": "eve",
+            "location_id": "location-abandoned-lighthouse"
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "eve",
+            "behavior": "躲避公会"
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "lorn",
+            "behavior": "拒绝继续配合调查"
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "mela",
+            "behavior": "向玩家传递伊芙去向"
+          },
+          {
+            "op": "unlock_text",
+            "text_id": "text-clinic-letter"
+          }
+        ],
+        "affected_character_ids": [
+          "eve",
+          "lorn",
+          "mela"
+        ],
+        "trigger_policy": "once"
+      }
+    ],
+    "rules": [],
+    "dialogues": [
+      {
+        "id": "lighthouse",
+        "name": "灯塔见面",
+        "description": "伊芙已离开诊所",
+        "tags": [],
+        "kind": "dialogue",
+        "character_id": "eve",
+        "entry_node_id": "speech",
+        "entry_routes": [],
+        "nodes": [
+          {
+            "id": "speech",
+            "label": "",
+            "speaker_id": "eve",
+            "text": "诊所已经不安全了。你来之前，有人搜过我的房间。",
+            "condition": {
+              "op": "event_occurred",
+              "event_id": "retaliation"
+            },
+            "effects": [],
+            "options": []
+          }
+        ]
+      },
+      {
+        "id": "dialogue-eve-stages",
+        "name": "伊芙条件对话",
+        "description": "",
+        "tags": [],
+        "kind": "dialogue",
+        "character_id": "eve",
+        "entry_node_id": "opening",
+        "entry_routes": [
+          {
+            "node_id": "protected",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "event_occurred",
+                  "event_id": "retaliation"
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-eve-protected",
+                  "comparison": "eq",
+                  "value": true
+                }
+              ]
+            }
+          },
+          {
+            "node_id": "threatened",
+            "condition": {
+              "op": "event_occurred",
+              "event_id": "retaliation"
+            }
+          },
+          {
+            "node_id": "revealed",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "all",
+                  "conditions": [
+                    {
+                      "op": "event_occurred",
+                      "event_id": "relic"
+                    },
+                    {
+                      "op": "variable",
+                      "variable_id": "var-eve-trust",
+                      "comparison": "gte",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-relic-origin-told",
+                  "comparison": "eq",
+                  "value": true
+                }
+              ]
+            }
+          },
+          {
+            "node_id": "relic",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "event_occurred",
+                  "event_id": "relic"
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-eve-trust",
+                  "comparison": "gte",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ],
+        "nodes": [
+          {
+            "id": "opening",
+            "label": "初次问诊",
+            "speaker_id": "eve",
+            "text": "海上的伤，有些不能按岸上的办法治。",
+            "condition": {
+              "op": "always"
+            },
+            "effects": [],
+            "options": [
+              {
+                "id": "greet",
+                "text": "表达关心",
+                "condition": {
+                  "op": "always"
+                },
+                "effects": [
+                  {
+                    "op": "increment_variable",
+                    "variable_id": "var-eve-trust",
+                    "amount": 1
+                  }
+                ],
+                "target_node_id": "opening"
+              }
+            ]
+          },
+          {
+            "id": "relic",
+            "label": "遗物对话",
+            "speaker_id": "eve",
+            "text": "你从哪里找到这个？先把门关上。",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "event_occurred",
+                  "event_id": "relic"
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-eve-trust",
+                  "comparison": "gte",
+                  "value": 1
+                }
+              ]
+            },
+            "effects": [],
+            "options": [
+              {
+                "id": "origin",
+                "text": "说明遗物来源",
+                "condition": {
+                  "op": "variable",
+                  "variable_id": "var-relic-origin-told",
+                  "comparison": "eq",
+                  "value": false
+                },
+                "effects": [
+                  {
+                    "op": "increment_variable",
+                    "variable_id": "var-eve-trust",
+                    "amount": 1
+                  },
+                  {
+                    "op": "set_variable",
+                    "variable_id": "var-relic-origin-told",
+                    "value": true
+                  },
+                  {
+                    "op": "grant_knowledge",
+                    "character_id": "eve",
+                    "fact_id": "fact-relic-origin"
+                  }
+                ],
+                "target_node_id": "revealed"
+              },
+              {
+                "id": "brother",
+                "text": "询问弟弟身份",
+                "condition": {
+                  "op": "always"
+                },
+                "effects": [],
+                "target_node_id": "brother"
+              }
+            ]
+          },
+          {
+            "id": "revealed",
+            "label": "船员线索",
+            "speaker_id": "eve",
+            "text": "那艘船……我上个月替他们处理过伤口。",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "all",
+                  "conditions": [
+                    {
+                      "op": "event_occurred",
+                      "event_id": "relic"
+                    },
+                    {
+                      "op": "variable",
+                      "variable_id": "var-eve-trust",
+                      "comparison": "gte",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-relic-origin-told",
+                  "comparison": "eq",
+                  "value": true
+                }
+              ]
+            },
+            "effects": [],
+            "options": []
+          },
+          {
+            "id": "threatened",
+            "label": "灯塔见面",
+            "speaker_id": "eve",
+            "text": "诊所已经不安全了。你来之前，有人搜过我的房间。",
+            "condition": {
+              "op": "event_occurred",
+              "event_id": "retaliation"
+            },
+            "effects": [],
+            "options": [
+              {
+                "id": "protect",
+                "text": "答应保护她",
+                "condition": {
+                  "op": "variable",
+                  "variable_id": "var-eve-protected",
+                  "comparison": "eq",
+                  "value": false
+                },
+                "effects": [
+                  {
+                    "op": "increment_variable",
+                    "variable_id": "var-eve-trust",
+                    "amount": 1
+                  },
+                  {
+                    "op": "set_variable",
+                    "variable_id": "var-eve-protected",
+                    "value": true
+                  },
+                  {
+                    "op": "set_behavior",
+                    "character_id": "eve",
+                    "behavior": "愿意出庭作证"
+                  }
+                ],
+                "target_node_id": "protected"
+              },
+              {
+                "id": "searchers",
+                "text": "询问搜查者身份",
+                "condition": {
+                  "op": "always"
+                },
+                "effects": [],
+                "target_node_id": "searchers"
+              }
+            ]
+          },
+          {
+            "id": "protected",
+            "label": "愿意作证",
+            "speaker_id": "eve",
+            "text": "这次，我会把看见的事说完整。",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                {
+                  "op": "event_occurred",
+                  "event_id": "retaliation"
+                },
+                {
+                  "op": "variable",
+                  "variable_id": "var-eve-protected",
+                  "comparison": "eq",
+                  "value": true
+                }
+              ]
+            },
+            "effects": [],
+            "options": [
+              {
+                "id": "leave",
+                "text": "结束对话",
+                "condition": {
+                  "op": "always"
+                },
+                "effects": [],
+                "target_node_id": null
+              }
+            ]
+          },
+          {
+            "id": "brother",
+            "label": "弟弟身份",
+            "speaker_id": "eve",
+            "text": "他叫艾伦，总说等攒够钱，就带我离开灯港。",
+            "condition": {
+              "op": "always"
+            },
+            "effects": [],
+            "options": []
+          },
+          {
+            "id": "searchers",
+            "label": "搜查者身份",
+            "speaker_id": "eve",
+            "text": "他们穿着公会制服，名单上不止我一个人。",
+            "condition": {
+              "op": "always"
+            },
+            "effects": [],
+            "options": []
+          }
+        ]
+      }
+    ],
+    "texts": [
+      {
+        "id": "text-clinic-letter",
+        "name": "诊所信件",
+        "description": "",
+        "tags": [],
+        "kind": "text",
+        "text_type": "letter",
+        "body": "诊所已经不安全了。天黑后，到废弃灯塔来找我。——伊芙",
+        "author_id": "eve",
+        "condition": {
+          "op": "event_occurred",
+          "event_id": "retaliation"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "id": "lorn-eve",
+        "source": {
+          "kind": "character",
+          "id": "lorn"
+        },
+        "target": {
+          "kind": "character",
+          "id": "eve"
+        },
+        "label": "相互信任",
+        "category": "social"
+      },
+      {
+        "id": "eve-clinic",
+        "source": {
+          "kind": "character",
+          "id": "eve"
+        },
+        "target": {
+          "kind": "location",
+          "id": "clinic"
+        },
+        "label": "常驻",
+        "category": "social"
+      },
+      {
+        "id": "mela-eve",
+        "source": {
+          "kind": "character",
+          "id": "mela"
+        },
+        "target": {
+          "kind": "character",
+          "id": "eve"
+        },
+        "label": "提供情报",
+        "category": "social"
+      },
+      {
+        "id": "guild-kas",
+        "source": {
+          "kind": "faction",
+          "id": "guild"
+        },
+        "target": {
+          "kind": "character",
+          "id": "kas"
+        },
+        "label": "雇佣",
+        "category": "social"
+      },
+      {
+        "id": "relic-eve",
+        "source": {
+          "kind": "event",
+          "id": "relic"
+        },
+        "target": {
+          "kind": "character",
+          "id": "eve"
+        },
+        "label": "认知更新",
+        "category": "story"
+      },
+      {
+        "id": "retaliation-eve",
+        "source": {
+          "kind": "event",
+          "id": "retaliation"
+        },
+        "target": {
+          "kind": "character",
+          "id": "eve"
+        },
+        "label": "被迫离开",
+        "category": "story"
+      },
+      {
+        "id": "retaliation-lighthouse",
+        "source": {
+          "kind": "event",
+          "id": "retaliation"
+        },
+        "target": {
+          "kind": "dialogue",
+          "id": "lighthouse"
+        },
+        "label": "解锁",
+        "category": "dialogue"
+      }
+    ],
+    "initial_state": {
+      "tick": 1,
+      "variables": {},
+      "characters": {
+        "eve": {
+          "location_id": "clinic",
+          "behavior": "谨慎透露线索",
+          "known_fact_ids": [
+            "fact-eve-initial"
+          ]
+        },
+        "lorn": {
+          "location_id": null,
+          "behavior": "维护工人生计",
+          "known_fact_ids": [
+            "fact-lorn-initial"
+          ]
+        },
+        "mela": {
+          "location_id": null,
+          "behavior": "保护来往客人",
+          "known_fact_ids": [
+            "fact-mela-initial"
+          ]
+        },
+        "kas": {
+          "location_id": null,
+          "behavior": "执行公会命令",
+          "known_fact_ids": [
+            "fact-kas-initial"
+          ]
+        },
+        "resident-0": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-0-initial"
+          ]
+        },
+        "resident-1": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-1-initial"
+          ]
+        },
+        "resident-2": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-2-initial"
+          ]
+        },
+        "resident-3": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-3-initial"
+          ]
+        },
+        "resident-4": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-4-initial"
+          ]
+        },
+        "resident-5": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-5-initial"
+          ]
+        },
+        "resident-6": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-6-initial"
+          ]
+        },
+        "resident-7": {
+          "location_id": null,
+          "behavior": "维持码头生活",
+          "known_fact_ids": [
+            "fact-resident-7-initial"
+          ]
+        }
+      }
+    },
+    "drafts": [],
+    "simulation_cases": [
+      {
+        "id": "case-imported-preview",
+        "name": "迁移时的预演",
+        "description": "",
+        "tags": [],
+        "at_tick": 2,
+        "location_id": null,
+        "variable_overrides": {
+          "var-evidence-public": true
+        },
+        "choices": [],
+        "scene_changes": [],
+        "seed": 0,
+        "notes": "旧预演快照完整保留于 metadata.migration；选择历史缺失时需人工核对。"
+      }
+    ],
+    "generation_history": [
+      {
+        "id": "initial",
+        "name": "码头居民",
+        "description": "",
+        "tags": [],
+        "status": "completed",
+        "mode": "simulated",
+        "target_refs": [],
+        "model": "",
+        "detail": "8 / 8 完成",
+        "profile_id": null,
+        "profile_name": "",
+        "model_endpoint": "",
+        "purpose": null,
+        "draft_ids": [],
+        "total": 0,
+        "finished": 0,
+        "failures": [],
+        "usage": {},
+        "items": [],
+        "basis_hash": ""
+      }
+    ]
+  },
+  "editor": {
+    "canvases": [
+      {
+        "id": "canvas-main",
+        "name": "角色与故事关联",
+        "description": "",
+        "tags": [],
+        "nodes": [
+          {
+            "entity": {
+              "kind": "character",
+              "id": "eve"
+            },
+            "position": {
+              "x": 475,
+              "y": 205
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "lorn"
+            },
+            "position": {
+              "x": 160,
+              "y": 102
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "mela"
+            },
+            "position": {
+              "x": 905,
+              "y": 88
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "kas"
+            },
+            "position": {
+              "x": 65,
+              "y": 251
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "location",
+              "id": "clinic"
+            },
+            "position": {
+              "x": 480,
+              "y": 32
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "faction",
+              "id": "guild"
+            },
+            "position": {
+              "x": 75,
+              "y": 422
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "event",
+              "id": "relic"
+            },
+            "position": {
+              "x": 478,
+              "y": 445
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "event",
+              "id": "retaliation"
+            },
+            "position": {
+              "x": 916,
+              "y": 270
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "dialogue",
+              "id": "lighthouse"
+            },
+            "position": {
+              "x": 840,
+              "y": 454
+            },
+            "visible": true
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-0"
+            },
+            "position": {
+              "x": 30,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-1"
+            },
+            "position": {
+              "x": 50,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-2"
+            },
+            "position": {
+              "x": 70,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-3"
+            },
+            "position": {
+              "x": 90,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-4"
+            },
+            "position": {
+              "x": 110,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-5"
+            },
+            "position": {
+              "x": 130,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-6"
+            },
+            "position": {
+              "x": 150,
+              "y": 50
+            },
+            "visible": false
+          },
+          {
+            "entity": {
+              "kind": "character",
+              "id": "resident-7"
+            },
+            "position": {
+              "x": 170,
+              "y": 50
+            },
+            "visible": false
+          }
+        ],
+        "edges": []
+      }
+    ],
+    "legacy_preview": null
+  },
+  "metadata": {
+    "created_at": "2026-10-05T00:00:00Z",
+    "updated_at": "2026-10-05T00:00:00Z",
+    "migration": {
+      "source_version": 1,
+      "warnings": [
+        "人物已知备注迁移为独立事实；未知备注保留为人物不确定信息。",
+        "旧预演信任值缺少完整发生历史，保留为迁移快照，不伪造历史信任变化。",
+        "旧模型连接档案属于本机配置，本次不写入项目；认证信息已排除。",
+        "灯港内置剧情已转成条件、效果和对话声明；执行与回放将在通用剧情批次实现。"
+      ],
+      "legacy_preview_snapshot": {
+        "day": 2,
+        "evidence": true,
+        "protected": false,
+        "protectedDay": null,
+        "toldOrigin": false,
+        "toldOriginDay": null,
+        "trust": 1
+      },
+      "legacy_world_revision": 1
+    }
+  }
+}

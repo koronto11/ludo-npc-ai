@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ludo-npc-backend"
+version = "0.1.0"
+description = "Local project contracts and API for Ludo NPC AI"
+requires-python = ">=3.12"
+dependencies = ["fastapi>=0.142.2,<1", "pydantic>=2.13.5,<3", "uvicorn>=0.54,<1", "httpx2>=2.13,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=9,<10", "ruff>=0.16,<1"]
+package = ["pyinstaller>=6.22,<7"]
+
+[project.scripts]
+ludo-backend = "ludo_npc.__main__:main"
+ludo-contracts = "ludo_npc.tools:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ludo_npc*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]

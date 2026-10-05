@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-05",
+  "browser": "Codex in-app browser",
+  "url": "http://127.0.0.1:4174/",
+  "verification": "UI interactions followed by independent read-only validation of saved local files",
+  "screenshot": "docs/screenshots/batch-3-rehearsal.png",
+  "console_errors_at_final_check": [],
+  "checks": [
+    {
+      "name": "lamp_original_future_choice_preserved",
+      "passed": true
+    },
+    {
+      "name": "lamp_fork_contains_no_future_choice",
+      "passed": true
+    },
+    {
+      "name": "lamp_protection_changes_behavior",
+      "passed": true
+    },
+    {
+      "name": "lamp_trust_rewinds_without_leak",
+      "passed": true
+    },
+    {
+      "name": "lamp_promise_rewinds_without_leak",
+      "passed": true
+    },
+    {
+      "name": "lamp_future_knowledge_absent_before_event",
+      "passed": true
+    },
+    {
+      "name": "lamp_fork_matches_earlier_state",
+      "passed": true
+    },
+    {
+      "name": "outpost_authored_date_and_scene_saved",
+      "passed": true
+    },
+    {
+      "name": "outpost_scene_and_choices_order_saved",
+      "passed": true
+    },
+    {
+      "name": "outpost_manual_graph_saved",
+      "passed": true
+    },
+    {
+      "name": "outpost_scene_and_water_rewind",
+      "passed": true
+    },
+    {
+      "name": "outpost_knowledge_rewinds",
+      "passed": true
+    },
+    {
+      "name": "outpost_manual_option_replays_to_target",
+      "passed": true
+    },
+    {
+      "name": "outpost_causal_before_after_values",
+      "passed": true
+    },
+    {
+      "name": "same_file_same_replay",
+      "passed": true
+    },
+    {
+      "name": "author_initial_state_retained",
+      "passed": true
+    },
+    {
+      "name": "both_local_files_unchanged_by_replay",
+      "passed": true
+    },
+    {
+      "name": "browser_saved_cases_are_complete",
+      "passed": true
+    }
+  ],
+  "projects": [
+    {
+      "name": "灯港-本地工程演示",
+      "content_revision": 3,
+      "case_names": [
+        "迁移时的预演",
+        "灯港·第二天分叉"
+      ]
+    },
+    {
+      "name": "驿站-通用剧情验证",
+      "content_revision": 7,
+      "case_names": [
+        "东门·商队到达",
+        "商队抵达之后"
+      ]
+    }
+  ],
+  "ui_flows": [
+    "灯港：第三天保护选择，第二天回溯，从此处分叉并保存原/新分支",
+    "独立驿站：手动改期至第四天，添加东门场景条件，提交并预演",
+    "未指定场景时事件等待；东门场景触发饮水和认知变化，开放询问选项",
+    "手动创建补给交接对话、两节点和跳转选项，点击并保存当前分支",
+    "重启本地服务、重新载入工程和分支，查看对话终点、人物状态及变化前后"
+  ]
+}

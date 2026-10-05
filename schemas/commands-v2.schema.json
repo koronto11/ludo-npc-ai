@@ -1,0 +1,3173 @@
+{
+  "$defs": {
+    "Always": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "always",
+          "default": "always",
+          "title": "Op",
+          "type": "string"
+        }
+      },
+      "title": "Always",
+      "type": "object"
+    },
+    "Canvas": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/CanvasNode"
+          },
+          "maxItems": 20000,
+          "title": "Nodes",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/CanvasEdge"
+          },
+          "maxItems": 50000,
+          "title": "Edges",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Canvas",
+      "type": "object"
+    },
+    "CanvasEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Relation Id",
+          "type": "string"
+        },
+        "source_handle": {
+          "default": "right",
+          "enum": [
+            "left",
+            "right",
+            "top",
+            "bottom"
+          ],
+          "title": "Source Handle",
+          "type": "string"
+        },
+        "target_handle": {
+          "default": "left",
+          "enum": [
+            "left",
+            "right",
+            "top",
+            "bottom"
+          ],
+          "title": "Target Handle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "relation_id"
+      ],
+      "title": "CanvasEdge",
+      "type": "object"
+    },
+    "CanvasNode": {
+      "additionalProperties": false,
+      "properties": {
+        "entity": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "position": {
+          "$ref": "#/$defs/Position"
+        },
+        "visible": {
+          "default": true,
+          "title": "Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "entity",
+        "position"
+      ],
+      "title": "CanvasNode",
+      "type": "object"
+    },
+    "Character": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "character",
+          "default": "character",
+          "title": "Kind",
+          "type": "string"
+        },
+        "role": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Role",
+          "type": "string"
+        },
+        "importance": {
+          "default": "supporting",
+          "enum": [
+            "key",
+            "supporting",
+            "background"
+          ],
+          "title": "Importance",
+          "type": "string"
+        },
+        "goals": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Goals",
+          "type": "array"
+        },
+        "boundary": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Boundary",
+          "type": "string"
+        },
+        "personality": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Personality",
+          "type": "array"
+        },
+        "voice": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Voice",
+          "type": "string"
+        },
+        "story": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Story",
+          "type": "string"
+        },
+        "uncertainties": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Uncertainties",
+          "type": "array"
+        },
+        "confirmed_fields": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Confirmed Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Character",
+      "type": "object"
+    },
+    "CharacterState": {
+      "additionalProperties": false,
+      "properties": {
+        "location_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "behavior": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Behavior",
+          "type": "string"
+        },
+        "known_fact_ids": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 5000,
+          "title": "Known Fact Ids",
+          "type": "array"
+        }
+      },
+      "title": "CharacterState",
+      "type": "object"
+    },
+    "ChoiceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "tick": {
+          "minimum": 0,
+          "title": "Tick",
+          "type": "integer"
+        },
+        "dialogue_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Dialogue Id",
+          "type": "string"
+        },
+        "option_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Option Id"
+        },
+        "action": {
+          "default": "choice",
+          "enum": [
+            "choice",
+            "start",
+            "restart"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "record_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Record Id"
+        },
+        "sequence": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence"
+        }
+      },
+      "required": [
+        "tick",
+        "dialogue_id"
+      ],
+      "title": "ChoiceRecord",
+      "type": "object"
+    },
+    "ConditionGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "all",
+            "any"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "all": "#/$defs/ConditionGroup",
+                "always": "#/$defs/Always",
+                "any": "#/$defs/ConditionGroup",
+                "at_location": "#/$defs/LocationCondition",
+                "event_occurred": "#/$defs/EventCondition",
+                "knows": "#/$defs/KnowledgeCondition",
+                "not": "#/$defs/ConditionNot",
+                "scene": "#/$defs/SceneCondition",
+                "time": "#/$defs/TimeCondition",
+                "variable": "#/$defs/VariableCondition"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Always"
+              },
+              {
+                "$ref": "#/$defs/ConditionGroup"
+              },
+              {
+                "$ref": "#/$defs/ConditionNot"
+              },
+              {
+                "$ref": "#/$defs/VariableCondition"
+              },
+              {
+                "$ref": "#/$defs/EventCondition"
+              },
+              {
+                "$ref": "#/$defs/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/$defs/LocationCondition"
+              },
+              {
+                "$ref": "#/$defs/TimeCondition"
+              },
+              {
+                "$ref": "#/$defs/SceneCondition"
+              }
+            ]
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Conditions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "op",
+        "conditions"
+      ],
+      "title": "ConditionGroup",
+      "type": "object"
+    },
+    "ConditionNot": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "not",
+          "title": "Op",
+          "type": "string"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        }
+      },
+      "required": [
+        "op",
+        "condition"
+      ],
+      "title": "ConditionNot",
+      "type": "object"
+    },
+    "CreateEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "create_entity",
+          "title": "Type",
+          "type": "string"
+        },
+        "entity": {
+          "discriminator": {
+            "mapping": {
+              "character": "#/$defs/Character",
+              "dialogue": "#/$defs/Dialogue",
+              "event": "#/$defs/Event",
+              "fact": "#/$defs/Fact",
+              "faction": "#/$defs/Faction",
+              "location": "#/$defs/Location",
+              "rule": "#/$defs/Rule",
+              "text": "#/$defs/StoryText",
+              "variable": "#/$defs/Variable"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Character"
+            },
+            {
+              "$ref": "#/$defs/Location"
+            },
+            {
+              "$ref": "#/$defs/Faction"
+            },
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "$ref": "#/$defs/Variable"
+            },
+            {
+              "$ref": "#/$defs/Event"
+            },
+            {
+              "$ref": "#/$defs/Rule"
+            },
+            {
+              "$ref": "#/$defs/Dialogue"
+            },
+            {
+              "$ref": "#/$defs/StoryText"
+            }
+          ],
+          "title": "Entity"
+        }
+      },
+      "required": [
+        "type",
+        "entity"
+      ],
+      "title": "CreateEntity",
+      "type": "object"
+    },
+    "DeleteEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "delete_entity",
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/EntityRef"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "DeleteEntity",
+      "type": "object"
+    },
+    "DeleteRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "delete_relation",
+          "title": "Type",
+          "type": "string"
+        },
+        "relation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Relation Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "relation_id"
+      ],
+      "title": "DeleteRelation",
+      "type": "object"
+    },
+    "DeleteSimulationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "delete_simulation_case",
+          "title": "Type",
+          "type": "string"
+        },
+        "case_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Case Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "case_id"
+      ],
+      "title": "DeleteSimulationCase",
+      "type": "object"
+    },
+    "Dialogue": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "dialogue",
+          "default": "dialogue",
+          "title": "Kind",
+          "type": "string"
+        },
+        "character_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Character Id"
+        },
+        "entry_node_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Entry Node Id",
+          "type": "string"
+        },
+        "entry_routes": {
+          "items": {
+            "$ref": "#/$defs/DialogueEntry"
+          },
+          "maxItems": 100,
+          "title": "Entry Routes",
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/DialogueNode"
+          },
+          "maxItems": 10000,
+          "minItems": 1,
+          "title": "Nodes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "entry_node_id",
+        "nodes"
+      ],
+      "title": "Dialogue",
+      "type": "object"
+    },
+    "DialogueEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "node_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Node Id",
+          "type": "string"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        }
+      },
+      "required": [
+        "node_id",
+        "condition"
+      ],
+      "title": "DialogueEntry",
+      "type": "object"
+    },
+    "DialogueNode": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Label",
+          "type": "string"
+        },
+        "speaker_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speaker Id"
+        },
+        "text": {
+          "maxLength": 30000,
+          "title": "Text",
+          "type": "string"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        },
+        "effects": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "grant_knowledge": "#/$defs/GrantKnowledge",
+                "increment_variable": "#/$defs/IncrementVariable",
+                "move_character": "#/$defs/MoveCharacter",
+                "set_behavior": "#/$defs/SetBehavior",
+                "set_variable": "#/$defs/SetVariable",
+                "unlock_text": "#/$defs/UnlockText"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/SetVariable"
+              },
+              {
+                "$ref": "#/$defs/IncrementVariable"
+              },
+              {
+                "$ref": "#/$defs/GrantKnowledge"
+              },
+              {
+                "$ref": "#/$defs/MoveCharacter"
+              },
+              {
+                "$ref": "#/$defs/SetBehavior"
+              },
+              {
+                "$ref": "#/$defs/UnlockText"
+              }
+            ]
+          },
+          "maxItems": 100,
+          "title": "Effects",
+          "type": "array"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/DialogueOption"
+          },
+          "maxItems": 100,
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "DialogueNode",
+      "type": "object"
+    },
+    "DialogueOption": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 30000,
+          "title": "Text",
+          "type": "string"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        },
+        "effects": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "grant_knowledge": "#/$defs/GrantKnowledge",
+                "increment_variable": "#/$defs/IncrementVariable",
+                "move_character": "#/$defs/MoveCharacter",
+                "set_behavior": "#/$defs/SetBehavior",
+                "set_variable": "#/$defs/SetVariable",
+                "unlock_text": "#/$defs/UnlockText"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/SetVariable"
+              },
+              {
+                "$ref": "#/$defs/IncrementVariable"
+              },
+              {
+                "$ref": "#/$defs/GrantKnowledge"
+              },
+              {
+                "$ref": "#/$defs/MoveCharacter"
+              },
+              {
+                "$ref": "#/$defs/SetBehavior"
+              },
+              {
+                "$ref": "#/$defs/UnlockText"
+              }
+            ]
+          },
+          "maxItems": 100,
+          "title": "Effects",
+          "type": "array"
+        },
+        "target_node_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Node Id"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "DialogueOption",
+      "type": "object"
+    },
+    "Draft": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "target": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "operation": {
+          "default": "update",
+          "enum": [
+            "update",
+            "create"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "base_content_revision": {
+          "minimum": 1,
+          "title": "Base Content Revision",
+          "type": "integer"
+        },
+        "basis_hash": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Basis Hash",
+          "type": "string"
+        },
+        "base_values": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Base Values",
+          "type": "object"
+        },
+        "status": {
+          "default": "pending",
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "patch": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Patch",
+          "type": "object"
+        },
+        "applied_fields": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Applied Fields",
+          "type": "array"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "source_refs": {
+          "items": {
+            "$ref": "#/$defs/EntityRef"
+          },
+          "maxItems": 1000,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "model": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Model",
+          "type": "string"
+        },
+        "issues": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "target",
+        "base_content_revision",
+        "patch"
+      ],
+      "title": "Draft",
+      "type": "object"
+    },
+    "EntityRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "character",
+            "location",
+            "faction",
+            "fact",
+            "variable",
+            "event",
+            "rule",
+            "dialogue",
+            "text"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "title": "EntityRef",
+      "type": "object"
+    },
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "event",
+          "default": "event",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scheduled_at": {
+          "minimum": 0,
+          "title": "Scheduled At",
+          "type": "integer"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "priority": {
+          "default": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        },
+        "effects": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "grant_knowledge": "#/$defs/GrantKnowledge",
+                "increment_variable": "#/$defs/IncrementVariable",
+                "move_character": "#/$defs/MoveCharacter",
+                "set_behavior": "#/$defs/SetBehavior",
+                "set_variable": "#/$defs/SetVariable",
+                "unlock_text": "#/$defs/UnlockText"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/SetVariable"
+              },
+              {
+                "$ref": "#/$defs/IncrementVariable"
+              },
+              {
+                "$ref": "#/$defs/GrantKnowledge"
+              },
+              {
+                "$ref": "#/$defs/MoveCharacter"
+              },
+              {
+                "$ref": "#/$defs/SetBehavior"
+              },
+              {
+                "$ref": "#/$defs/UnlockText"
+              }
+            ]
+          },
+          "maxItems": 500,
+          "title": "Effects",
+          "type": "array"
+        },
+        "affected_character_ids": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Affected Character Ids",
+          "type": "array"
+        },
+        "trigger_policy": {
+          "const": "once",
+          "default": "once",
+          "title": "Trigger Policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "scheduled_at"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "EventCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "event_occurred",
+          "title": "Op",
+          "type": "string"
+        },
+        "event_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Event Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "event_id"
+      ],
+      "title": "EventCondition",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "fact",
+          "default": "fact",
+          "title": "Kind",
+          "type": "string"
+        },
+        "truth": {
+          "default": "true",
+          "enum": [
+            "true",
+            "false",
+            "unknown"
+          ],
+          "title": "Truth",
+          "type": "string"
+        },
+        "available_at": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Available At",
+          "type": "integer"
+        },
+        "visibility": {
+          "default": "private",
+          "enum": [
+            "public",
+            "private"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "Faction": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "faction",
+          "default": "faction",
+          "title": "Kind",
+          "type": "string"
+        },
+        "role": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Role",
+          "type": "string"
+        },
+        "policies": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Policies",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Faction",
+      "type": "object"
+    },
+    "GenerationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "draft",
+            "failed",
+            "cancelled",
+            "interrupted",
+            "queued",
+            "running",
+            "awaiting_review",
+            "applied"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "mode": {
+          "default": "imported",
+          "enum": [
+            "simulated",
+            "remote",
+            "local",
+            "imported"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "target_refs": {
+          "items": {
+            "$ref": "#/$defs/EntityRef"
+          },
+          "maxItems": 1000,
+          "title": "Target Refs",
+          "type": "array"
+        },
+        "model": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Model",
+          "type": "string"
+        },
+        "detail": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Detail",
+          "type": "string"
+        },
+        "profile_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Id"
+        },
+        "profile_name": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Profile Name",
+          "type": "string"
+        },
+        "model_endpoint": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Model Endpoint",
+          "type": "string"
+        },
+        "purpose": {
+          "anyOf": [
+            {
+              "enum": [
+                "character",
+                "story",
+                "dialogue",
+                "text"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purpose"
+        },
+        "draft_ids": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Draft Ids",
+          "type": "array"
+        },
+        "total": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        },
+        "finished": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Finished",
+          "type": "integer"
+        },
+        "failures": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Failures",
+          "type": "array"
+        },
+        "usage": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Usage",
+          "type": "object"
+        },
+        "items": {
+          "items": {
+            "additionalProperties": {
+              "$ref": "#/$defs/JsonValue"
+            },
+            "type": "object"
+          },
+          "maxItems": 10,
+          "title": "Items",
+          "type": "array"
+        },
+        "basis_hash": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Basis Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "status"
+      ],
+      "title": "GenerationRecord",
+      "type": "object"
+    },
+    "GrantKnowledge": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "grant_knowledge",
+          "title": "Op",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "character_id",
+        "fact_id"
+      ],
+      "title": "GrantKnowledge",
+      "type": "object"
+    },
+    "IncrementVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "increment_variable",
+          "title": "Op",
+          "type": "string"
+        },
+        "variable_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Amount"
+        }
+      },
+      "required": [
+        "op",
+        "variable_id",
+        "amount"
+      ],
+      "title": "IncrementVariable",
+      "type": "object"
+    },
+    "InitialState": {
+      "additionalProperties": false,
+      "properties": {
+        "tick": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Tick",
+          "type": "integer"
+        },
+        "variables": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "title": "Variables",
+          "type": "object"
+        },
+        "characters": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "$ref": "#/$defs/CharacterState"
+            }
+          },
+          "title": "Characters",
+          "type": "object"
+        }
+      },
+      "title": "InitialState",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "KnowledgeCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "knows",
+          "title": "Op",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "fact_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "character_id",
+        "fact_id"
+      ],
+      "title": "KnowledgeCondition",
+      "type": "object"
+    },
+    "LegacyPreviewSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "default": 2,
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Day",
+          "type": "integer"
+        },
+        "evidence": {
+          "default": true,
+          "title": "Evidence",
+          "type": "boolean"
+        },
+        "protected": {
+          "default": false,
+          "title": "Protected",
+          "type": "boolean"
+        },
+        "protectedDay": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Protectedday"
+        },
+        "toldOrigin": {
+          "default": false,
+          "title": "Toldorigin",
+          "type": "boolean"
+        },
+        "toldOriginDay": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Toldoriginday"
+        },
+        "trust": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 1,
+          "ge": 0,
+          "le": 1000,
+          "title": "Trust"
+        }
+      },
+      "title": "LegacyPreviewSnapshot",
+      "type": "object"
+    },
+    "Location": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "location",
+          "default": "location",
+          "title": "Kind",
+          "type": "string"
+        },
+        "role": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Role",
+          "type": "string"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Id"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Location",
+      "type": "object"
+    },
+    "LocationCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "at_location",
+          "title": "Op",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "location_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Location Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "character_id",
+        "location_id"
+      ],
+      "title": "LocationCondition",
+      "type": "object"
+    },
+    "MoveCharacter": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "move_character",
+          "title": "Op",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "location_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Location Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "character_id",
+        "location_id"
+      ],
+      "title": "MoveCharacter",
+      "type": "object"
+    },
+    "MoveNode": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "move_node",
+          "title": "Type",
+          "type": "string"
+        },
+        "canvas_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Canvas Id",
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "position": {
+          "$ref": "#/$defs/Position"
+        }
+      },
+      "required": [
+        "type",
+        "canvas_id",
+        "target",
+        "position"
+      ],
+      "title": "MoveNode",
+      "type": "object"
+    },
+    "PatchEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "patch_entity",
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "changes": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Changes",
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "changes"
+      ],
+      "title": "PatchEntity",
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "X"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Y"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "Position",
+      "type": "object"
+    },
+    "PutCanvas": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_canvas",
+          "title": "Type",
+          "type": "string"
+        },
+        "canvas": {
+          "$ref": "#/$defs/Canvas"
+        }
+      },
+      "required": [
+        "type",
+        "canvas"
+      ],
+      "title": "PutCanvas",
+      "type": "object"
+    },
+    "PutDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_draft",
+          "title": "Type",
+          "type": "string"
+        },
+        "draft": {
+          "$ref": "#/$defs/Draft"
+        }
+      },
+      "required": [
+        "type",
+        "draft"
+      ],
+      "title": "PutDraft",
+      "type": "object"
+    },
+    "PutGenerationRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_generation_record",
+          "title": "Type",
+          "type": "string"
+        },
+        "record": {
+          "$ref": "#/$defs/GenerationRecord"
+        }
+      },
+      "required": [
+        "type",
+        "record"
+      ],
+      "title": "PutGenerationRecord",
+      "type": "object"
+    },
+    "PutRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_relation",
+          "title": "Type",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/Relation"
+        }
+      },
+      "required": [
+        "type",
+        "relation"
+      ],
+      "title": "PutRelation",
+      "type": "object"
+    },
+    "PutSimulationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_simulation_case",
+          "title": "Type",
+          "type": "string"
+        },
+        "case": {
+          "$ref": "#/$defs/SimulationCase"
+        }
+      },
+      "required": [
+        "type",
+        "case"
+      ],
+      "title": "PutSimulationCase",
+      "type": "object"
+    },
+    "RebaseDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "rebase_draft",
+          "title": "Type",
+          "type": "string"
+        },
+        "draft_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Draft Id",
+          "type": "string"
+        },
+        "expected_author_hash": {
+          "title": "Expected Author Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "draft_id",
+        "expected_author_hash"
+      ],
+      "title": "RebaseDraft",
+      "type": "object"
+    },
+    "Relation": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "target": {
+          "$ref": "#/$defs/EntityRef"
+        },
+        "label": {
+          "maxLength": 30000,
+          "title": "Label",
+          "type": "string"
+        },
+        "category": {
+          "default": "social",
+          "enum": [
+            "social",
+            "story",
+            "dialogue"
+          ],
+          "title": "Category",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "label"
+      ],
+      "title": "Relation",
+      "type": "object"
+    },
+    "RenameProject": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "rename_project",
+          "title": "Type",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "title": "RenameProject",
+      "type": "object"
+    },
+    "ReplaceWorld": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "replace_world",
+          "title": "Type",
+          "type": "string"
+        },
+        "world": {
+          "$ref": "#/$defs/World"
+        }
+      },
+      "required": [
+        "type",
+        "world"
+      ],
+      "title": "ReplaceWorld",
+      "type": "object"
+    },
+    "ReviewDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "review_draft",
+          "title": "Type",
+          "type": "string"
+        },
+        "draft_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Draft Id",
+          "type": "string"
+        },
+        "action": {
+          "enum": [
+            "accept",
+            "reject"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "expected_author_hash": {
+          "default": "",
+          "title": "Expected Author Hash",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "draft_id",
+        "action"
+      ],
+      "title": "ReviewDraft",
+      "type": "object"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "rule",
+          "default": "rule",
+          "title": "Kind",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        },
+        "effects": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "grant_knowledge": "#/$defs/GrantKnowledge",
+                "increment_variable": "#/$defs/IncrementVariable",
+                "move_character": "#/$defs/MoveCharacter",
+                "set_behavior": "#/$defs/SetBehavior",
+                "set_variable": "#/$defs/SetVariable",
+                "unlock_text": "#/$defs/UnlockText"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/SetVariable"
+              },
+              {
+                "$ref": "#/$defs/IncrementVariable"
+              },
+              {
+                "$ref": "#/$defs/GrantKnowledge"
+              },
+              {
+                "$ref": "#/$defs/MoveCharacter"
+              },
+              {
+                "$ref": "#/$defs/SetBehavior"
+              },
+              {
+                "$ref": "#/$defs/UnlockText"
+              }
+            ]
+          },
+          "maxItems": 500,
+          "minItems": 1,
+          "title": "Effects",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "condition",
+        "effects"
+      ],
+      "title": "Rule",
+      "type": "object"
+    },
+    "SceneCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "scene",
+          "title": "Op",
+          "type": "string"
+        },
+        "location_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Location Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "location_id"
+      ],
+      "title": "SceneCondition",
+      "type": "object"
+    },
+    "SceneRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sequence"
+        },
+        "tick": {
+          "minimum": 0,
+          "title": "Tick",
+          "type": "integer"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        }
+      },
+      "required": [
+        "tick"
+      ],
+      "title": "SceneRecord",
+      "type": "object"
+    },
+    "SetBehavior": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "set_behavior",
+          "title": "Op",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "behavior": {
+          "maxLength": 30000,
+          "title": "Behavior",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "character_id",
+        "behavior"
+      ],
+      "title": "SetBehavior",
+      "type": "object"
+    },
+    "SetInitialState": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_initial_state",
+          "title": "Type",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/InitialState"
+        }
+      },
+      "required": [
+        "type",
+        "state"
+      ],
+      "title": "SetInitialState",
+      "type": "object"
+    },
+    "SetLegacyPreview": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_legacy_preview",
+          "title": "Type",
+          "type": "string"
+        },
+        "preview": {
+          "$ref": "#/$defs/LegacyPreviewSnapshot"
+        }
+      },
+      "required": [
+        "type",
+        "preview"
+      ],
+      "title": "SetLegacyPreview",
+      "type": "object"
+    },
+    "SetVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "set_variable",
+          "title": "Op",
+          "type": "string"
+        },
+        "variable_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "op",
+        "variable_id",
+        "value"
+      ],
+      "title": "SetVariable",
+      "type": "object"
+    },
+    "SimulationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "at_tick": {
+          "default": 0,
+          "minimum": 0,
+          "title": "At Tick",
+          "type": "integer"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "variable_overrides": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "title": "Variable Overrides",
+          "type": "object"
+        },
+        "choices": {
+          "items": {
+            "$ref": "#/$defs/ChoiceRecord"
+          },
+          "maxItems": 10000,
+          "title": "Choices",
+          "type": "array"
+        },
+        "scene_changes": {
+          "items": {
+            "$ref": "#/$defs/SceneRecord"
+          },
+          "maxItems": 1000,
+          "title": "Scene Changes",
+          "type": "array"
+        },
+        "seed": {
+          "default": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "notes": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "SimulationCase",
+      "type": "object"
+    },
+    "StoryText": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "text",
+          "default": "text",
+          "title": "Kind",
+          "type": "string"
+        },
+        "text_type": {
+          "default": "custom",
+          "enum": [
+            "letter",
+            "diary",
+            "rumor",
+            "biography",
+            "quest",
+            "custom"
+          ],
+          "title": "Text Type",
+          "type": "string"
+        },
+        "body": {
+          "maxLength": 30000,
+          "title": "Body",
+          "type": "string"
+        },
+        "author_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author Id"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            }
+          ],
+          "title": "Condition"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "body"
+      ],
+      "title": "StoryText",
+      "type": "object"
+    },
+    "TimeCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "time",
+          "title": "Op",
+          "type": "string"
+        },
+        "comparison": {
+          "default": "gte",
+          "enum": [
+            "eq",
+            "ne",
+            "gt",
+            "gte",
+            "lt",
+            "lte"
+          ],
+          "title": "Comparison",
+          "type": "string"
+        },
+        "value": {
+          "minimum": 0,
+          "title": "Value",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "op",
+        "value"
+      ],
+      "title": "TimeCondition",
+      "type": "object"
+    },
+    "UnlockText": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "unlock_text",
+          "title": "Op",
+          "type": "string"
+        },
+        "text_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Text Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "text_id"
+      ],
+      "title": "UnlockText",
+      "type": "object"
+    },
+    "Variable": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "kind": {
+          "const": "variable",
+          "default": "variable",
+          "title": "Kind",
+          "type": "string"
+        },
+        "value_type": {
+          "enum": [
+            "boolean",
+            "number",
+            "text"
+          ],
+          "title": "Value Type",
+          "type": "string"
+        },
+        "default": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Default"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "value_type",
+        "default"
+      ],
+      "title": "Variable",
+      "type": "object"
+    },
+    "VariableCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "variable",
+          "title": "Op",
+          "type": "string"
+        },
+        "variable_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "comparison": {
+          "default": "eq",
+          "enum": [
+            "eq",
+            "ne",
+            "gt",
+            "gte",
+            "lt",
+            "lte"
+          ],
+          "title": "Comparison",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "op",
+        "variable_id",
+        "value"
+      ],
+      "title": "VariableCondition",
+      "type": "object"
+    },
+    "World": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "default": "未命名世界",
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "district": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "District",
+          "type": "string"
+        },
+        "premise": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Premise",
+          "type": "string"
+        },
+        "rules": {
+          "items": {
+            "maxLength": 30000,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Rules",
+          "type": "array"
+        },
+        "tone": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Tone",
+          "type": "string"
+        },
+        "clock_unit": {
+          "default": "day",
+          "enum": [
+            "minute",
+            "day",
+            "chapter"
+          ],
+          "title": "Clock Unit",
+          "type": "string"
+        }
+      },
+      "title": "World",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "expected_revision": {
+      "minimum": 1,
+      "title": "Expected Revision",
+      "type": "integer"
+    },
+    "commands": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "create_entity": "#/$defs/CreateEntity",
+            "delete_entity": "#/$defs/DeleteEntity",
+            "delete_relation": "#/$defs/DeleteRelation",
+            "delete_simulation_case": "#/$defs/DeleteSimulationCase",
+            "move_node": "#/$defs/MoveNode",
+            "patch_entity": "#/$defs/PatchEntity",
+            "put_canvas": "#/$defs/PutCanvas",
+            "put_draft": "#/$defs/PutDraft",
+            "put_generation_record": "#/$defs/PutGenerationRecord",
+            "put_relation": "#/$defs/PutRelation",
+            "put_simulation_case": "#/$defs/PutSimulationCase",
+            "rebase_draft": "#/$defs/RebaseDraft",
+            "rename_project": "#/$defs/RenameProject",
+            "replace_world": "#/$defs/ReplaceWorld",
+            "review_draft": "#/$defs/ReviewDraft",
+            "set_initial_state": "#/$defs/SetInitialState",
+            "set_legacy_preview": "#/$defs/SetLegacyPreview"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/CreateEntity"
+          },
+          {
+            "$ref": "#/$defs/PatchEntity"
+          },
+          {
+            "$ref": "#/$defs/DeleteEntity"
+          },
+          {
+            "$ref": "#/$defs/PutRelation"
+          },
+          {
+            "$ref": "#/$defs/DeleteRelation"
+          },
+          {
+            "$ref": "#/$defs/PutCanvas"
+          },
+          {
+            "$ref": "#/$defs/MoveNode"
+          },
+          {
+            "$ref": "#/$defs/ReplaceWorld"
+          },
+          {
+            "$ref": "#/$defs/RenameProject"
+          },
+          {
+            "$ref": "#/$defs/SetInitialState"
+          },
+          {
+            "$ref": "#/$defs/SetLegacyPreview"
+          },
+          {
+            "$ref": "#/$defs/PutGenerationRecord"
+          },
+          {
+            "$ref": "#/$defs/PutSimulationCase"
+          },
+          {
+            "$ref": "#/$defs/DeleteSimulationCase"
+          },
+          {
+            "$ref": "#/$defs/PutDraft"
+          },
+          {
+            "$ref": "#/$defs/ReviewDraft"
+          },
+          {
+            "$ref": "#/$defs/RebaseDraft"
+          }
+        ]
+      },
+      "maxItems": 500,
+      "minItems": 1,
+      "title": "Commands",
+      "type": "array"
+    }
+  },
+  "required": [
+    "expected_revision",
+    "commands"
+  ],
+  "title": "CommandBatch",
+  "type": "object"
+}

@@ -1,0 +1,126 @@
+{
+  "transport": "real_http_packaged_executable",
+  "model": "localhost_protocol_fixture_not_a_model",
+  "checks": [
+    {
+      "name": "batch_four_capabilities",
+      "passed": true
+    },
+    {
+      "name": "bundled_frontend",
+      "passed": true
+    },
+    {
+      "name": "bundled_js",
+      "passed": true
+    },
+    {
+      "name": "bundled_css",
+      "passed": true
+    },
+    {
+      "name": "profile_without_key",
+      "passed": true
+    },
+    {
+      "name": "packaged_adapter_connection_stream",
+      "passed": true
+    },
+    {
+      "name": "create_local_project",
+      "passed": true
+    },
+    {
+      "name": "real_stream_to_pending_draft",
+      "passed": true
+    },
+    {
+      "name": "pending_does_not_mutate_author",
+      "passed": true
+    },
+    {
+      "name": "draft_is_on_disk",
+      "passed": true
+    },
+    {
+      "name": "author_change_makes_draft_stale",
+      "passed": true
+    },
+    {
+      "name": "stale_accept_blocked",
+      "passed": true
+    },
+    {
+      "name": "selective_apply_preserves_manual_and_confirmed",
+      "passed": true
+    },
+    {
+      "name": "reviewed_history_cannot_be_resurrected",
+      "passed": true
+    },
+    {
+      "name": "five_generated_separate_from_formal",
+      "passed": true
+    },
+    {
+      "name": "atomic_bulk_accept_five",
+      "passed": true
+    },
+    {
+      "name": "generated_dialogue_has_valid_options",
+      "passed": true
+    },
+    {
+      "name": "non_dialogue_text_generation",
+      "passed": true
+    },
+    {
+      "name": "partial_failure_keeps_success",
+      "passed": true
+    },
+    {
+      "name": "explicit_retry_only_failed_scope",
+      "passed": true
+    },
+    {
+      "name": "actual_sse_progress_without_secret",
+      "passed": true
+    },
+    {
+      "name": "cancel_running_and_queued",
+      "passed": true
+    },
+    {
+      "name": "cancel_preserves_existing_drafts",
+      "passed": true
+    },
+    {
+      "name": "reopen_after_process_interruption",
+      "passed": true
+    },
+    {
+      "name": "interrupted_not_auto_resent",
+      "passed": true
+    },
+    {
+      "name": "failed_items_survive_restart_for_retry",
+      "passed": true
+    },
+    {
+      "name": "formal_content_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "connection_profile_survives_without_key",
+      "passed": true
+    },
+    {
+      "name": "export_excludes_credentials",
+      "passed": true
+    },
+    {
+      "name": "all_local_json_and_logs_exclude_key",
+      "passed": true
+    }
+  ]
+}

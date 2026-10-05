@@ -1,0 +1,101 @@
+{
+  "transport": "real_http_packaged_executable",
+  "checks": [
+    {
+      "name": "batch_three_capabilities",
+      "passed": true
+    },
+    {
+      "name": "bundled_frontend",
+      "passed": true
+    },
+    {
+      "name": "bundled_js",
+      "passed": true
+    },
+    {
+      "name": "bundled_css",
+      "passed": true
+    },
+    {
+      "name": "styles_allowed_by_csp",
+      "passed": true
+    },
+    {
+      "name": "create_local_project",
+      "passed": true
+    },
+    {
+      "name": "no_future_knowledge",
+      "passed": true
+    },
+    {
+      "name": "unavailable_option_explained",
+      "passed": true
+    },
+    {
+      "name": "author_scene_condition_and_reschedule",
+      "passed": true
+    },
+    {
+      "name": "condition_blocks_event",
+      "passed": true
+    },
+    {
+      "name": "scene_triggers_event",
+      "passed": true
+    },
+    {
+      "name": "dialogue_branch_target",
+      "passed": true
+    },
+    {
+      "name": "causes_and_before_after",
+      "passed": true
+    },
+    {
+      "name": "rewind_filters_future_scene_and_choice",
+      "passed": true
+    },
+    {
+      "name": "independent_branch_rule_and_text",
+      "passed": true
+    },
+    {
+      "name": "branch_isolation",
+      "passed": true
+    },
+    {
+      "name": "branch_input_command",
+      "passed": true
+    },
+    {
+      "name": "save_real_file",
+      "passed": true
+    },
+    {
+      "name": "rehearsal_does_not_change_author_definitions",
+      "passed": true
+    },
+    {
+      "name": "revision_guard",
+      "passed": true
+    },
+    {
+      "name": "recent_file_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "open_after_package_process_restart",
+      "passed": true
+    },
+    {
+      "name": "identical_replay_after_restart",
+      "passed": true
+    },
+    {
+      "name": "export_preserves_branch_inputs",
+      "passed": true
+    }
+  ]
+}

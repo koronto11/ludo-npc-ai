@@ -1,0 +1,94 @@
+{
+  "transport": "real_http_packaged_executable",
+  "model": "localhost_protocol_fixture_not_a_model",
+  "checks": [
+    {
+      "name": "new_defaults_endpoint_in_packaged_openapi",
+      "passed": true
+    },
+    {
+      "name": "adding_second_profile_preserves_general_default",
+      "passed": true
+    },
+    {
+      "name": "purpose_defaults_save",
+      "passed": true
+    },
+    {
+      "name": "test_uses_own_key_config-a",
+      "passed": true
+    },
+    {
+      "name": "test_uses_own_key_config-b",
+      "passed": true
+    },
+    {
+      "name": "different_profile_key_rejected",
+      "passed": true
+    },
+    {
+      "name": "failed_test_recorded_without_raw_error",
+      "passed": true
+    },
+    {
+      "name": "disable_prunes_only_matching_purposes",
+      "passed": true
+    },
+    {
+      "name": "reenable_does_not_steal_default",
+      "passed": true
+    },
+    {
+      "name": "unknown_default_rejected",
+      "passed": true
+    },
+    {
+      "name": "submit_explicit_model_0",
+      "passed": true
+    },
+    {
+      "name": "generated_draft_uses_selected_model_0",
+      "passed": true
+    },
+    {
+      "name": "submit_explicit_model_1",
+      "passed": true
+    },
+    {
+      "name": "generated_draft_uses_selected_model_1",
+      "passed": true
+    },
+    {
+      "name": "archive_is_recoverable_and_exits_defaults",
+      "passed": true
+    },
+    {
+      "name": "archived_model_cannot_be_submitted",
+      "passed": true
+    },
+    {
+      "name": "history_keeps_original_name_and_model_after_edit_archive",
+      "passed": true
+    },
+    {
+      "name": "restore_same_id_and_parameters",
+      "passed": true
+    },
+    {
+      "name": "defaults_and_profiles_survive_process_restart",
+      "passed": true
+    },
+    {
+      "name": "original_task_provenance_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "dummy_keys_not_in_settings_projects_exports_logs",
+      "passed": true
+    },
+    {
+      "name": "fixture_received_only_matching_keys",
+      "passed": true
+    }
+  ]
+}

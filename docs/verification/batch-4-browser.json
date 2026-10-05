@@ -1,0 +1,74 @@
+{
+  "method": "recorded_cua_browser_actions_plus_local_file_audit",
+  "model": "localhost_protocol_fixture_not_a_model",
+  "project": "第四批-生成审核验证.ludo.json",
+  "revision": 43,
+  "browser_observations": [
+    "Connection test and streaming/JSON profile saved via UI, no real credential entered.",
+    "Name and role were disabled as confirmed in existing-character generation.",
+    "New manual goal made pending story stale and disabled acceptance; explicit comparison restored acceptance.",
+    "Candidate story edited and saved separately, then selected story field accepted.",
+    "Five generated cards left formal count at one until atomic acceptance changed it to six.",
+    "Generated dialogue option reached answer node; choice branch saved via UI.",
+    "Generated letter accepted and shown as available non-dialogue text.",
+    "Final Windows package reopened the saved project and pending story comparison; current tab warning/error log empty."
+  ],
+  "screenshots": [
+    "screenshots/batch-4-draft-review.png",
+    "screenshots/batch-4-generated-dialogue.png"
+  ],
+  "file_checks": [
+    {
+      "name": "six_formal_characters",
+      "passed": true
+    },
+    {
+      "name": "confirmed_name_and_role_preserved",
+      "passed": true
+    },
+    {
+      "name": "manual_goal_preserved",
+      "passed": true
+    },
+    {
+      "name": "edited_and_accepted_story",
+      "passed": true
+    },
+    {
+      "name": "five_new_character_drafts_accepted",
+      "passed": true
+    },
+    {
+      "name": "sample_draft_rejected",
+      "passed": true
+    },
+    {
+      "name": "generated_dialogue_reference_and_option",
+      "passed": true
+    },
+    {
+      "name": "generated_choice_saved",
+      "passed": true
+    },
+    {
+      "name": "reopened_replay_reaches_answer",
+      "passed": true
+    },
+    {
+      "name": "generated_letter_persisted",
+      "passed": true
+    },
+    {
+      "name": "pending_comparison_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "all_generation_task_results_persisted",
+      "passed": true
+    },
+    {
+      "name": "screenshots_exist",
+      "passed": true
+    }
+  ]
+}

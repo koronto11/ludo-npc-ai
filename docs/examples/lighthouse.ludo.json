@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "name": "灯港失踪案",
+  "world": {
+    "name": "灯港",
+    "district": "码头区",
+    "revision": 1,
+    "premise": "灯港依靠鲸油贸易生存。最近三个月，海上失踪人数不断增加。",
+    "rules": [
+      "公会控制航运与工作机会",
+      "城内禁止公开使用亡灵术"
+    ],
+    "tone": "克制、悬疑；人物有自己的生活与利益。"
+  },
+  "entities": [
+    {
+      "id": "eve",
+      "kind": "character",
+      "name": "伊芙",
+      "role": "船医",
+      "position": {
+        "x": 475,
+        "y": 205
+      },
+      "tier": "关键角色",
+      "goal": "找到失踪的弟弟",
+      "boundary": "不伤害无辜者",
+      "knows": "船员身上出现异常伤口",
+      "unknown": "失踪案幕后组织",
+      "summary": "在旧港诊所救治船员，始终没有放弃寻找弟弟。",
+      "locked": true
+    },
+    {
+      "id": "lorn",
+      "kind": "character",
+      "name": "洛恩",
+      "role": "码头工头",
+      "position": {
+        "x": 160,
+        "y": 102
+      },
+      "tier": "支线角色",
+      "goal": "维护工人生计",
+      "boundary": "不出卖工人",
+      "knows": "公会扣留了失踪船员的工资",
+      "unknown": "伊芙弟弟的去向",
+      "summary": "与伊芙相互信任"
+    },
+    {
+      "id": "mela",
+      "kind": "character",
+      "name": "梅拉",
+      "role": "酒馆老板",
+      "position": {
+        "x": 905,
+        "y": 88
+      },
+      "tier": "支线角色",
+      "goal": "保护来往客人",
+      "boundary": "不泄露客人的隐私",
+      "knows": "码头的传闻与伊芙去向",
+      "unknown": "传闻背后的真实原因",
+      "summary": "掌握码头传闻\n提供伊芙去向"
+    },
+    {
+      "id": "kas",
+      "kind": "character",
+      "name": "卡斯",
+      "role": "巡逻队员",
+      "position": {
+        "x": 65,
+        "y": 251
+      },
+      "tier": "支线角色",
+      "goal": "执行公会命令",
+      "boundary": "不伤害家人",
+      "knows": "公会的搜查名单",
+      "unknown": "搜查名单的真正目的",
+      "summary": "执行公会命令"
+    },
+    {
+      "id": "clinic",
+      "kind": "location",
+      "name": "旧港诊所",
+      "role": "地点",
+      "position": {
+        "x": 480,
+        "y": 32
+      },
+      "summary": "伊芙的常驻工作地"
+    },
+    {
+      "id": "guild",
+      "kind": "faction",
+      "name": "港务公会",
+      "role": "阵营",
+      "position": {
+        "x": 75,
+        "y": 422
+      },
+      "summary": "控制航运与工作机会"
+    },
+    {
+      "id": "relic",
+      "kind": "event",
+      "name": "遗物出现",
+      "role": "故事事件",
+      "position": {
+        "x": 478,
+        "y": 445
+      },
+      "summary": "玩家获得弟弟的遗物",
+      "enabled": true,
+      "requiresEvidence": false,
+      "day": 2,
+      "affects": [
+        "eve"
+      ]
+    },
+    {
+      "id": "retaliation",
+      "kind": "event",
+      "name": "公会报复",
+      "role": "故事事件",
+      "position": {
+        "x": 916,
+        "y": 270
+      },
+      "summary": "证据公开后触发报复",
+      "enabled": true,
+      "requiresEvidence": true,
+      "day": 3,
+      "affects": [
+        "eve",
+        "lorn",
+        "mela"
+      ]
+    },
+    {
+      "id": "lighthouse",
+      "kind": "dialogue",
+      "name": "灯塔见面",
+      "role": "条件对话",
+      "position": {
+        "x": 840,
+        "y": 454
+      },
+      "summary": "伊芙已离开诊所",
+      "characterId": "eve",
+      "text": "诊所已经不安全了。你来之前，有人搜过我的房间。"
+    },
+    {
+      "id": "resident-0",
+      "kind": "character",
+      "name": "渔夫阿林",
+      "role": "背景居民",
+      "position": {
+        "x": 30,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-1",
+      "kind": "character",
+      "name": "登记员朵拉",
+      "role": "背景居民",
+      "position": {
+        "x": 50,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-2",
+      "kind": "character",
+      "name": "搬运工米洛",
+      "role": "背景居民",
+      "position": {
+        "x": 70,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-3",
+      "kind": "character",
+      "name": "船匠菲恩",
+      "role": "背景居民",
+      "position": {
+        "x": 90,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-4",
+      "kind": "character",
+      "name": "卖报人纳雅",
+      "role": "背景居民",
+      "position": {
+        "x": 110,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-5",
+      "kind": "character",
+      "name": "水手奥伦",
+      "role": "背景居民",
+      "position": {
+        "x": 130,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-6",
+      "kind": "character",
+      "name": "小贩莉娅",
+      "role": "背景居民",
+      "position": {
+        "x": 150,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    },
+    {
+      "id": "resident-7",
+      "kind": "character",
+      "name": "守夜人亨克",
+      "role": "背景居民",
+      "position": {
+        "x": 170,
+        "y": 50
+      },
+      "tier": "背景角色",
+      "goal": "维持码头生活",
+      "boundary": "不牵涉公会争端",
+      "knows": "港口最近的失踪传闻",
+      "unknown": "失踪案的真相",
+      "summary": "灯港的一位普通居民。",
+      "hidden": true
+    }
+  ],
+  "relations": [
+    {
+      "id": "lorn-eve",
+      "source": "lorn",
+      "target": "eve",
+      "label": "相互信任",
+      "sourceHandle": "right-out",
+      "targetHandle": "left-in"
+    },
+    {
+      "id": "eve-clinic",
+      "source": "eve",
+      "target": "clinic",
+      "label": "常驻",
+      "sourceHandle": "top-out",
+      "targetHandle": "bottom-in"
+    },
+    {
+      "id": "mela-eve",
+      "source": "mela",
+      "target": "eve",
+      "label": "提供情报",
+      "sourceHandle": "left-out",
+      "targetHandle": "right-in"
+    },
+    {
+      "id": "guild-kas",
+      "source": "guild",
+      "target": "kas",
+      "label": "雇佣",
+      "sourceHandle": "top-out",
+      "targetHandle": "bottom-in"
+    },
+    {
+      "id": "relic-eve",
+      "source": "relic",
+      "target": "eve",
+      "label": "认知更新",
+      "sourceHandle": "top-out",
+      "targetHandle": "bottom-in",
+      "category": "event"
+    },
+    {
+      "id": "retaliation-eve",
+      "source": "retaliation",
+      "target": "eve",
+      "label": "被迫离开",
+      "sourceHandle": "left-out",
+      "targetHandle": "right-in",
+      "category": "event"
+    },
+    {
+      "id": "retaliation-lighthouse",
+      "source": "retaliation",
+      "target": "lighthouse",
+      "label": "解锁",
+      "sourceHandle": "bottom-out",
+      "targetHandle": "top-in",
+      "category": "dialogue"
+    }
+  ],
+  "dialogue": {
+    "opening": "海上的伤，有些不能按岸上的办法治。",
+    "relic": "你从哪里找到这个？先把门关上。",
+    "revealed": "那艘船……我上个月替他们处理过伤口。",
+    "threatened": "诊所已经不安全了。你来之前，有人搜过我的房间。",
+    "protected": "这次，我会把看见的事说完整。"
+  },
+  "notes": {
+    "letter": "诊所已经不安全了。天黑后，到废弃灯塔来找我。——伊芙"
+  },
+  "scenario": {
+    "day": 2,
+    "trust": 1,
+    "evidence": true,
+    "protected": false,
+    "protectedDay": null,
+    "toldOrigin": false,
+    "toldOriginDay": null
+  },
+  "modelProfile": {
+    "endpoint": "",
+    "model": ""
+  },
+  "tasks": [
+    {
+      "id": "initial",
+      "name": "码头居民",
+      "detail": "8 / 8 完成",
+      "status": "completed"
+    }
+  ]
+}

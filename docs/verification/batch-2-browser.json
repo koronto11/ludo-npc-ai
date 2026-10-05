@@ -1,0 +1,50 @@
+{
+  "verified_at": "2026-10-05T08:25:08.458591+00:00",
+  "transport": "browser_actions_with_real_disk_artifact_assertions",
+  "source_ui": "http://127.0.0.1:4173/",
+  "final_built_ui": "http://127.0.0.1:4174/",
+  "checks": [
+    {
+      "name": "browser_goal_edit_persisted",
+      "passed": true
+    },
+    {
+      "name": "browser_drag_coordinates_persisted",
+      "passed": true
+    },
+    {
+      "name": "browser_dialogue_and_options_preserved",
+      "passed": true
+    },
+    {
+      "name": "browser_non_dialogue_edit_persisted",
+      "passed": true
+    },
+    {
+      "name": "browser_restore_kept_original_goal",
+      "passed": true
+    },
+    {
+      "name": "external_file_not_overwritten",
+      "passed": true
+    },
+    {
+      "name": "unsaved_conflicting_goal_saved_to_new_copy",
+      "passed": true
+    },
+    {
+      "name": "previous_file_and_recovery_points_exist",
+      "passed": true
+    },
+    {
+      "name": "showcase_saved_on_disk",
+      "passed": true
+    }
+  ],
+  "screenshot": "docs/screenshots/batch-2-local-files.png",
+  "notes": [
+    "Built UI reopened showcase after source-server restart and visually verified after CSP repair; final tab has no console errors.",
+    "Full native-picker selection not exercised; manual absolute paths used.",
+    "Packaged process restart tested separately."
+  ]
+}

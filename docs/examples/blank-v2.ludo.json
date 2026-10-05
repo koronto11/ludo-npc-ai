@@ -1,0 +1,46 @@
+{
+  "format": "ludo-npc-project",
+  "schema_version": 2,
+  "project_id": "sample-blank",
+  "name": "空白叙事项目",
+  "revision": 1,
+  "content_revision": 1,
+  "layout_revision": 1,
+  "content": {
+    "world": {
+      "name": "未命名世界",
+      "district": "",
+      "premise": "",
+      "rules": [],
+      "tone": "",
+      "clock_unit": "day"
+    },
+    "characters": [],
+    "locations": [],
+    "factions": [],
+    "facts": [],
+    "variables": [],
+    "events": [],
+    "rules": [],
+    "dialogues": [],
+    "texts": [],
+    "relations": [],
+    "initial_state": {
+      "tick": 0,
+      "variables": {},
+      "characters": {}
+    },
+    "drafts": [],
+    "simulation_cases": [],
+    "generation_history": []
+  },
+  "editor": {
+    "canvases": [],
+    "legacy_preview": null
+  },
+  "metadata": {
+    "created_at": "2026-10-05T00:00:00Z",
+    "updated_at": "2026-10-05T00:00:00Z",
+    "migration": null
+  }
+}

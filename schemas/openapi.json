@@ -1,0 +1,6188 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ludo NPC AI · 本地数据服务",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v2/projects/{project_id}/simulate": {
+      "post": {
+        "summary": "Simulate",
+        "operationId": "simulate_api_v2_projects__project_id__simulate_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/schema": {
+      "get": {
+        "summary": "Schema",
+        "operationId": "schema_api_v2_schema_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace": {
+      "get": {
+        "summary": "Workspace",
+        "operationId": "workspace_api_workspace_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-profile": {
+      "put": {
+        "summary": "Profile",
+        "operationId": "profile_api_workspace_model_profile_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionProfile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-profiles": {
+      "put": {
+        "summary": "Provider Profile",
+        "operationId": "provider_profile_api_workspace_model_profiles_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProviderProfile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-defaults": {
+      "put": {
+        "summary": "Model Defaults",
+        "operationId": "model_defaults_api_workspace_model_defaults_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelDefaults"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-profiles/{profile_id}": {
+      "delete": {
+        "summary": "Archive Profile",
+        "operationId": "archive_profile_api_workspace_model_profiles__profile_id__delete",
+        "parameters": [
+          {
+            "name": "profile_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Profile Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-profiles/{profile_id}/restore": {
+      "post": {
+        "summary": "Restore Profile",
+        "operationId": "restore_profile_api_workspace_model_profiles__profile_id__restore_post",
+        "parameters": [
+          {
+            "name": "profile_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Profile Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/models/test": {
+      "post": {
+        "summary": "Test Connection",
+        "operationId": "test_connection_api_models_test_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionTestInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/generate": {
+      "post": {
+        "summary": "Generate",
+        "operationId": "generate_api_v2_projects__project_id__generate_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/generation": {
+      "get": {
+        "summary": "Generation Jobs",
+        "operationId": "generation_jobs_api_v2_projects__project_id__generation_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/generation/{job_id}/cancel": {
+      "post": {
+        "summary": "Cancel Generation",
+        "operationId": "cancel_generation_api_v2_projects__project_id__generation__job_id__cancel_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/generation/events": {
+      "get": {
+        "summary": "Generation Events",
+        "operationId": "generation_events_api_v2_projects__project_id__generation_events_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/drafts/{draft_id}/review": {
+      "get": {
+        "summary": "Draft Review",
+        "operationId": "draft_review_api_v2_projects__project_id__drafts__draft_id__review_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "draft_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Draft Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/files/dialog": {
+      "post": {
+        "summary": "Dialog",
+        "operationId": "dialog_api_files_dialog_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DialogInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/files/open": {
+      "post": {
+        "summary": "Open File",
+        "operationId": "open_file_api_files_open_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/files/new": {
+      "post": {
+        "summary": "New File",
+        "operationId": "new_file_api_files_new_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiskProjectInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/file": {
+      "get": {
+        "summary": "File Status",
+        "operationId": "file_status_api_v2_projects__project_id__file_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/save": {
+      "post": {
+        "summary": "Save File",
+        "operationId": "save_file_api_v2_projects__project_id__save_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/recovery": {
+      "get": {
+        "summary": "Recovery",
+        "operationId": "recovery_api_v2_projects__project_id__recovery_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/restore": {
+      "post": {
+        "summary": "Restore",
+        "operationId": "restore_api_v2_projects__project_id__restore_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/close": {
+      "post": {
+        "summary": "Close Project",
+        "operationId": "close_project_api_v2_projects__project_id__close_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects": {
+      "get": {
+        "summary": "Listing",
+        "operationId": "listing_api_v2_projects_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create",
+        "operationId": "create_api_v2_projects_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewProject"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/validate": {
+      "post": {
+        "summary": "Validate",
+        "operationId": "validate_api_v2_projects_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/import": {
+      "post": {
+        "summary": "Importing",
+        "operationId": "importing_api_v2_projects_import_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}": {
+      "get": {
+        "summary": "Get",
+        "operationId": "get_api_v2_projects__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/commands": {
+      "post": {
+        "summary": "Commands",
+        "operationId": "commands_api_v2_projects__project_id__commands_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandBatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/export": {
+      "get": {
+        "summary": "Export",
+        "operationId": "export_api_v2_projects__project_id__export_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Always": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "always",
+            "title": "Op",
+            "default": "always"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Always"
+      },
+      "Canvas": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/CanvasNode"
+            },
+            "type": "array",
+            "maxItems": 20000,
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/CanvasEdge"
+            },
+            "type": "array",
+            "maxItems": 50000,
+            "title": "Edges"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Canvas"
+      },
+      "CanvasEdge": {
+        "properties": {
+          "relation_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Relation Id"
+          },
+          "source_handle": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "top",
+              "bottom"
+            ],
+            "title": "Source Handle",
+            "default": "right"
+          },
+          "target_handle": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "top",
+              "bottom"
+            ],
+            "title": "Target Handle",
+            "default": "left"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "relation_id"
+        ],
+        "title": "CanvasEdge"
+      },
+      "CanvasNode": {
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          },
+          "visible": {
+            "type": "boolean",
+            "title": "Visible",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "entity",
+          "position"
+        ],
+        "title": "CanvasNode"
+      },
+      "Character": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "character",
+            "title": "Kind",
+            "default": "character"
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Role",
+            "default": ""
+          },
+          "importance": {
+            "type": "string",
+            "enum": [
+              "key",
+              "supporting",
+              "background"
+            ],
+            "title": "Importance",
+            "default": "supporting"
+          },
+          "goals": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Goals"
+          },
+          "boundary": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Boundary",
+            "default": ""
+          },
+          "personality": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Personality"
+          },
+          "voice": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Voice",
+            "default": ""
+          },
+          "story": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Story",
+            "default": ""
+          },
+          "uncertainties": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Uncertainties"
+          },
+          "confirmed_fields": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "Confirmed Fields"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Character"
+      },
+      "CharacterState": {
+        "properties": {
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id"
+          },
+          "behavior": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Behavior",
+            "default": ""
+          },
+          "known_fact_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 5000,
+            "title": "Known Fact Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CharacterState"
+      },
+      "ChoiceRecord": {
+        "properties": {
+          "tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tick"
+          },
+          "dialogue_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Dialogue Id"
+          },
+          "option_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Option Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "choice",
+              "start",
+              "restart"
+            ],
+            "title": "Action",
+            "default": "choice"
+          },
+          "record_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Record Id"
+          },
+          "sequence": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sequence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tick",
+          "dialogue_id"
+        ],
+        "title": "ChoiceRecord"
+      },
+      "CloseInput": {
+        "properties": {
+          "discard": {
+            "type": "boolean",
+            "title": "Discard",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CloseInput"
+      },
+      "CommandBatch": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "commands": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/CreateEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PatchEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/DeleteEntity"
+                },
+                {
+                  "$ref": "#/components/schemas/PutRelation"
+                },
+                {
+                  "$ref": "#/components/schemas/DeleteRelation"
+                },
+                {
+                  "$ref": "#/components/schemas/PutCanvas"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveNode"
+                },
+                {
+                  "$ref": "#/components/schemas/ReplaceWorld"
+                },
+                {
+                  "$ref": "#/components/schemas/RenameProject"
+                },
+                {
+                  "$ref": "#/components/schemas/SetInitialState"
+                },
+                {
+                  "$ref": "#/components/schemas/SetLegacyPreview"
+                },
+                {
+                  "$ref": "#/components/schemas/PutGenerationRecord"
+                },
+                {
+                  "$ref": "#/components/schemas/PutSimulationCase"
+                },
+                {
+                  "$ref": "#/components/schemas/DeleteSimulationCase"
+                },
+                {
+                  "$ref": "#/components/schemas/PutDraft"
+                },
+                {
+                  "$ref": "#/components/schemas/ReviewDraft"
+                },
+                {
+                  "$ref": "#/components/schemas/RebaseDraft"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "create_entity": "#/components/schemas/CreateEntity",
+                  "delete_entity": "#/components/schemas/DeleteEntity",
+                  "delete_relation": "#/components/schemas/DeleteRelation",
+                  "delete_simulation_case": "#/components/schemas/DeleteSimulationCase",
+                  "move_node": "#/components/schemas/MoveNode",
+                  "patch_entity": "#/components/schemas/PatchEntity",
+                  "put_canvas": "#/components/schemas/PutCanvas",
+                  "put_draft": "#/components/schemas/PutDraft",
+                  "put_generation_record": "#/components/schemas/PutGenerationRecord",
+                  "put_relation": "#/components/schemas/PutRelation",
+                  "put_simulation_case": "#/components/schemas/PutSimulationCase",
+                  "rebase_draft": "#/components/schemas/RebaseDraft",
+                  "rename_project": "#/components/schemas/RenameProject",
+                  "replace_world": "#/components/schemas/ReplaceWorld",
+                  "review_draft": "#/components/schemas/ReviewDraft",
+                  "set_initial_state": "#/components/schemas/SetInitialState",
+                  "set_legacy_preview": "#/components/schemas/SetLegacyPreview"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Commands"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "commands"
+        ],
+        "title": "CommandBatch"
+      },
+      "ConditionGroup-Input": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "all",
+              "any"
+            ],
+            "title": "Op"
+          },
+          "conditions": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Always"
+                },
+                {
+                  "$ref": "#/components/schemas/ConditionGroup-Input"
+                },
+                {
+                  "$ref": "#/components/schemas/ConditionNot-Input"
+                },
+                {
+                  "$ref": "#/components/schemas/VariableCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/EventCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/KnowledgeCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/LocationCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/TimeCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SceneCondition"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "all": "#/components/schemas/ConditionGroup-Input",
+                  "always": "#/components/schemas/Always",
+                  "any": "#/components/schemas/ConditionGroup-Input",
+                  "at_location": "#/components/schemas/LocationCondition",
+                  "event_occurred": "#/components/schemas/EventCondition",
+                  "knows": "#/components/schemas/KnowledgeCondition",
+                  "not": "#/components/schemas/ConditionNot-Input",
+                  "scene": "#/components/schemas/SceneCondition",
+                  "time": "#/components/schemas/TimeCondition",
+                  "variable": "#/components/schemas/VariableCondition"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Conditions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "conditions"
+        ],
+        "title": "ConditionGroup"
+      },
+      "ConditionGroup-Output": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "all",
+              "any"
+            ],
+            "title": "Op"
+          },
+          "conditions": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Always"
+                },
+                {
+                  "$ref": "#/components/schemas/ConditionGroup-Output"
+                },
+                {
+                  "$ref": "#/components/schemas/ConditionNot-Output"
+                },
+                {
+                  "$ref": "#/components/schemas/VariableCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/EventCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/KnowledgeCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/LocationCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/TimeCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/SceneCondition"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "all": "#/components/schemas/ConditionGroup-Output",
+                  "always": "#/components/schemas/Always",
+                  "any": "#/components/schemas/ConditionGroup-Output",
+                  "at_location": "#/components/schemas/LocationCondition",
+                  "event_occurred": "#/components/schemas/EventCondition",
+                  "knows": "#/components/schemas/KnowledgeCondition",
+                  "not": "#/components/schemas/ConditionNot-Output",
+                  "scene": "#/components/schemas/SceneCondition",
+                  "time": "#/components/schemas/TimeCondition",
+                  "variable": "#/components/schemas/VariableCondition"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Conditions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "conditions"
+        ],
+        "title": "ConditionGroup"
+      },
+      "ConditionNot-Input": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "not",
+            "title": "Op"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "condition"
+        ],
+        "title": "ConditionNot"
+      },
+      "ConditionNot-Output": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "not",
+            "title": "Op"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "condition"
+        ],
+        "title": "ConditionNot"
+      },
+      "ConnectionProfile": {
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Endpoint",
+            "default": ""
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ConnectionProfile"
+      },
+      "ConnectionTestInput": {
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/ProviderProfile"
+          },
+          "api_key": {
+            "type": "string",
+            "format": "password",
+            "title": "Api Key",
+            "default": "",
+            "writeOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "profile"
+        ],
+        "title": "ConnectionTestInput"
+      },
+      "Content": {
+        "properties": {
+          "world": {
+            "$ref": "#/components/schemas/World"
+          },
+          "characters": {
+            "items": {
+              "$ref": "#/components/schemas/Character"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Characters"
+          },
+          "locations": {
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Locations"
+          },
+          "factions": {
+            "items": {
+              "$ref": "#/components/schemas/Faction"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Factions"
+          },
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/Fact"
+            },
+            "type": "array",
+            "maxItems": 50000,
+            "title": "Facts"
+          },
+          "variables": {
+            "items": {
+              "$ref": "#/components/schemas/Variable"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Variables"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event-Output"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Events"
+          },
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/Rule-Output"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Rules"
+          },
+          "dialogues": {
+            "items": {
+              "$ref": "#/components/schemas/Dialogue-Output"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Dialogues"
+          },
+          "texts": {
+            "items": {
+              "$ref": "#/components/schemas/StoryText-Output"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Texts"
+          },
+          "relations": {
+            "items": {
+              "$ref": "#/components/schemas/Relation"
+            },
+            "type": "array",
+            "maxItems": 50000,
+            "title": "Relations"
+          },
+          "initial_state": {
+            "$ref": "#/components/schemas/InitialState"
+          },
+          "drafts": {
+            "items": {
+              "$ref": "#/components/schemas/Draft"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Drafts"
+          },
+          "simulation_cases": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationCase"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Simulation Cases"
+          },
+          "generation_history": {
+            "items": {
+              "$ref": "#/components/schemas/GenerationRecord"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Generation History"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Content"
+      },
+      "CreateEntity": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "create_entity",
+            "title": "Type"
+          },
+          "entity": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Character"
+              },
+              {
+                "$ref": "#/components/schemas/Location"
+              },
+              {
+                "$ref": "#/components/schemas/Faction"
+              },
+              {
+                "$ref": "#/components/schemas/Fact"
+              },
+              {
+                "$ref": "#/components/schemas/Variable"
+              },
+              {
+                "$ref": "#/components/schemas/Event-Input"
+              },
+              {
+                "$ref": "#/components/schemas/Rule-Input"
+              },
+              {
+                "$ref": "#/components/schemas/Dialogue-Input"
+              },
+              {
+                "$ref": "#/components/schemas/StoryText-Input"
+              }
+            ],
+            "title": "Entity",
+            "discriminator": {
+              "propertyName": "kind",
+              "mapping": {
+                "character": "#/components/schemas/Character",
+                "dialogue": "#/components/schemas/Dialogue-Input",
+                "event": "#/components/schemas/Event-Input",
+                "fact": "#/components/schemas/Fact",
+                "faction": "#/components/schemas/Faction",
+                "location": "#/components/schemas/Location",
+                "rule": "#/components/schemas/Rule-Input",
+                "text": "#/components/schemas/StoryText-Input",
+                "variable": "#/components/schemas/Variable"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "entity"
+        ],
+        "title": "CreateEntity"
+      },
+      "DeleteEntity": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "delete_entity",
+            "title": "Type"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityRef"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "target"
+        ],
+        "title": "DeleteEntity"
+      },
+      "DeleteRelation": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "delete_relation",
+            "title": "Type"
+          },
+          "relation_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Relation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "relation_id"
+        ],
+        "title": "DeleteRelation"
+      },
+      "DeleteSimulationCase": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "delete_simulation_case",
+            "title": "Type"
+          },
+          "case_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Case Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "case_id"
+        ],
+        "title": "DeleteSimulationCase"
+      },
+      "DialogInput": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "folder",
+              "open",
+              "save"
+            ],
+            "title": "Kind"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "title": "DialogInput"
+      },
+      "Dialogue-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "dialogue",
+            "title": "Kind",
+            "default": "dialogue"
+          },
+          "character_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Id"
+          },
+          "entry_node_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Entry Node Id"
+          },
+          "entry_routes": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueEntry-Input"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Entry Routes"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueNode-Input"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Nodes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "entry_node_id",
+          "nodes"
+        ],
+        "title": "Dialogue"
+      },
+      "Dialogue-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "dialogue",
+            "title": "Kind",
+            "default": "dialogue"
+          },
+          "character_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Id"
+          },
+          "entry_node_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Entry Node Id"
+          },
+          "entry_routes": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueEntry-Output"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Entry Routes"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueNode-Output"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "title": "Nodes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "entry_node_id",
+          "nodes"
+        ],
+        "title": "Dialogue"
+      },
+      "DialogueEntry-Input": {
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Node Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "node_id",
+          "condition"
+        ],
+        "title": "DialogueEntry"
+      },
+      "DialogueEntry-Output": {
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Node Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "node_id",
+          "condition"
+        ],
+        "title": "DialogueEntry"
+      },
+      "DialogueNode-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Label",
+            "default": ""
+          },
+          "speaker_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Speaker Id"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Text"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Effects"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueOption-Input"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Options"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "title": "DialogueNode"
+      },
+      "DialogueNode-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Label",
+            "default": ""
+          },
+          "speaker_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Speaker Id"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Text"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Effects"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/DialogueOption-Output"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Options"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "title": "DialogueNode"
+      },
+      "DialogueOption-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Text"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Effects"
+          },
+          "target_node_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Node Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "title": "DialogueOption"
+      },
+      "DialogueOption-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Text"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Effects"
+          },
+          "target_node_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Node Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "title": "DialogueOption"
+      },
+      "DiskProjectInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "folder": {
+            "type": "string",
+            "title": "Folder"
+          },
+          "filename": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Filename"
+          },
+          "template": {
+            "type": "string",
+            "enum": [
+              "blank",
+              "lighthouse",
+              "outpost"
+            ],
+            "title": "Template",
+            "default": "blank"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "folder",
+          "filename"
+        ],
+        "title": "DiskProjectInput"
+      },
+      "DocumentInput": {
+        "properties": {
+          "document": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Document"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "document"
+        ],
+        "title": "DocumentInput"
+      },
+      "Draft": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "update",
+              "create"
+            ],
+            "title": "Operation",
+            "default": "update"
+          },
+          "base_content_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Base Content Revision"
+          },
+          "basis_hash": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Basis Hash",
+            "default": ""
+          },
+          "base_values": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Base Values"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ],
+            "title": "Status",
+            "default": "pending"
+          },
+          "patch": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Patch"
+          },
+          "applied_fields": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Applied Fields"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "source_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EntityRef"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Source Refs"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Model",
+            "default": ""
+          },
+          "issues": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Issues"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "target",
+          "base_content_revision",
+          "patch"
+        ],
+        "title": "Draft"
+      },
+      "Editor": {
+        "properties": {
+          "canvases": {
+            "items": {
+              "$ref": "#/components/schemas/Canvas"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Canvases"
+          },
+          "legacy_preview": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LegacyPreviewSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Editor"
+      },
+      "EntityRef": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "location",
+              "faction",
+              "fact",
+              "variable",
+              "event",
+              "rule",
+              "dialogue",
+              "text"
+            ],
+            "title": "Kind"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "id"
+        ],
+        "title": "EntityRef"
+      },
+      "Event-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "event",
+            "title": "Kind",
+            "default": "event"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Scheduled At"
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": true
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "default": 0
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Effects"
+          },
+          "affected_character_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Affected Character Ids"
+          },
+          "trigger_policy": {
+            "type": "string",
+            "const": "once",
+            "title": "Trigger Policy",
+            "default": "once"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "scheduled_at"
+        ],
+        "title": "Event"
+      },
+      "Event-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "event",
+            "title": "Kind",
+            "default": "event"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Scheduled At"
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": true
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "default": 0
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Effects"
+          },
+          "affected_character_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Affected Character Ids"
+          },
+          "trigger_policy": {
+            "type": "string",
+            "const": "once",
+            "title": "Trigger Policy",
+            "default": "once"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "scheduled_at"
+        ],
+        "title": "Event"
+      },
+      "EventCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "event_occurred",
+            "title": "Op"
+          },
+          "event_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Event Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "event_id"
+        ],
+        "title": "EventCondition"
+      },
+      "Fact": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "fact",
+            "title": "Kind",
+            "default": "fact"
+          },
+          "truth": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false",
+              "unknown"
+            ],
+            "title": "Truth",
+            "default": "true"
+          },
+          "available_at": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Available At",
+            "default": 0
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private"
+            ],
+            "title": "Visibility",
+            "default": "private"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Fact"
+      },
+      "Faction": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "faction",
+            "title": "Kind",
+            "default": "faction"
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Role",
+            "default": ""
+          },
+          "policies": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Policies"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Faction"
+      },
+      "FileInput": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "discard": {
+            "type": "boolean",
+            "title": "Discard",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "title": "FileInput"
+      },
+      "GenerateInput": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Request Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "profile_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Profile Id"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "character",
+                  "story",
+                  "dialogue",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "api_key": {
+            "type": "string",
+            "format": "password",
+            "title": "Api Key",
+            "default": "",
+            "writeOnly": true
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Instructions"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GenerationItem"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Items"
+          },
+          "source_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EntityRef"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Source Refs"
+          },
+          "case_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Id"
+          },
+          "at_tick": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "At Tick"
+          },
+          "scenario": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SimulationInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "request_id",
+          "expected_revision",
+          "profile_id",
+          "instructions",
+          "items"
+        ],
+        "title": "GenerateInput"
+      },
+      "GenerationItem": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "dialogue",
+              "text"
+            ],
+            "title": "Kind",
+            "default": "character"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Id"
+          },
+          "character_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Id"
+          },
+          "fields": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "Fields"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "GenerationItem"
+      },
+      "GenerationRecord": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "draft",
+              "failed",
+              "cancelled",
+              "interrupted",
+              "queued",
+              "running",
+              "awaiting_review",
+              "applied"
+            ],
+            "title": "Status"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulated",
+              "remote",
+              "local",
+              "imported"
+            ],
+            "title": "Mode",
+            "default": "imported"
+          },
+          "target_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EntityRef"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Target Refs"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Model",
+            "default": ""
+          },
+          "detail": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Detail",
+            "default": ""
+          },
+          "profile_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Id"
+          },
+          "profile_name": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Profile Name",
+            "default": ""
+          },
+          "model_endpoint": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Model Endpoint",
+            "default": ""
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "character",
+                  "story",
+                  "dialogue",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          },
+          "draft_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Draft Ids"
+          },
+          "total": {
+            "type": "integer",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Total",
+            "default": 0
+          },
+          "finished": {
+            "type": "integer",
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Finished",
+            "default": 0
+          },
+          "failures": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Failures"
+          },
+          "usage": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Usage"
+          },
+          "items": {
+            "items": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/JsonValue"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Items"
+          },
+          "basis_hash": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Basis Hash",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status"
+        ],
+        "title": "GenerationRecord"
+      },
+      "GrantKnowledge": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "grant_knowledge",
+            "title": "Op"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "fact_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Fact Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "character_id",
+          "fact_id"
+        ],
+        "title": "GrantKnowledge"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IncrementVariable": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "increment_variable",
+            "title": "Op"
+          },
+          "variable_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Variable Id"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Amount"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "variable_id",
+          "amount"
+        ],
+        "title": "IncrementVariable"
+      },
+      "InitialState": {
+        "properties": {
+          "tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tick",
+            "default": 0
+          },
+          "variables": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "title": "Variables"
+          },
+          "characters": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "$ref": "#/components/schemas/CharacterState"
+              }
+            },
+            "type": "object",
+            "title": "Characters"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "InitialState"
+      },
+      "JsonValue": {},
+      "KnowledgeCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "knows",
+            "title": "Op"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "fact_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Fact Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "character_id",
+          "fact_id"
+        ],
+        "title": "KnowledgeCondition"
+      },
+      "LegacyPreviewSnapshot": {
+        "properties": {
+          "day": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Day",
+            "default": 2
+          },
+          "evidence": {
+            "type": "boolean",
+            "title": "Evidence",
+            "default": true
+          },
+          "protected": {
+            "type": "boolean",
+            "title": "Protected",
+            "default": false
+          },
+          "protectedDay": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protectedday"
+          },
+          "toldOrigin": {
+            "type": "boolean",
+            "title": "Toldorigin",
+            "default": false
+          },
+          "toldOriginDay": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Toldoriginday"
+          },
+          "trust": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Trust",
+            "default": 1,
+            "ge": 0,
+            "le": 1000
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "LegacyPreviewSnapshot"
+      },
+      "Location": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "location",
+            "title": "Kind",
+            "default": "location"
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Role",
+            "default": ""
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Location"
+      },
+      "LocationCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "at_location",
+            "title": "Op"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "location_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "character_id",
+          "location_id"
+        ],
+        "title": "LocationCondition"
+      },
+      "Metadata": {
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "migration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MigrationInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Metadata"
+      },
+      "MigrationInfo": {
+        "properties": {
+          "source_version": {
+            "type": "integer",
+            "const": 1,
+            "title": "Source Version"
+          },
+          "warnings": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "legacy_preview_snapshot": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LegacyPreviewSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "legacy_world_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legacy World Revision"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_version"
+        ],
+        "title": "MigrationInfo"
+      },
+      "ModelDefaults": {
+        "properties": {
+          "active_profile_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Profile Id"
+          },
+          "purpose_defaults": {
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "propertyNames": {
+              "enum": [
+                "character",
+                "story",
+                "dialogue",
+                "text"
+              ]
+            },
+            "type": "object",
+            "title": "Purpose Defaults"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ModelDefaults"
+      },
+      "ModelTestResult": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "checked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Checked At"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "checked_at",
+          "message"
+        ],
+        "title": "ModelTestResult"
+      },
+      "MoveCharacter": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "move_character",
+            "title": "Op"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "location_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "character_id",
+          "location_id"
+        ],
+        "title": "MoveCharacter"
+      },
+      "MoveNode": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "move_node",
+            "title": "Type"
+          },
+          "canvas_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Canvas Id"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Position"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "canvas_id",
+          "target",
+          "position"
+        ],
+        "title": "MoveNode"
+      },
+      "NewProject": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name",
+            "default": "未命名项目"
+          },
+          "world": {
+            "$ref": "#/components/schemas/World"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "NewProject"
+      },
+      "PatchEntity": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "patch_entity",
+            "title": "Type"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "changes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Changes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "target",
+          "changes"
+        ],
+        "title": "PatchEntity"
+      },
+      "Position": {
+        "properties": {
+          "x": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "X"
+          },
+          "y": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Y"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "Position"
+      },
+      "Project": {
+        "properties": {
+          "format": {
+            "type": "string",
+            "const": "ludo-npc-project",
+            "title": "Format",
+            "default": "ludo-npc-project"
+          },
+          "schema_version": {
+            "type": "integer",
+            "const": 2,
+            "title": "Schema Version",
+            "default": 2
+          },
+          "project_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Project Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name",
+            "default": "未命名项目"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Revision",
+            "default": 1
+          },
+          "content_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Content Revision",
+            "default": 1
+          },
+          "layout_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Layout Revision",
+            "default": 1
+          },
+          "content": {
+            "$ref": "#/components/schemas/Content"
+          },
+          "editor": {
+            "$ref": "#/components/schemas/Editor"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Project"
+      },
+      "ProviderProfile": {
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Endpoint",
+            "default": ""
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "remote",
+              "local"
+            ],
+            "title": "Mode",
+            "default": "remote"
+          },
+          "protocol": {
+            "type": "string",
+            "const": "chat_completions",
+            "title": "Protocol",
+            "default": "chat_completions"
+          },
+          "stream": {
+            "type": "boolean",
+            "title": "Stream",
+            "default": false
+          },
+          "json_mode": {
+            "type": "boolean",
+            "title": "Json Mode",
+            "default": false
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "maximum": 300.0,
+            "minimum": 5.0,
+            "title": "Timeout Seconds",
+            "default": 90
+          },
+          "max_tokens": {
+            "type": "integer",
+            "maximum": 16384.0,
+            "minimum": 128.0,
+            "title": "Max Tokens",
+            "default": 2048
+          },
+          "retry_limit": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "title": "Retry Limit",
+            "default": 0
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": true
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived",
+            "default": false
+          },
+          "last_test": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelTestResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ProviderProfile"
+      },
+      "PutCanvas": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_canvas",
+            "title": "Type"
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/Canvas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "canvas"
+        ],
+        "title": "PutCanvas"
+      },
+      "PutDraft": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_draft",
+            "title": "Type"
+          },
+          "draft": {
+            "$ref": "#/components/schemas/Draft"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "draft"
+        ],
+        "title": "PutDraft"
+      },
+      "PutGenerationRecord": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_generation_record",
+            "title": "Type"
+          },
+          "record": {
+            "$ref": "#/components/schemas/GenerationRecord"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "record"
+        ],
+        "title": "PutGenerationRecord"
+      },
+      "PutRelation": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_relation",
+            "title": "Type"
+          },
+          "relation": {
+            "$ref": "#/components/schemas/Relation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "relation"
+        ],
+        "title": "PutRelation"
+      },
+      "PutSimulationCase": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_simulation_case",
+            "title": "Type"
+          },
+          "case": {
+            "$ref": "#/components/schemas/SimulationCase"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "case"
+        ],
+        "title": "PutSimulationCase"
+      },
+      "RebaseDraft": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "rebase_draft",
+            "title": "Type"
+          },
+          "draft_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Draft Id"
+          },
+          "expected_author_hash": {
+            "type": "string",
+            "title": "Expected Author Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "draft_id",
+          "expected_author_hash"
+        ],
+        "title": "RebaseDraft"
+      },
+      "Relation": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityRef"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Label"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "social",
+              "story",
+              "dialogue"
+            ],
+            "title": "Category",
+            "default": "social"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "target",
+          "label"
+        ],
+        "title": "Relation"
+      },
+      "RenameProject": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "rename_project",
+            "title": "Type"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ],
+        "title": "RenameProject"
+      },
+      "ReplaceWorld": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "replace_world",
+            "title": "Type"
+          },
+          "world": {
+            "$ref": "#/components/schemas/World"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "world"
+        ],
+        "title": "ReplaceWorld"
+      },
+      "RestoreInput": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "point_id": {
+            "type": "string",
+            "title": "Point Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "point_id"
+        ],
+        "title": "RestoreInput"
+      },
+      "ReviewDraft": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "review_draft",
+            "title": "Type"
+          },
+          "draft_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Draft Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "accept",
+              "reject"
+            ],
+            "title": "Action"
+          },
+          "expected_author_hash": {
+            "type": "string",
+            "title": "Expected Author Hash",
+            "default": ""
+          },
+          "values": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "draft_id",
+          "action"
+        ],
+        "title": "ReviewDraft"
+      },
+      "Rule-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "rule",
+            "title": "Kind",
+            "default": "rule"
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": true
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Effects"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "condition",
+          "effects"
+        ],
+        "title": "Rule"
+      },
+      "Rule-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "rule",
+            "title": "Kind",
+            "default": "rule"
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": true
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "effects": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SetVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/IncrementVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/GrantKnowledge"
+                },
+                {
+                  "$ref": "#/components/schemas/MoveCharacter"
+                },
+                {
+                  "$ref": "#/components/schemas/SetBehavior"
+                },
+                {
+                  "$ref": "#/components/schemas/UnlockText"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "op",
+                "mapping": {
+                  "grant_knowledge": "#/components/schemas/GrantKnowledge",
+                  "increment_variable": "#/components/schemas/IncrementVariable",
+                  "move_character": "#/components/schemas/MoveCharacter",
+                  "set_behavior": "#/components/schemas/SetBehavior",
+                  "set_variable": "#/components/schemas/SetVariable",
+                  "unlock_text": "#/components/schemas/UnlockText"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Effects"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "condition",
+          "effects"
+        ],
+        "title": "Rule"
+      },
+      "SaveInput": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision"
+        ],
+        "title": "SaveInput"
+      },
+      "SceneCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "scene",
+            "title": "Op"
+          },
+          "location_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "location_id"
+        ],
+        "title": "SceneCondition"
+      },
+      "SceneRecord": {
+        "properties": {
+          "sequence": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sequence"
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tick"
+          },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tick"
+        ],
+        "title": "SceneRecord"
+      },
+      "SetBehavior": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "set_behavior",
+            "title": "Op"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "behavior": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Behavior"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "character_id",
+          "behavior"
+        ],
+        "title": "SetBehavior"
+      },
+      "SetInitialState": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_initial_state",
+            "title": "Type"
+          },
+          "state": {
+            "$ref": "#/components/schemas/InitialState"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "state"
+        ],
+        "title": "SetInitialState"
+      },
+      "SetLegacyPreview": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_legacy_preview",
+            "title": "Type"
+          },
+          "preview": {
+            "$ref": "#/components/schemas/LegacyPreviewSnapshot"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "preview"
+        ],
+        "title": "SetLegacyPreview"
+      },
+      "SetVariable": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "set_variable",
+            "title": "Op"
+          },
+          "variable_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Variable Id"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "variable_id",
+          "value"
+        ],
+        "title": "SetVariable"
+      },
+      "SimulationCase": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "at_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "At Tick",
+            "default": 0
+          },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id"
+          },
+          "variable_overrides": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "title": "Variable Overrides"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChoiceRecord"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Choices"
+          },
+          "scene_changes": {
+            "items": {
+              "$ref": "#/components/schemas/SceneRecord"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Scene Changes"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed",
+            "default": 0
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "SimulationCase"
+      },
+      "SimulationInput": {
+        "properties": {
+          "expected_content_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Content Revision"
+          },
+          "case_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Id"
+          },
+          "at_tick": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "At Tick"
+          },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id"
+          },
+          "variable_overrides": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "title": "Variable Overrides"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChoiceRecord"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Choices"
+          },
+          "scene_changes": {
+            "items": {
+              "$ref": "#/components/schemas/SceneRecord"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Scene Changes"
+          },
+          "max_steps": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Max Steps",
+            "default": 2048
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_content_revision"
+        ],
+        "title": "SimulationInput"
+      },
+      "StoryText-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "text",
+            "title": "Kind",
+            "default": "text"
+          },
+          "text_type": {
+            "type": "string",
+            "enum": [
+              "letter",
+              "diary",
+              "rumor",
+              "biography",
+              "quest",
+              "custom"
+            ],
+            "title": "Text Type",
+            "default": "custom"
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Body"
+          },
+          "author_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "body"
+        ],
+        "title": "StoryText"
+      },
+      "StoryText-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "text",
+            "title": "Kind",
+            "default": "text"
+          },
+          "text_type": {
+            "type": "string",
+            "enum": [
+              "letter",
+              "diary",
+              "rumor",
+              "biography",
+              "quest",
+              "custom"
+            ],
+            "title": "Text Type",
+            "default": "custom"
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Body"
+          },
+          "author_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "body"
+        ],
+        "title": "StoryText"
+      },
+      "TimeCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "time",
+            "title": "Op"
+          },
+          "comparison": {
+            "type": "string",
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "gte",
+              "lt",
+              "lte"
+            ],
+            "title": "Comparison",
+            "default": "gte"
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "value"
+        ],
+        "title": "TimeCondition"
+      },
+      "UnlockText": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "unlock_text",
+            "title": "Op"
+          },
+          "text_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Text Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "text_id"
+        ],
+        "title": "UnlockText"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Variable": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "kind": {
+            "type": "string",
+            "const": "variable",
+            "title": "Kind",
+            "default": "variable"
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "boolean",
+              "number",
+              "text"
+            ],
+            "title": "Value Type"
+          },
+          "default": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Default"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "value_type",
+          "default"
+        ],
+        "title": "Variable"
+      },
+      "VariableCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "variable",
+            "title": "Op"
+          },
+          "variable_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Variable Id"
+          },
+          "comparison": {
+            "type": "string",
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "gte",
+              "lt",
+              "lte"
+            ],
+            "title": "Comparison",
+            "default": "eq"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "variable_id",
+          "value"
+        ],
+        "title": "VariableCondition"
+      },
+      "World": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name",
+            "default": "未命名世界"
+          },
+          "district": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "District",
+            "default": ""
+          },
+          "premise": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Premise",
+            "default": ""
+          },
+          "rules": {
+            "items": {
+              "type": "string",
+              "maxLength": 30000
+            },
+            "type": "array",
+            "maxItems": 500,
+            "title": "Rules"
+          },
+          "tone": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Tone",
+            "default": ""
+          },
+          "clock_unit": {
+            "type": "string",
+            "enum": [
+              "minute",
+              "day",
+              "chapter"
+            ],
+            "title": "Clock Unit",
+            "default": "day"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "World"
+      }
+    }
+  }
+}

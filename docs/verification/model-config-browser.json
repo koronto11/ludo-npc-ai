@@ -1,0 +1,104 @@
+{
+  "interface": "source_browser_flow_and_packaged_preview",
+  "url": "http://127.0.0.1:4174/",
+  "model": "localhost_protocol_fixture_not_a_model",
+  "browser_observations": [
+    {
+      "name": "new_profile_fields_empty",
+      "passed": true
+    },
+    {
+      "name": "unsaved_close_blocked",
+      "passed": true
+    },
+    {
+      "name": "copy_parameters_without_key",
+      "passed": true
+    },
+    {
+      "name": "disable_removes_matching_defaults",
+      "passed": true
+    },
+    {
+      "name": "recoverable_archive_restore",
+      "passed": true
+    },
+    {
+      "name": "restored_key_empty",
+      "passed": true
+    },
+    {
+      "name": "refresh_keys_empty",
+      "passed": true
+    },
+    {
+      "name": "purpose_switch_updates_automatic_model",
+      "passed": true
+    },
+    {
+      "name": "manual_choice_survives_purpose_switch",
+      "passed": true
+    },
+    {
+      "name": "manager_return_preserves_generation_input",
+      "passed": true
+    },
+    {
+      "name": "task_strip_displays_actual_model",
+      "passed": true
+    },
+    {
+      "name": "parameter_change_clears_last_test",
+      "passed": true
+    },
+    {
+      "name": "configuration_search_filters_list",
+      "passed": true
+    },
+    {
+      "name": "narrow_520px_dialog_fits_width",
+      "passed": true
+    },
+    {
+      "name": "page_console_no_errors_or_warnings",
+      "passed": true
+    }
+  ],
+  "disk_checks": [
+    {
+      "name": "saved_purpose_defaults",
+      "passed": true
+    },
+    {
+      "name": "independent_limits",
+      "passed": true
+    },
+    {
+      "name": "actual_temporary_model_in_task_file",
+      "passed": true
+    },
+    {
+      "name": "formal_character_not_added_before_review",
+      "passed": true
+    },
+    {
+      "name": "previous_author_content_preserved",
+      "passed": true
+    },
+    {
+      "name": "no_dummy_keys_in_settings_project_history_backups",
+      "passed": true
+    },
+    {
+      "name": "packaged_frontend_matches_built_source",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "model-config-management.png",
+    "model-purpose-defaults.png",
+    "model-generation-choice.png",
+    "model-task-provenance.png",
+    "model-config-narrow.png"
+  ]
+}
