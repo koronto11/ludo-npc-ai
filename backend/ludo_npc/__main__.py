@@ -32,6 +32,11 @@ def open_when_ready(server, url, opener=webbrowser.open, timeout=20):
 
 
 def main():
+    # Redirected output on non-Chinese Windows otherwise defaults to a code page
+    # that cannot represent the localized startup message or project paths.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     if len(sys.argv) > 1 and sys.argv[1] == "--skill-bridge":
         from .skill_bridge import cli_main
 

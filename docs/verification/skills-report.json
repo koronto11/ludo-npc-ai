@@ -1,7 +1,7 @@
 {
   "transport": "real_http_source_service_and_distributed_cli",
   "real_models": false,
-  "area": ".local-build/skill-verification/1791326245673236000",
+  "area": ".local-build/skill-verification/1791327232758279100",
   "passed": 30,
   "checks": [
     "zh_compile_ok",

@@ -71,7 +71,8 @@ def main():
         api = None
         for _ in range(150):
             assert process.poll() is None, (
-                "Service startup failed; inspect isolated log."
+                "Service startup failed:\n"
+                + (AREA / "server.log").read_text(encoding="utf-8", errors="replace")[-4000:]
             )
             try:
                 api = bridge.LocalAPI(base)

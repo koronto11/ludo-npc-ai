@@ -1,7 +1,7 @@
 {
   "transport": "real_http_packaged_service_and_exe_bridge",
   "real_models": false,
-  "area": ".local-build/skill-verification/1791326350537433500",
+  "area": ".local-build/skill-verification/1791327300869767800",
   "passed": 30,
   "checks": [
     "zh_compile_ok",

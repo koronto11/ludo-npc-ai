@@ -36,7 +36,7 @@ partial package. Dependency changes require refreshing upstream texts.
 
 ## Verification / 验证
 
-- 152 frontend tests and 349 backend tests passed locally on Windows.
+- 152 frontend tests and 350 backend tests passed locally on Windows.
 - 30 distributed source Skill HTTP checks and 30 checks against the newly built
   Windows executable passed without calling external models.
 - Frontend/Sites build and four Sites boundary tests passed; protected hosting
@@ -62,6 +62,10 @@ Official Actions use Node 24-compatible v6 references; Ubuntu is pinned to 24.04
 to keep the operating-system baseline stable.
 The help-guide drift check also normalizes Git's Windows CRLF checkout endings
 before comparing content, while still rejecting actual text differences.
+The English Windows runner exposed a real launcher failure: redirected startup
+output could not encode Chinese text using CP1252. Launcher streams now use
+UTF-8, with a regression check that boots an isolated HTTP service under CP1252
+and uses a Chinese project path. Skill startup failures include the isolated log.
 
 This is local source/build acceptance, not clean Windows machine certification,
 a legal certification, or real-provider output-quality acceptance.
