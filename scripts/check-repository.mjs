@@ -1,12 +1,13 @@
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { dirname, extname, relative, resolve } from 'node:path';
+import { dirname, extname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const inventory = spawnSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: root, encoding: 'utf8' });
 if (inventory.status !== 0) throw new Error('Cannot read repository inventory');
 const files = [...new Set(inventory.stdout.split('\0').filter(name => name && existsSync(resolve(root, name))))];
+const publishedPaths = new Set(files);
 const errors = [];
 for (const name of files) {
   if (/(^|\/)(?:\.local-data|\.local-projects|\.local-build|\.local-archive|node_modules|dist|\.venv|release)(\/|$)/.test(name)
@@ -22,7 +23,10 @@ for (const name of files) {
     const target = link.replace(/^<|>$/g, '').split(/[?#]/, 1)[0];
     if (!target) continue;
     const absolute = resolve(dirname(resolve(root, name)), decodeURIComponent(target));
-    if (relative(root, absolute).startsWith('..') || !existsSync(absolute)) errors.push(`Broken local link: ${name} -> ${target}`);
+    const localPath = relative(root, absolute).replaceAll('\\', '/');
+    const inRepository = localPath !== '..' && !localPath.startsWith('../') && !isAbsolute(localPath);
+    const published = publishedPaths.has(localPath) || files.some(file => file.startsWith(`${localPath}/`));
+    if (!inRepository || !existsSync(absolute) || !published) errors.push(`Broken or unpublished local link: ${name} -> ${target}`);
   }
 }
 const license = readFileSync(resolve(root, 'LICENSE'), 'utf8').replaceAll('\r\n', '\n');

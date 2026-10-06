@@ -54,5 +54,12 @@ The first cloud run found that the full frontend suite required build files
 that existed locally but not in a fresh checkout. The default `npm test` now
 prepares its build before execution, and CI avoids a redundant second build.
 
+A subsequent fresh-checkout run exposed Skill download links to ignored local
+ZIP outputs. The guide now links to tracked Skill sources and explains local
+packaging. Repository link checks require targets to be part of the publishable
+file inventory, even when ignored build outputs exist on the developer machine.
+Official Actions use Node 24-compatible v6 references; Ubuntu is pinned to 24.04
+to keep the operating-system baseline stable.
+
 This is local source/build acceptance, not clean Windows machine certification,
 a legal certification, or real-provider output-quality acceptance.

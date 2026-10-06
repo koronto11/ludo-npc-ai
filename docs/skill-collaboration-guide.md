@@ -10,9 +10,9 @@ Author-facing collaboration: your AI reads stories and projects, structures leve
 
 The platform and both Skills share **0.1.0 preview**. Packaging reads the root `package.json`, checks backend consistency and updates SKILL.md. Storyboard v1, draft-proposal v1 and project schema v2 are independent data formats and remain compatible.
 
-最新下载：[中文 Skill](../release/skills/npcs-ai-studio-zh.zip) · [English Skill](../release/skills/npcs-ai-studio-en.zip)。固定文件名始终指向当前主线，旁边的 `.sha256` 文件用于校验；无需在多个历史包之间选择。
+当前主线源码：[中文 Skill](../skills/npcs-ai-studio-zh/SKILL.md) · [English Skill](../skills/npcs-ai-studio-en/SKILL.md)。加载时请复制完整的对应语言目录，包括脚本、Schema 和示例。需要 ZIP 时，在仓库根目录运行 `python scripts/package-skills.py --zip`，生成 `release/skills/npcs-ai-studio-zh.zip` 和 `release/skills/npcs-ai-studio-en.zip`；旁边的 `.sha256` 文件用于校验。这些是本地构建产物，不是已发布的下载附件。
 
-Stable ZIP names always point to the current mainline. Adjacent `.sha256` files verify integrity. Replace an existing installed pack with the same language; this update does not change global AI settings.
+The links above open the current mainline Skill sources. Copy the complete language directory, including scripts, schemas and examples. Run `python scripts/package-skills.py --zip` from the repository root to build the two archives under `release/skills/`; adjacent `.sha256` files verify integrity. These are local build outputs, not published release attachments. Replace an existing installed pack with the same language; this update does not change global AI settings.
 
 ## 获取与加载 / Load a Skill
 
