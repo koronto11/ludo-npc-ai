@@ -1,11 +1,12 @@
 {
   "name": "npcs-ai-studio",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "build": "vite build && node scripts/prepare-sites-build.mjs && node scripts/prepare-license-assets.mjs",
     "preview": "vite preview",
     "test": "node scripts/test-frontend.mjs",
     "test:bridge": "node --test tests/project-bridge.test.mjs",

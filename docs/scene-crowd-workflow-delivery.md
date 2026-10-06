@@ -28,4 +28,4 @@
 - 浏览器使用独立本地项目与明确标记的协议夹具验证：2 项环境对白生成、候选修改与保存、批量采用及场景归档；5 位背景人物生成、批量采用、进入对应出场工作台、开始试玩与执行选项。
 - 用户工作项目没有加入测试人物或协议示例。没有调用真实外部模型；兼容性、自然语言质量、数量遵循和内容多样性仍需用户在应用内配置有效模型后验证。
 
-![场景批量创作](screenshots/scene-crowd-workflow.png)
+[场景批量创作](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/scene-crowd-workflow.png)

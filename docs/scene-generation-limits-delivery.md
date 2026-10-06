@@ -25,6 +25,6 @@
 - 本地 4184 服务已更新。中文桌面及 390×844 英文窄屏检查通过；窄屏表单可滚动，操作区保持可达，弹窗无横向溢出。恢复中文及默认视口。
 - 未调用用户模型，未生成/采用新的用户草稿。原批次仍为 1 份已采用、3 份待审核。
 
-![中文生成设置](scene-generation-limits-preview.png)
+[中文生成设置](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/scene-generation-limits-preview.png)
 
-![英文窄屏生成设置](scene-generation-limits-mobile.png)
+[英文窄屏生成设置](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/scene-generation-limits-mobile.png)

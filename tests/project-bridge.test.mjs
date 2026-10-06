@@ -3,11 +3,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { projectView, commandsFromView } from '../src/projectBridge.js';
+import { pythonExecutable, repositoryRoot } from './helpers/python-runtime.mjs';
 
 const read = name => JSON.parse(fs.readFileSync(new URL(`../docs/examples/${name}-v2.ludo.json`, import.meta.url), 'utf8'));
 const apply = (document, view) => {
   const commands = commandsFromView(document, view);
-  const result = spawnSync('backend/.venv/Scripts/python.exe', ['-c', "import json,sys; from ludo_npc.domain.models import Project; from ludo_npc.application.commands import CommandBatch,apply_commands; data=json.load(sys.stdin); print(apply_commands(Project.model_validate(data['document']),CommandBatch.model_validate(data['batch'])).model_dump_json())"], { input: JSON.stringify({ document, batch: { expected_revision: document.revision, commands } }), encoding: 'utf8', env: { ...process.env, PYTHONUTF8: '1' } });
+  const result = spawnSync(pythonExecutable, ['-c', "import json,sys; from ludo_npc.domain.models import Project; from ludo_npc.application.commands import CommandBatch,apply_commands; data=json.load(sys.stdin); print(apply_commands(Project.model_validate(data['document']),CommandBatch.model_validate(data['batch'])).model_dump_json())"], { cwd: repositoryRoot, input: JSON.stringify({ document, batch: { expected_revision: document.revision, commands } }), encoding: 'utf8', env: { ...process.env, PYTHONUTF8: '1' } });
+  assert.ifError(result.error);
   assert.equal(result.status, 0, result.stderr);
   return JSON.parse(result.stdout);
 };

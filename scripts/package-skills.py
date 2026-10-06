@@ -67,6 +67,7 @@ def main():
         else:
             skill.write_text(expected, encoding="utf-8")
         sources = {
+            folder / "LICENSE": ROOT / "LICENSE",
             folder / "scripts/npc_studio_bridge.py": ROOT
             / "backend/ludo_npc/skill_bridge.py",
             folder / "assets/project-v2.schema.json": ROOT

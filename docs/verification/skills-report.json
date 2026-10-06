@@ -1,7 +1,7 @@
 {
   "transport": "real_http_source_service_and_distributed_cli",
   "real_models": false,
-  "area": "D:\\Code\\ludo-npc-ai\\.local-build\\skill-verification\\1791319631973286000",
+  "area": ".local-build/skill-verification/1791326245673236000",
   "passed": 30,
   "checks": [
     "zh_compile_ok",

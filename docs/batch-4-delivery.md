@@ -4,7 +4,7 @@
 
 入口：[本地导演台](http://127.0.0.1:4174/)。早期 Windows 包为 `release/LudoNPC/`，需保留整个文件夹。包可以自带运行库启动；本次在开发电脑上实际启动验收，尚未完成无开发环境的干净 Windows 验证。
 
-![草稿差异与任务记录](screenshots/batch-4-draft-review.png)
+[草稿差异与任务记录](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/batch-4-draft-review.png)
 
 ## 已接入的流程
 
@@ -16,7 +16,7 @@
 6. 在草稿审核比较正式值与候选，修改并保存候选，再接受选中字段、拒绝，或原子接受所有未过期的待审核候选。
 7. 审核后的对话和文本进入既有编排、时间线与预演；保存输入分支、重新打开文件和导出保持同一数据来源。
 
-![生成对话的选项跳转](screenshots/batch-4-generated-dialogue.png)
+[生成对话的选项跳转](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/batch-4-generated-dialogue.png)
 
 ## 数据与审核规则
 

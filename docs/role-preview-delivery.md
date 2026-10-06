@@ -20,4 +20,4 @@
 - 使用本地体验工程进行临时预演，未保存测试分支或测试编排，项目内容版本保持 108。
 - 本次仅改前端展示和面板交互，Python 模拟、工程 JSON 契约和模型调用未改动。
 
-截图：![玩家预演面板](screenshots/role-preview-v2.png)
+截图：[玩家预演面板](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/role-preview-v2.png)

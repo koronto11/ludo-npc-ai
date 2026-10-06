@@ -29,6 +29,6 @@
 - 独立本地工程验证“仅使用默认开场”并保存后，玩家受伤仍从问候开始，主动选择受伤选项后才进入处理伤口。
 - 验证待应用设置“保存并跳转”、预演输入“放弃并跳转”、画布重新测试以及短窗口固定操作栏。验证页控制台无 error/warn。
 
-![暂存测试设置与底部操作](screenshots/preview-test-settings.png)
+[暂存测试设置与底部操作](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/preview-test-settings.png)
 
-![同页开场规则配置](screenshots/preview-entry-settings.png)
+[同页开场规则配置](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/preview-entry-settings.png)

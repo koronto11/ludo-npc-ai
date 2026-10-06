@@ -29,9 +29,9 @@
 
 截图：
 
-- [人物档案](screenshots/character-profile-editor.png)
-- [旧条件检查](screenshots/appearance-dialogue-check.png)
-- [联动后试玩](screenshots/appearance-dialogue-play.png)
-- [主工程检查](screenshots/appearance-dialogue-main.png)
+- [人物档案](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/character-profile-editor.png)
+- [旧条件检查](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/appearance-dialogue-check.png)
+- [联动后试玩](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/appearance-dialogue-play.png)
+- [主工程检查](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/appearance-dialogue-main.png)
 
 此次没有调用真实模型、重新打包 Windows 发行版或推送仓库；测试夹具的创作内容不代表模型质量。下一批可推进常用场景/人物模板与导出流程。

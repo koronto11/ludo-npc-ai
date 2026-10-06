@@ -14,6 +14,7 @@
   <a href="#local-data"><img src="https://img.shields.io/badge/storage-local_JSON-8da88f?style=flat-square" alt="本地 JSON 保存"></a>
   <a href="#ai-skills"><img src="https://img.shields.io/badge/AI_Skills-ZH_%2F_EN-849fae?style=flat-square" alt="中英文 AI Skills"></a>
   <a href="#workflow"><img src="https://img.shields.io/badge/drafts-author_review-b49ab9?style=flat-square" alt="草稿需作者审核"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-849fae?style=flat-square" alt="MIT 许可证"></a>
 </p>
 
 <p align="center">
@@ -218,9 +219,11 @@ backend/.venv/Scripts/python.exe skills/npcs-ai-studio-zh/scripts/npc_studio_bri
 
 **当前主线：0.1.0 预览版。** 已实现创作编排、本地保存、草稿审核、模型连接流程、中英文 Skill 与确定性预演。服务商兼容性和输出质量取决于实际连接；协议测试夹具不能替代真实模型质量验收。
 
-下一步包括干净 Windows 机器验收、发行打包与许可证确定、更多真实服务商验证，以及专用游戏引擎交付适配。当前导出为 JSON、Markdown 和 CSV。平台规划叙事文本，不创建 3D 人物或运行游戏引擎。人物认知、条件与效果需要明确配置，自然语言中的秘密和矛盾仍由作者审核。
+下一步包括干净 Windows 机器验收、发行打包、更多真实服务商验证，以及专用游戏引擎交付适配。当前导出为 JSON、Markdown 和 CSV。平台规划叙事文本，不创建 3D 人物或运行游戏引擎。人物认知、条件与效果需要明确配置，自然语言中的秘密和矛盾仍由作者审核。
 
-技术构成：**React · Vite · React Flow · Python · FastAPI · Pydantic**，数据保存在本地 JSON 文件。参与开发可先阅读 [后端环境与检查](backend/README.md)、[产品规划](docs/product-and-development-plan.md) 和 [历史交付记录](docs/development-history.md)。许可证和公开发行条款尚待确定。
+技术构成：**React · Vite · React Flow · Python · FastAPI · Pydantic**，数据保存在本地 JSON 文件。参与开发可先阅读 [贡献指南](CONTRIBUTING.md)、[后端环境](backend/README.md)、[安全问题报告](SECURITY.md) 和 [更新记录](CHANGELOG.md)。历史视觉资料见 [归档索引](docs/archive-index.md)。
+
+项目自有代码、文档和中英文 Skill 采用 **[MIT 许可证](LICENSE)**。第三方字体与组件保留 [各自许可](THIRD_PARTY_NOTICES.md)；视觉素材和品牌使用范围见 [素材与品牌授权](ASSET-LICENSING.md)。公开安装包验收仍是独立里程碑。
 
 ---
 

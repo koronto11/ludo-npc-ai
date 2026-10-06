@@ -11,7 +11,7 @@
 
 时间与场景在标题下折叠；其他相关变量在回答下方的「玩家状态」展开。调试信息、验证剧情入口和定位卡片集中在更多菜单。画布上右键对白卡片，可以从指定卡片开始试玩；卡片编辑面板也提供此操作。
 
-![简化后的角色工作台](screenshots/card-play-simple.png)
+[简化后的角色工作台](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/card-play-simple.png)
 
 ## 两种测试范围
 

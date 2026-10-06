@@ -43,6 +43,6 @@ CSV 使用 UTF-8 BOM、标准多行与引号转义，并处理表格公式前缀
 
 本批未调用真实模型，未更新旧 Windows 程序包，未提交或推送 Git，未发布。窄屏、干净机器与大工程容量需要后续专项验证。
 
-![本地模板库](screenshots/template-library-main.png)
+[本地模板库](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/template-library-main.png)
 
-![导出预览](screenshots/export-design-preview.png)
+[导出预览](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/export-design-preview.png)

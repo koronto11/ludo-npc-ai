@@ -47,6 +47,6 @@
 
 Windows 内置桥接仅在本批程序包提供；早期包没有这个命令或作者上下文接口。本机 EXE 验证不等于干净机器验收。两版说明和原始故事对应示例结构，但本轮未验证独立第三方 AI 在所有题材上自主转换长篇故事的质量。自然语言泄密与世界观一致性仍需作者审核。
 
-![故事转关卡](screenshots/skill-story-level.png)
+[故事转关卡](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/skill-story-level.png)
 
-![条件对白与玩家试玩](screenshots/skill-story-dialogue.png)
+[条件对白与玩家试玩](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/skill-story-dialogue.png)

@@ -241,7 +241,7 @@ def main():
             if EXE
             else "real_http_source_service_and_distributed_cli",
             "real_models": False,
-            "area": str(AREA),
+            "area": AREA.relative_to(ROOT).as_posix(),
             "passed": len(checks),
             "checks": checks,
         }

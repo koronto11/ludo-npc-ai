@@ -27,8 +27,8 @@
 - 实际页面验证事件创建、两项人物效果、保存与刷新、计划时间前后状态、锚点同步和撤销、事件拖动和撤销、全局规则的布尔变量测试及放弃、资料草稿的未保存保护、关系画布跳转、740×800 侧栏与预演。控制台未见错误或警告。
 - 使用独立 `camp-plot-preview.ludo.json` 副本展示手工事件“夜间警戒”和全局规则“受伤救助”。原营地工程的事件/规则保持为空；副本的人物主档案与关卡安排和原工程一致。
 
-![事件与编排侧栏](screenshots/plot-director-editor.png)
+[事件与编排侧栏](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/plot-director-editor.png)
 
-![同页预演](screenshots/plot-director-preview.png)
+[同页预演](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/plot-director-preview.png)
 
 本轮更新本地预览，没有调用外部模型、发布、推送远程或重新打包 Windows 发行文件。

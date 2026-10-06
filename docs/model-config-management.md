@@ -31,10 +31,10 @@
 | 生成回归 | 更新程序包通过 [30 项既有生成 HTTP 检查](verification/model-config-generation-regression.json)，保留原第四批报告 |
 | 浏览器 | [验证记录](verification/model-config-browser.json)：新增空表单、未保存保护、复制清空密钥、停用退出用途分配、可恢复移除、恢复/刷新后密钥空、用途自动选择、临时覆盖、从管理返回保留输入、待审核任务实际选用配置 |
 
-![配置管理](screenshots/model-config-management.png)
+[配置管理](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/model-config-management.png)
 
-![按用途分配](screenshots/model-purpose-defaults.png)
+[按用途分配](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/model-purpose-defaults.png)
 
-![本次生成模型](screenshots/model-generation-choice.png)
+[本次生成模型](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/model-generation-choice.png)
 
 本次全部使用本机协议模拟接口，无外部模型请求或费用。实际第三方兼容性与生成质量仍需用户有效连接验证。本轮实现多个配置与明确选用，尚无多个模型自动协作、优劣比较或失败自动换模型；密钥仍需每次页面会话输入。

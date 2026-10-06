@@ -14,6 +14,8 @@ if (Test-Path -LiteralPath $TaskLauncher) {
 if ($LASTEXITCODE -ne 0) { throw "Frontend build failed" }
 & $Node scripts/prepare-sites-build.mjs
 if ($LASTEXITCODE -ne 0) { throw "Prototype output preparation failed" }
+& $Node scripts/prepare-license-assets.mjs
+if ($LASTEXITCODE -ne 0) { throw "Distribution license preparation failed" }
 & $Node scripts/generate-help-guide.mjs --check
 if ($LASTEXITCODE -ne 0) { throw "Bilingual help guides are out of sync" }
 $TaskFrontend = Join-Path $TaskRoot "dist/client"
@@ -23,6 +25,10 @@ $TaskVersion = Join-Path $TaskRoot "scripts/windows-version.txt"
 if ($LASTEXITCODE -ne 0) { throw "Skill assets preparation failed" }
 & $Python -m PyInstaller --noconfirm --name NPCsAIStudio --version-file $TaskVersion --onedir --console --distpath $TaskDist --workpath .local-build/pyinstaller --specpath .local-build --hidden-import ludo_npc.api.app --add-data "${TaskFrontend};frontend" --add-data "${TaskExamples};examples" backend/launcher.py
 if ($LASTEXITCODE -ne 0) { throw "Windows package build failed" }
+Copy-Item -LiteralPath (Join-Path $TaskRoot "LICENSE") -Destination (Join-Path $TaskTarget "LICENSE")
+Copy-Item -LiteralPath (Join-Path $TaskRoot "THIRD_PARTY_NOTICES.md") -Destination (Join-Path $TaskTarget "THIRD_PARTY_NOTICES.md")
+Copy-Item -LiteralPath (Join-Path $TaskRoot "ASSET-LICENSING.md") -Destination (Join-Path $TaskTarget "ASSET-LICENSING.md")
+Copy-Item -LiteralPath (Join-Path $TaskRoot "licenses") -Destination (Join-Path $TaskTarget "licenses") -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $TaskRoot "docs/windows-preview-guide.md") -Destination (Join-Path $TaskTarget "README.md")
 Copy-Item -LiteralPath (Join-Path $TaskRoot "docs/skill-collaboration-guide.md") -Destination (Join-Path $TaskTarget "skill-collaboration-guide.md")
 foreach ($TaskGuideLanguage in @("zh", "en")) {

@@ -39,4 +39,4 @@
 
 未调用外部模型。Windows 验证是在本开发机完成，仍不等于干净 Windows 机器验收。
 
-![新版控制台](screenshots/npcs-ai-studio-brand.png)
+[新版控制台](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/npcs-ai-studio-brand.png)

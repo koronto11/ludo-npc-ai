@@ -1,0 +1,57 @@
+name: Mainline checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Checks (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.13'
+      - name: Install constrained dependencies
+        run: |
+          npm ci
+          python -m pip install -e './backend[dev,package]' -c backend/requirements-dev.lock
+      - name: Frontend and backend tests
+        run: |
+          npm test
+          python -m pytest backend/tests --basetemp .local-build/ci-pytest
+      - name: Generated resource checks
+        run: |
+          python -m ludo_npc.tools generate --root . --check
+          node scripts/generate-help-guide.mjs --check
+          python scripts/package-skills.py --check
+          node scripts/check-repository.mjs
+      - name: Build and package boundaries
+        run: |
+          npm run build
+          npm run test:sites
+      - name: Distributed Skill workflows
+        run: python scripts/verify-skills.py

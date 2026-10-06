@@ -20,4 +20,4 @@
 - 7 份生成合同/样例一致性检查通过。
 - 本地 4184 服务已重启加载新逻辑。当前用户批次仍为 1 份已采用、3 份待审核；士兵 02 详情不再显示“生成依据已变化”，采用按钮可用。未替用户采用任何草稿，未调用模型。
 
-![士兵 02 可继续审核](batch-review-preview.png)
+[士兵 02 可继续审核](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/batch-review-preview.png)

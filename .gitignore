@@ -22,3 +22,12 @@ credentials.json.lock
 *.ludo.json.bak
 *.ludo.json.history/
 .local-archive/
+# Retired proof renders stay in history; publish current visuals under docs/assets/.
+docs/audits/
+docs/designs/
+docs/screenshots/
+docs/*.png
+docs/*.jpg
+docs/*.jpeg
+docs/*.webp
+docs/*.gif

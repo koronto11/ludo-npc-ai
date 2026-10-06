@@ -51,6 +51,6 @@
 
 下一阶段先做干净机器启动验收和真实服务商回归，确认后确定开源许可证、贡献流程与正式发行范围。极大画布、全工程复制成本和任务并发容量继续专项验证。
 
-![程序包故事撤销与重做](screenshots/edit-history-package.png)
+[程序包故事撤销与重做](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/edit-history-package.png)
 
-![500 人物分页](screenshots/capacity-cast-pagination.png)
+[500 人物分页](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/capacity-cast-pagination.png)

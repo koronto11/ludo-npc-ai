@@ -6,6 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "npcs-ai-studio-backend"
 version = "0.1.0"
 description = "Local project contracts and API for NPCs AI Studio"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = ["fastapi>=0.142.2,<1", "pydantic>=2.13.5,<3", "uvicorn>=0.54,<1", "httpx2>=2.13,<3"]
 

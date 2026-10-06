@@ -12,13 +12,13 @@
 | 玩家预演 | 与对白画布并排；切换故事时间/场景、测试变量、选择回复；显示条件原因、访问路径和状态变化；保存分支、分叉、放弃输入；放弃临时输入恢复选中的场景上下文 |
 | 场景背景对白 | 在场景轨道点击“背景 NPC 组”；环境对白池不建人物档案；独立人物模式建立轻量档案和出场安排，再生成各人的短对白；指定数量、身份、氛围、话题、时间范围和本次模型；生成结果进入原有草稿审核 |
 
-![关卡画布](screenshots/director-level.png)
+[关卡画布](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/director-level.png)
 
-![人物总览](screenshots/director-cast.png)
+[人物总览](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/director-cast.png)
 
-![对白与玩家预演](screenshots/director-role.png)
+[对白与玩家预演](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/director-role.png)
 
-![场景背景对白](screenshots/director-crowd.png)
+[场景背景对白](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/director-crowd.png)
 
 ## 数据与执行
 

@@ -14,6 +14,7 @@
   <a href="#local-data"><img src="https://img.shields.io/badge/storage-local_JSON-8da88f?style=flat-square" alt="Local JSON storage"></a>
   <a href="#ai-skills"><img src="https://img.shields.io/badge/AI_Skills-ZH_%2F_EN-849fae?style=flat-square" alt="Chinese and English AI Skills"></a>
   <a href="#workflow"><img src="https://img.shields.io/badge/drafts-author_review-b49ab9?style=flat-square" alt="Drafts require author review"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-849fae?style=flat-square" alt="MIT license"></a>
 </p>
 
 <p align="center">
@@ -209,9 +210,11 @@ The interface and help switch between **中文 / English**. This changes the UI 
 
 **Current mainline: 0.1.0 preview.** Authoring, local storage, draft review, model connection workflows, bilingual Skills and deterministic rehearsal are implemented. Provider compatibility and output quality depend on the selected service; protocol fixtures do not establish real-model quality acceptance.
 
-Next milestones include clean Windows machine acceptance, release packaging and licensing decisions, broader real-provider verification, and dedicated engine handoff adapters. Current exports are JSON, Markdown and CSV. The workbench plans narrative text; it does not create 3D characters or run a game engine. Knowledge, conditions and effects are authored explicitly; natural-language secrets and contradictions still need the author's review.
+Next milestones include clean Windows machine acceptance, release packaging, broader real-provider verification, and dedicated engine handoff adapters. Current exports are JSON, Markdown and CSV. The workbench plans narrative text; it does not create 3D characters or run a game engine. Knowledge, conditions and effects are authored explicitly; natural-language secrets and contradictions still need the author's review.
 
-Built with **React · Vite · React Flow · Python · FastAPI · Pydantic**, backed by local JSON files. For contributors, start with the [backend setup and checks](backend/README.md), [project plan](docs/product-and-development-plan.md) and [historical delivery notes](docs/development-history.md). Licensing and public release terms remain to be finalized.
+Built with **React · Vite · React Flow · Python · FastAPI · Pydantic**, backed by local JSON files. Start with [Contributing](CONTRIBUTING.md), [backend setup](backend/README.md), [Security](SECURITY.md) and the [Changelog](CHANGELOG.md). Historical visual evidence is indexed [here](docs/archive-index.md).
+
+Project-authored code, documentation and bilingual Skills are **[MIT licensed](LICENSE)**. Third-party fonts and libraries retain their [upstream licenses](THIRD_PARTY_NOTICES.md). See [asset and brand licensing](ASSET-LICENSING.md) for visual material and brand scope. Public installer acceptance remains a separate milestone.
 
 ---
 

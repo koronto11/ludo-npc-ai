@@ -14,7 +14,7 @@
 
 完整应用入口 `http://127.0.0.1:4174/`，开发前端为 4173，开发说明页为 `/docs`。目前已启动完整应用并打开“灯港-本地工程演示”。
 
-![本地工程导演台](screenshots/batch-2-local-files.png)
+[本地工程导演台](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/batch-2-local-files.png)
 
 ## 存储位置与行为
 

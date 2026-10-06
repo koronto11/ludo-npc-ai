@@ -26,7 +26,7 @@ Archived README before the presentation refresh on 2026-10-07. This document pre
 
 新增 [多模型配置管理](model-config-management.md)。详见 [第四批交付与验证](batch-4-delivery.md)、[第三批剧情预演](batch-3-delivery.md)、[第二批本地工程](batch-2-delivery.md) 与 [后端开发说明](../backend/README.md)。构建后的完整应用入口为 `http://127.0.0.1:4174/`，开发前端为 4173。已保存的工程在用户选定文件夹，应用配置默认位于本机 AppData。
 
-![关卡出场画布](screenshots/director-level.png)
+[关卡出场画布](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/director-level.png)
 
 ## 已实现
 

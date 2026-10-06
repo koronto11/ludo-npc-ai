@@ -10,7 +10,7 @@
 
 作者定义、初始状态、分支输入和计算结果保持分开。拖动卡片只改变布局；预演不会把当前行为、知识或信任写回人物设定。分支保存包含时间、初始变量、场景记录及玩家选择，进入本地项目 JSON，并随项目导出。没有云端存储或真实模型请求。
 
-![独立驿站：场景触发、补给变化与手动创建的对话](screenshots/batch-3-rehearsal.png)
+[独立驿站：场景触发、补给变化与手动创建的对话](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/batch-3-rehearsal.png)
 
 ## 执行语义
 

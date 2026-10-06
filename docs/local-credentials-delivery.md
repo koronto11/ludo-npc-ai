@@ -26,7 +26,7 @@
 
 后端全套 287 项测试、前端 108 项测试通过；Ruff、生成契约与 Skill 资源同步检查通过。实际 Windows DPAPI 测试涵盖保存与重启、隔离/复制/移除/恢复、接口变更、会话覆盖、清除、篡改、损坏、写失败及响应/工程无明文泄露。
 
-已构建新 Windows 程序，使用真实本机 HTTP 和独立模型协议夹具通过 20 项检查：三次进程启动验证保存与清除持久化，确认测试和生成带正确密钥，生成结果保持待审核。报告为 [credentials-package-report.json](verification/credentials-package-report.json)。页面验证输入保存、刷新后读取及单独清除；截图为 [model-local-credentials.png](screenshots/model-local-credentials.png)。
+已构建新 Windows 程序，使用真实本机 HTTP 和独立模型协议夹具通过 20 项检查：三次进程启动验证保存与清除持久化，确认测试和生成带正确密钥，生成结果保持待审核。报告为 [credentials-package-report.json](verification/credentials-package-report.json)。页面验证输入保存、刷新后读取及单独清除；截图为 [model-local-credentials.png](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/model-local-credentials.png)。
 
 未调用外部模型，未使用用户真实密钥；程序包本机检查仍不等同于干净 Windows 机器验收。已有预览工程修订 227、文件 SHA256 保持原值。
 

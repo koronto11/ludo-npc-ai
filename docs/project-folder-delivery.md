@@ -27,6 +27,6 @@
 
 Windows 新程序包实际启动三次，通过 28 项真实本机 HTTP 检查，覆盖旧单文件保存/重开、独立目录保存、三种集中导出、目录冲突、旧文件整理、目录复制后重启恢复和父级位置记忆。证据见 [程序包检查报告](verification/project-folder-package-report.json)。体验包为 `release/npcs-ai-studio-folders/NPCsAIStudio-project-folders-preview-20261006.zip`；仍属于本机验收，干净 Windows 机器验收尚未完成。
 
-![新建项目目录预览](screenshots/project-folder-new.png)
+[新建项目目录预览](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/project-folder-new.png)
 
-![导出集中保存](screenshots/project-folder-export.png)
+[导出集中保存](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/project-folder-export.png)

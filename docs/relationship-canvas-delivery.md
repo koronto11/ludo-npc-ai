@@ -32,7 +32,7 @@
 
 实际页面验证：两处备注编辑同步、刷新恢复、取消与清除；高亮默认关闭、按钮开关、选中人物跟随；备注搜索、关卡/场景/类别/分组筛选；关系创建、空白名称校验、双向箭头和说明持久化、列表搜索与编辑；分组保存/撤销；移出/恢复引用；定位关卡和对白入口；键盘/右键菜单及 Esc 焦点恢复；740×800 卡片与编辑窗口。页面控制台未见错误或警告。临时测试备注、分组和关系已恢复，预览的全部 content 与 editor 均与规范化测试基线一致。
 
-![关系画布](screenshots/relationship-canvas-v2.png)
+[关系画布](https://github.com/koronto11/ludo-npc-ai/blob/e96ecb7f7670362fe95fbc83d8c9006085d77099/docs/screenshots/relationship-canvas-v2.png)
 
 高亮与窄屏演示截图含临时备注，已从工程清理：`screenshots/relationship-highlight.png`、`screenshots/relationship-narrow.png`。本次只更新 localhost:4184 预览，没有重新打包 Windows 程序、推送远程或调用外部模型。大量节点性能和完整辅助技术兼容性未验证。
 
