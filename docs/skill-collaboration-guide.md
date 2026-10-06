@@ -85,8 +85,8 @@ Each pack includes an original Tide Town storyboard: 3 characters, 1 level, 2 sc
 
 ## 维护 / Maintenance
 
-桥接核心源为 `backend/ludo_npc/skill_bridge.py`；中英文分发脚本和 Schema 由 `python scripts/package-skills.py` 同步。修改契约后先生成 schemas，再同步；`--check` 检查漂移，`--zip` 生成不覆盖旧文件的独立语言 ZIP。核心代码一致，说明与示例保持两版语义一致。
+桥接核心源为 `backend/ludo_npc/skill_bridge.py`；中英文分发脚本和 Schema 由 `python scripts/package-skills.py` 同步。修改契约后先生成 schemas，再同步；`--check` 检查漂移，`--zip` 分别生成两份语言 ZIP，并替换输出目录中同名的旧包。核心代码一致，说明与示例保持两版语义一致。
 
-Canonical bridge: `backend/ludo_npc/skill_bridge.py`. `python scripts/package-skills.py` synchronizes scripts and schemas; use `--check` for drift and `--zip` for separate language archives. Regenerate schemas before syncing contract changes.
+Canonical bridge: `backend/ludo_npc/skill_bridge.py`. `python scripts/package-skills.py` synchronizes scripts and schemas; use `--check` for drift and `--zip` for separate language archives, replacing older packs with the same names in the output directory. Regenerate schemas before syncing contract changes.
 
 验证用 `python scripts/verify-skills.py`，Windows 版本增加 `--exe PATH_TO_NPCsAIStudio.exe`。这些本机测试不等于所有 AI 工具安装兼容性或干净 Windows 验收。后续可加外部 AI 创作结果的拖入式导入窗口和 MCP 适配。
