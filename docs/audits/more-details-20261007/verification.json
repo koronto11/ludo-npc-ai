@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-07",
+  "frontend_tests": {
+    "passed": 138,
+    "failed": 0,
+    "new_metadata_tests": 10
+  },
+  "backend_tests": {
+    "passed": 311,
+    "failed": 0
+  },
+  "production_build": "passed",
+  "sites_output_files": true,
+  "browser": {
+    "qa_port": 4185,
+    "formal_port": 4184,
+    "actual_widths": [
+      1280,
+      500
+    ],
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "console_errors": 0,
+    "checks": [
+      "level-anchor-track metadata save and reopen",
+      "multiline tags with trailing blank line",
+      "unsaved save-and-close guard",
+      "NPC group metadata retains every member interval and binding",
+      "event tags save",
+      "independent text description and tags save without body change",
+      "dialogue metadata save without node/options change",
+      "nested legacy record notes save without original test-input changes",
+      "English and narrow-window metadata display"
+    ]
+  },
+  "formal_source_sha256": "bd8bfc6884f3167dedaad5524dd7293eed9471165a4ee35b2d83ea20b85ac711",
+  "formal_source_unchanged": true,
+  "frozen_play_records_unchanged": true,
+  "provider_requests": 0,
+  "windows_repackaged": false
+}

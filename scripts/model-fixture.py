@@ -140,7 +140,7 @@ class FixtureHandler(BaseHTTPRequestHandler):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Ludo 本地协议测试夹具，非真实模型")
+    parser = argparse.ArgumentParser(description="NPCs AI Studio 本地协议测试夹具，非真实模型")
     parser.add_argument("--port", type=int, default=4180)
     args = parser.parse_args()
     print(

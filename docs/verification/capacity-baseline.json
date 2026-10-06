@@ -1,0 +1,237 @@
+{
+  "transport": "offline_local_store",
+  "real_models": false,
+  "sizes": [
+    {
+      "characters": 100,
+      "dialogues": 100,
+      "nodes": 400,
+      "appearances": 100,
+      "bytes": 447617,
+      "construct": {
+        "median_ms": 6.77,
+        "max_ms": 8.26,
+        "samples_ms": [
+          8.26,
+          6.36,
+          6.77
+        ]
+      },
+      "open_validate": {
+        "median_ms": 3.77,
+        "max_ms": 8.31,
+        "samples_ms": [
+          8.31,
+          3.77,
+          3.64
+        ]
+      },
+      "first_save": {
+        "median_ms": 37.03,
+        "max_ms": 37.03,
+        "samples_ms": [
+          37.03
+        ]
+      },
+      "edit_and_save": {
+        "median_ms": 92.16,
+        "max_ms": 92.98,
+        "samples_ms": [
+          77.22,
+          92.16,
+          92.98
+        ]
+      },
+      "undo": {
+        "median_ms": 27.86,
+        "max_ms": 32.65,
+        "samples_ms": [
+          27.86,
+          32.65,
+          26.08
+        ]
+      },
+      "simulation": {
+        "median_ms": 9.33,
+        "max_ms": 10.87,
+        "samples_ms": [
+          9.33,
+          10.87,
+          6.61
+        ]
+      },
+      "csv": {
+        "median_ms": 14.85,
+        "max_ms": 15.14,
+        "samples_ms": [
+          14.85,
+          15.14,
+          13.01
+        ]
+      },
+      "markdown": {
+        "median_ms": 2.1,
+        "max_ms": 2.25,
+        "samples_ms": [
+          2.25,
+          2.1,
+          2.04
+        ]
+      }
+    },
+    {
+      "characters": 500,
+      "dialogues": 500,
+      "nodes": 2000,
+      "appearances": 500,
+      "bytes": 2237297,
+      "construct": {
+        "median_ms": 22.99,
+        "max_ms": 35.9,
+        "samples_ms": [
+          19.9,
+          35.9,
+          22.99
+        ]
+      },
+      "open_validate": {
+        "median_ms": 25.37,
+        "max_ms": 25.43,
+        "samples_ms": [
+          25.37,
+          25.43,
+          23.91
+        ]
+      },
+      "first_save": {
+        "median_ms": 198.34,
+        "max_ms": 198.34,
+        "samples_ms": [
+          198.34
+        ]
+      },
+      "edit_and_save": {
+        "median_ms": 435.77,
+        "max_ms": 459.95,
+        "samples_ms": [
+          459.95,
+          435.77,
+          417.13
+        ]
+      },
+      "undo": {
+        "median_ms": 203.66,
+        "max_ms": 206.11,
+        "samples_ms": [
+          192.07,
+          206.11,
+          203.66
+        ]
+      },
+      "simulation": {
+        "median_ms": 45.51,
+        "max_ms": 53.93,
+        "samples_ms": [
+          53.93,
+          40.72,
+          45.51
+        ]
+      },
+      "csv": {
+        "median_ms": 119.05,
+        "max_ms": 120.14,
+        "samples_ms": [
+          104.42,
+          119.05,
+          120.14
+        ]
+      },
+      "markdown": {
+        "median_ms": 51.33,
+        "max_ms": 54.35,
+        "samples_ms": [
+          51.33,
+          49.06,
+          54.35
+        ]
+      }
+    },
+    {
+      "characters": 1500,
+      "dialogues": 1500,
+      "nodes": 6000,
+      "appearances": 1500,
+      "bytes": 6716999,
+      "construct": {
+        "median_ms": 74.86,
+        "max_ms": 143.18,
+        "samples_ms": [
+          67.7,
+          143.18,
+          74.86
+        ]
+      },
+      "open_validate": {
+        "median_ms": 73.36,
+        "max_ms": 96.77,
+        "samples_ms": [
+          65.63,
+          96.77,
+          73.36
+        ]
+      },
+      "first_save": {
+        "median_ms": 687.34,
+        "max_ms": 687.34,
+        "samples_ms": [
+          687.34
+        ]
+      },
+      "edit_and_save": {
+        "median_ms": 1827.66,
+        "max_ms": 1909.54,
+        "samples_ms": [
+          1724.8,
+          1909.54,
+          1827.66
+        ]
+      },
+      "undo": {
+        "median_ms": 858.27,
+        "max_ms": 914.49,
+        "samples_ms": [
+          858.27,
+          914.49,
+          798.59
+        ]
+      },
+      "simulation": {
+        "median_ms": 214.46,
+        "max_ms": 223.11,
+        "samples_ms": [
+          190.41,
+          223.11,
+          214.46
+        ]
+      },
+      "csv": {
+        "median_ms": 782.41,
+        "max_ms": 786.55,
+        "samples_ms": [
+          766.22,
+          782.41,
+          786.55
+        ]
+      },
+      "markdown": {
+        "median_ms": 570.31,
+        "max_ms": 573.11,
+        "samples_ms": [
+          570.31,
+          563.98,
+          573.11
+        ]
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import json
 from copy import deepcopy
 from typing import Annotated, Literal
 
-from pydantic import Field, SecretStr, ValidationError
+from pydantic import Field, SecretStr, StrictInt, ValidationError, model_validator
 
 from .application.commands import CommandBatch, ProjectConflict
 from .domain.models import (
@@ -18,13 +18,51 @@ from .domain.models import (
     Id,
     Name,
     Revision,
+    SceneGenerationContext,
     Text,
     new_id,
 )
-from .drafts import ReviewError, author_hash, target_row, validate_candidate
+from .drafts import ReviewError, author_hash, scene_destination, target_row, validate_candidate
 from .providers import ProviderError
 from .simulation import SimulationInput, rehearse
 from .storage import FileProblem
+
+TEXT_LENGTH_LIMITS = {"short": 120, "medium": 240, "long": 480}
+
+
+class GenerationLimits(Contract):
+    card_count: Annotated[StrictInt, Field(ge=1, le=6)] | None = None
+    text_length: Literal["short", "medium", "long"] = "short"
+
+
+class OutputLimitsError(ReviewError):
+    pass
+
+
+def output_budget(limits):
+    # Include JSON, stable IDs and player choices; this is a cap, not a price estimate.
+    return 512 + (limits.card_count or 1) * (2 * TEXT_LENGTH_LIMITS[limits.text_length] + 384)
+
+
+def check_output_limits(patch, kind, limits):
+    if limits is None:
+        return
+    if kind == "dialogue":
+        nodes = patch.get("nodes")
+        if not isinstance(nodes, list):
+            raise OutputLimitsError("模型未返回对白卡片；本项未保存草稿，不自动重试")
+        if len(nodes) != limits.card_count:
+            raise OutputLimitsError(
+                f"要求 {limits.card_count} 张对白卡片，模型返回 {len(nodes)} 张；本项未保存草稿，不自动重试"
+            )
+        texts = [node.get("text") if isinstance(node, dict) else None for node in nodes]
+    else:
+        texts = [patch.get("body")]
+    maximum = TEXT_LENGTH_LIMITS[limits.text_length]
+    if any(not isinstance(value, str) or len(value) > maximum for value in texts):
+        raise OutputLimitsError(
+            f"正文需为文本且每张或每份最多 {maximum} 字符；本项未保存草稿，不自动重试"
+        )
 
 
 class GenerationItem(Contract):
@@ -33,6 +71,22 @@ class GenerationItem(Contract):
     target_id: Id | None = None
     character_id: Id | None = None
     fields: list[Name] = Field(default_factory=list, max_length=30)
+    scene_id: Id | None = None
+    start_tick: Annotated[int, Field(ge=0)] | None = None
+    end_tick: Annotated[int, Field(ge=0)] | None = None
+    scene_context: SceneGenerationContext | None = None
+    output_limits: GenerationLimits | None = None
+
+    @model_validator(mode="after")
+    def limits_match_content(self):
+        if self.output_limits:
+            if self.kind not in {"dialogue", "text"}:
+                raise ValueError("对白与文本数量设置只适用于对白或文本")
+            if (self.kind == "dialogue") != (self.output_limits.card_count is not None):
+                raise ValueError("对白必须设置卡片数，非对话文本不能设置卡片数")
+            if self.fields and ("nodes" if self.kind == "dialogue" else "body") not in self.fields:
+                raise ValueError("数量设置需要生成正文或对白节点字段")
+        return self
 
 
 class GenerateInput(Contract):
@@ -54,6 +108,15 @@ ACTIVE = {"queued", "running"}
 
 def context_for(project, request, item):
     data = project.model_dump(mode="json")
+    if item.scene_context:
+        scope = item.scene_context.model_dump(mode="json")
+        scene_destination(data, scope, item.kind, item.character_id)
+        if (item.scene_id, item.start_tick, item.end_tick) != (
+            scope["location_id"],
+            scope["start_tick"],
+            scope["end_tick"],
+        ):
+            raise ReviewError("场景生成范围与目标出场不一致")
     actor_id = item.character_id or (item.target_id if item.kind == "character" else None)
     rows = {r["id"]: r for key in COLLECTIONS.values() for r in data["content"][key]}
     if actor_id and (actor_id not in rows or rows[actor_id]["kind"] != "character"):
@@ -66,6 +129,19 @@ def context_for(project, request, item):
         inputs["case_id"] = request.case_id
     if request.at_tick is not None:
         inputs["at_tick"] = request.at_tick
+    if item.scene_id:
+        if item.scene_id not in rows or rows[item.scene_id]["kind"] != "location":
+            raise ReviewError("批量对白场景不存在")
+        inputs.update(
+            location_id=item.scene_id,
+            scene_changes=[],
+            choices=[],
+            level_id=item.scene_context.level_id if item.scene_context else None,
+        )
+    if item.start_tick is not None:
+        inputs["at_tick"] = item.start_tick
+    if item.end_tick is not None and (item.start_tick is None or item.end_tick < item.start_tick):
+        raise ReviewError("批量对白时间范围无效")
     rehearsal = rehearse(project, SimulationInput.model_validate(inputs))
     if not rehearsal["complete"]:
         raise ReviewError("预演未完整执行，请先处理诊断或调整执行上限再生成")
@@ -87,8 +163,37 @@ def context_for(project, request, item):
     if len(identifiers) > 100:
         raise ReviewError("关联上下文超过 100 个对象，请缩小范围")
     refs = [{"kind": rows[i]["kind"], "id": i} for i in sorted(identifiers)]
+    level_id = item.scene_context.level_id if item.scene_context else inputs.get("level_id")
+    if not level_id and request.case_id:
+        case = next((c for c in project.content.simulation_cases if c.id == request.case_id), None)
+        level_id = case.level_id if case else None
+    level = next((row for row in project.content.levels if row.id == level_id), None)
+    scene_id = item.scene_id or state.get("scene_id")
+    track = (
+        next((t for t in level.tracks if t.id == item.scene_context.track_id), None)
+        if level and item.scene_context
+        else next((t for t in level.tracks if t.location_id == scene_id), None)
+        if level
+        else None
+    )
     context = {
-        "world": data["content"]["world"],
+        "world": {k: v for k, v in data["content"]["world"].items() if k != "district"},
+        "level": {
+            "id": level.id,
+            "name": level.name,
+            "region": level.region,
+            "description": level.description,
+        }
+        if level
+        else None,
+        "scene": rows.get(scene_id),
+        "scene_track": {"id": track.id, "name": track.name, "description": track.description}
+        if track
+        else None,
+        "scene_placement": item.scene_context.model_dump(mode="json")
+        if item.scene_context
+        else None,
+        "appearance_range": [item.start_tick, item.end_tick],
         "story_tick": state["tick"],
         "actor": actor,
         "actor_state": actor_state,
@@ -187,9 +292,9 @@ class GenerationEngine:
         if any(r.id == request.request_id for r in project.content.generation_history):
             raise ReviewError("此任务已保存，请使用新任务 ID 明确重试")
         profile = self.store.provider(request.profile_id)
-        key = request.api_key.get_secret_value()
+        key = self.store.provider_key(profile, request.api_key.get_secret_value())
         if profile.mode == "remote" and not key:
-            raise ReviewError("远程模型需要本次会话密钥")
+            raise ReviewError("请在模型配置中填写 API Key 或保存本机密钥")
         prepared = []
         for item in request.items:
             target = {"kind": item.kind, "id": item.target_id or new_id(item.kind)}
@@ -256,6 +361,22 @@ class GenerationEngine:
                     result["status"] = "running"
                     job["detail"] = f"正在生成 {item.name}"
                     schema = ENTITY_MODELS[item.kind].model_json_schema()
+                    call_profile = profile
+                    if item.output_limits:
+                        limits = item.output_limits
+                        maximum = TEXT_LENGTH_LIMITS[limits.text_length]
+                        call_profile = profile.model_copy(
+                            update={"max_tokens": min(profile.max_tokens, output_budget(limits))}
+                        )
+                        if item.kind == "dialogue":
+                            schema["properties"]["nodes"].update(
+                                minItems=limits.card_count, maxItems=limits.card_count
+                            )
+                            schema["$defs"]["DialogueNode"]["properties"]["text"]["maxLength"] = (
+                                maximum
+                            )
+                        else:
+                            schema["properties"]["body"]["maxLength"] = maximum
                     user = {
                         "request": request.instructions,
                         "name": item.name,
@@ -265,6 +386,20 @@ class GenerationEngine:
                         "context": context,
                         "entity_schema": schema,
                     }
+                    if item.output_limits:
+                        user["output_limits"] = {
+                            **item.output_limits.model_dump(mode="json"),
+                            "max_text_chars": maximum,
+                            "max_output_tokens": call_profile.max_tokens,
+                            "instruction": "卡片数为 nodes 的准确长度，包含开场与所有分支卡片，玩家选项不计数；正文字符上限包括标点与空格。不增设其他卡片或长篇说明。"
+                            if item.kind == "dialogue"
+                            else "仅生成一份 body，遵守正文字符上限（包括标点与空格）。",
+                        }
+                    if item.scene_context and item.scene_context.mode == "people":
+                        user["single_npc"] = {
+                            "character_id": item.character_id,
+                            "instruction": "本项只写这一个人物的台词，所有节点 speaker_id 使用该 ID；不可混入其他说话者或多个身份署名。",
+                        }
                     messages = [
                         {
                             "role": "system",
@@ -276,10 +411,27 @@ class GenerationEngine:
                     def progress(length):
                         job["detail"] = f"{item.name} · 已接收 {length} 字"
 
-                    text, usage = await self.provider.complete(profile, key, messages, progress)
+                    text, usage = await self.provider.complete(
+                        call_profile, key, messages, progress
+                    )
                     for name, count in usage.items():
                         job["usage"][name] = job["usage"].get(name, 0) + count
                     patch = parse_patch(text)
+                    check_output_limits(patch, item.kind, item.output_limits)
+                    if (
+                        item.scene_context
+                        and item.scene_context.mode == "people"
+                        and item.kind == "dialogue"
+                    ):
+                        nodes = patch.get("nodes", [])
+                        if not isinstance(nodes, list) or any(
+                            not isinstance(node, dict) for node in nodes
+                        ):
+                            raise ReviewError("NPC 台词节点格式无效")
+                        for node in nodes:
+                            if node.get("speaker_id") not in (None, item.character_id):
+                                raise ReviewError("NPC 组对白只能由本项人物发言，请重新生成这一项")
+                            node["speaker_id"] = item.character_id
                     if item.fields and not set(patch) <= set(item.fields):
                         raise ReviewError("模型修改了未选中的字段")
                     if not row:
@@ -288,6 +440,38 @@ class GenerationEngine:
                             patch["character_id"] = item.character_id
                         if item.character_id and item.kind == "text":
                             patch["author_id"] = item.character_id
+                    if item.scene_id:
+                        required = [{"op": "scene", "location_id": item.scene_id}]
+                        if item.start_tick is not None:
+                            required.append(
+                                {"op": "time", "comparison": "gte", "value": item.start_tick}
+                            )
+                        if item.end_tick is not None:
+                            required.append(
+                                {"op": "time", "comparison": "lte", "value": item.end_tick}
+                            )
+                        if item.kind == "text":
+                            patch["condition"] = {
+                                "op": "all",
+                                "conditions": [*required, patch.get("condition", {"op": "always"})],
+                            }
+                        elif item.kind == "dialogue":
+                            if item.scene_context and item.scene_context.mode == "people":
+                                required = [
+                                    {
+                                        "op": "appearance",
+                                        "level_id": item.scene_context.level_id,
+                                        "appearance_id": item.scene_context.appearance_id,
+                                    }
+                                ]
+                            for node in patch.get("nodes", []):
+                                node["condition"] = {
+                                    "op": "all",
+                                    "conditions": [
+                                        *required,
+                                        node.get("condition", {"op": "always"}),
+                                    ],
+                                }
                     validate_candidate(project, target, patch, "update" if row else "create")
                     draft = Draft(
                         id=new_id("draft"),
@@ -301,6 +485,7 @@ class GenerationEngine:
                         source_refs=refs,
                         model=profile.model,
                         task_id=job["id"],
+                        scene_context=item.scene_context,
                         issues=["结构与引用已检查；自然语言中的秘密、动机和世界矛盾仍需作者审核"],
                     )
                     # Validate against the current project as well; authoring may have
@@ -315,6 +500,9 @@ class GenerationEngine:
             except asyncio.CancelledError:
                 result["status"] = "cancelled"
                 raise
+            except OutputLimitsError as exc:
+                result.update(status="failed", error=str(exc), code="output_limits")
+                job["failures"].append(f"{item.name}：{exc}")
             except (ValidationError, ReviewError, ValueError):
                 result.update(
                     status="failed", error="输出结构、字段或引用校验失败；缩小要求或调整后重试"

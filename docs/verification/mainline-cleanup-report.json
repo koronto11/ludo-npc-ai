@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "channel": "preview",
+  "frontend_tests": {"passed": 150, "failed": 0},
+  "backend_tests": {"passed": 349, "failed": 0},
+  "skill_http_checks": {"passed": 30, "real_models": false},
+  "sites_tests": {"passed": 4, "protected_sources_unchanged": true},
+  "build": {"success": true, "large_bundle_warning": true},
+  "schema_and_samples": {"checked": 7, "synchronized": true},
+  "help_and_skills": {"synchronized": true},
+  "browser_smoke": {"isolated_local_service": true, "languages": ["zh", "en"], "console_errors": 0, "console_warnings": 0},
+  "publication_file_audit": {"common_secret_pattern_hits": 0, "private_data_candidates": 0, "files_over_50_mb": 0},
+  "clean_windows_acceptance": "pending"
+}

@@ -1,0 +1,375 @@
+{
+  "format": "ludo-storyboard",
+  "version": 1,
+  "name": "Tide Town · Story to Workbench",
+  "notes": [
+    "Original example; ticks 0, 5, 10 and 12 are demonstration minutes."
+  ],
+  "character_notes": {
+    "char-healer": "Kind, preserves player choice; treatment clears injury.",
+    "char-guard": "Knows the bridge is damaged; a dock NPC group member.",
+    "char-ferryman": "Talks about tides and work; does not know the bridge secret."
+  },
+  "content": {
+    "world": {
+      "name": "Tide Town",
+      "clock_unit": "minute",
+      "premise": "A traveler seeks help between a seaside dock and clinic.",
+      "rules": [
+        "Characters may reveal only facts they know."
+      ],
+      "tone": "Grounded, restrained; preserve player choice."
+    },
+    "characters": [
+      {
+        "id": "char-healer",
+        "name": "Lin Qiu",
+        "role": "Healer",
+        "importance": "supporting",
+        "tags": [
+          "Townsfolk"
+        ],
+        "story": "She keeps the clinic and asks permission before treatment."
+      },
+      {
+        "id": "char-guard",
+        "name": "A Gang",
+        "role": "Dock guard",
+        "importance": "background",
+        "tags": [
+          "Townsfolk"
+        ]
+      },
+      {
+        "id": "char-ferryman",
+        "name": "Old Du",
+        "role": "Ferryman",
+        "importance": "background",
+        "tags": [
+          "Townsfolk"
+        ]
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc-dock",
+        "name": "Tidal dock"
+      },
+      {
+        "id": "loc-clinic",
+        "name": "Town clinic"
+      }
+    ],
+    "facts": [
+      {
+        "id": "fact-bridge",
+        "name": "North bridge damaged",
+        "description": "The north bridge is impassable; the guard knows.",
+        "visibility": "private",
+        "available_at": 0
+      }
+    ],
+    "variables": [
+      {
+        "id": "var-injured",
+        "name": "Player injured",
+        "value_type": "boolean",
+        "default": false
+      },
+      {
+        "id": "var-trust",
+        "name": "Trust",
+        "value_type": "number",
+        "default": 0
+      },
+      {
+        "id": "var-alert",
+        "name": "Dock alert",
+        "value_type": "boolean",
+        "default": false
+      }
+    ],
+    "levels": [
+      {
+        "id": "level-tide-town",
+        "name": "Level 1 · Tide Town",
+        "axis_mode": "time",
+        "anchors": [
+          {
+            "id": "anchor-arrival",
+            "name": "Arrival",
+            "tick": 0
+          },
+          {
+            "id": "anchor-clinic",
+            "name": "Visit clinic",
+            "tick": 5
+          },
+          {
+            "id": "anchor-alarm",
+            "name": "Alarm",
+            "tick": 10
+          },
+          {
+            "id": "anchor-end",
+            "name": "Leave",
+            "tick": 12
+          }
+        ],
+        "tracks": [
+          {
+            "id": "track-dock",
+            "name": "Dock",
+            "location_id": "loc-dock"
+          },
+          {
+            "id": "track-clinic",
+            "name": "Clinic",
+            "location_id": "loc-clinic"
+          }
+        ],
+        "npc_groups": [
+          {
+            "id": "group-dock",
+            "name": "Dock townsfolk",
+            "track_id": "track-dock"
+          }
+        ],
+        "appearances": [
+          {
+            "id": "appearance-healer",
+            "character_id": "char-healer",
+            "track_id": "track-clinic",
+            "start_tick": 5,
+            "end_tick": 12,
+            "start_anchor_id": "anchor-clinic",
+            "end_anchor_id": "anchor-end",
+            "dialogue_ids": [
+              "dialogue-clinic"
+            ]
+          },
+          {
+            "id": "appearance-guard",
+            "character_id": "char-guard",
+            "track_id": "track-dock",
+            "start_tick": 0,
+            "end_tick": 12,
+            "npc_group_id": "group-dock",
+            "dialogue_ids": [
+              "dialogue-guard"
+            ]
+          },
+          {
+            "id": "appearance-ferryman",
+            "character_id": "char-ferryman",
+            "track_id": "track-dock",
+            "start_tick": 0,
+            "end_tick": 12,
+            "npc_group_id": "group-dock",
+            "dialogue_ids": [
+              "dialogue-ferryman"
+            ]
+          }
+        ],
+        "region": "Tide Town",
+        "description": "The traveller arrives at the dock, meets the guard and ferryman, and visits the clinic for help."
+      }
+    ],
+    "relations": [
+      {
+        "id": "relation-care",
+        "source": {
+          "kind": "character",
+          "id": "char-healer"
+        },
+        "target": {
+          "kind": "character",
+          "id": "char-guard"
+        },
+        "direction": "both",
+        "label": "Town colleagues"
+      },
+      {
+        "id": "relation-dispute",
+        "source": {
+          "kind": "character",
+          "id": "char-guard"
+        },
+        "target": {
+          "kind": "character",
+          "id": "char-ferryman"
+        },
+        "label": "Urges a ferry inspection"
+      }
+    ],
+    "events": [
+      {
+        "id": "event-alarm",
+        "name": "Dock alarm",
+        "scheduled_at": 10,
+        "scope": {
+          "level_id": "level-tide-town",
+          "track_id": "track-dock"
+        },
+        "anchor_id": "anchor-alarm",
+        "affected_character_ids": [
+          "char-guard",
+          "char-ferryman"
+        ],
+        "effects": [
+          {
+            "op": "set_variable",
+            "variable_id": "var-alert",
+            "value": true
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "char-guard",
+            "behavior": "Inspect the ferry"
+          }
+        ]
+      }
+    ],
+    "dialogues": [
+      {
+        "id": "dialogue-clinic",
+        "name": "Clinic greeting",
+        "character_id": "char-healer",
+        "entry_node_id": "node-opening",
+        "nodes": [
+          {
+            "id": "node-opening",
+            "label": "Opening",
+            "speaker_id": "char-healer",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-healer"
+            },
+            "text": "Sit down. Are you resting, or do you need your wound treated?",
+            "options": [
+              {
+                "id": "option-rest",
+                "text": "Just resting, thank you.",
+                "target_node_id": null
+              },
+              {
+                "id": "option-treatment",
+                "text": "I am injured. Please help.",
+                "condition": {
+                  "op": "variable",
+                  "variable_id": "var-injured",
+                  "value": true
+                },
+                "target_node_id": "node-treatment"
+              }
+            ]
+          },
+          {
+            "id": "node-treatment",
+            "label": "Treatment",
+            "speaker_id": "char-healer",
+            "text": "I will clean the wound. Take it easy today.",
+            "effects": [
+              {
+                "op": "set_variable",
+                "variable_id": "var-injured",
+                "value": false
+              },
+              {
+                "op": "increment_variable",
+                "variable_id": "var-trust",
+                "amount": 1
+              }
+            ],
+            "options": [
+              {
+                "id": "option-thanks",
+                "text": "Thank you.",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dialogue-guard",
+        "name": "Guard small talk",
+        "character_id": "char-guard",
+        "entry_node_id": "node-guard",
+        "nodes": [
+          {
+            "id": "node-guard",
+            "label": "Small talk",
+            "speaker_id": "char-guard",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-guard"
+            },
+            "text": "The wind is strong. Tighten the lamp ropes.",
+            "options": [
+              {
+                "id": "option-guard-end",
+                "text": "See you later.",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dialogue-ferryman",
+        "name": "Ferryman small talk",
+        "character_id": "char-ferryman",
+        "entry_node_id": "node-ferryman",
+        "nodes": [
+          {
+            "id": "node-ferryman",
+            "label": "Small talk",
+            "speaker_id": "char-ferryman",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-ferryman"
+            },
+            "text": "Move cargo after the tide falls. Better footing.",
+            "options": [
+              {
+                "id": "option-ferryman-end",
+                "text": "See you later.",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "texts": [
+      {
+        "id": "text-letter",
+        "name": "Clinic note",
+        "text_type": "letter",
+        "author_id": "char-healer",
+        "body": "Come to the clinic before dusk if you need fresh bandages."
+      }
+    ],
+    "initial_state": {
+      "tick": 0,
+      "characters": {
+        "char-healer": {
+          "location_id": "loc-clinic"
+        },
+        "char-guard": {
+          "location_id": "loc-dock",
+          "known_fact_ids": [
+            "fact-bridge"
+          ]
+        },
+        "char-ferryman": {
+          "location_id": "loc-dock"
+        }
+      }
+    }
+  }
+}

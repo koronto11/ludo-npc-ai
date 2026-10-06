@@ -1,0 +1,33 @@
+{
+  "synchronized": true,
+  "version": "0.1.0",
+  "channel": "preview",
+  "packages": [
+    {
+      "path": "D:\\Code\\ludo-npc-ai\\release\\skills\\npcs-ai-studio-zh.zip",
+      "version": "0.1.0",
+      "channel": "preview",
+      "sha256": "f0309dc64bad0265f1ed06cc2f58d680a12ba53a0ef75865644943a8ec19dbcc",
+      "bytes": 28705
+    },
+    {
+      "path": "D:\\Code\\ludo-npc-ai\\release\\skills\\npcs-ai-studio-en.zip",
+      "version": "0.1.0",
+      "channel": "preview",
+      "sha256": "ef5f9af5b247f1a7c9414edd5328b0f22ddac7e16030f954646f940c528e76b8",
+      "bytes": 27266
+    }
+  ],
+  "verification": {
+    "backend_suite_passed": 315,
+    "frontend_tests_passed": 146,
+    "contract_check": true,
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "real_models": false,
+    "backend_suite_scope": "315 passed in prior verification; no backend changes in world-editor redesign, full backend suite not rerun in this UI-only batch",
+    "world_editor_browser_check": true
+  }
+}

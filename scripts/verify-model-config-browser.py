@@ -44,7 +44,7 @@ checks = {
     "packaged_frontend_matches_built_source": all(
         (
             ROOT
-            / "release/LudoNPC/_internal/frontend"
+            / "release/npcs-ai-studio-preview/NPCsAIStudio/_internal/frontend"
             / path.relative_to(ROOT / "dist/client")
         ).read_bytes()
         == path.read_bytes()

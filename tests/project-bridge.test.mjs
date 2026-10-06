@@ -12,11 +12,32 @@ const apply = (document, view) => {
   return JSON.parse(result.stdout);
 };
 
+test('relationship editing round trips direction and description without losing notes or layout', () => {
+  const doc = read('outpost');
+  doc.editor.character_notes = {keeper:'作者的记忆提示'};
+  const view = projectView(doc);
+  assert.equal(view.entities.find(row=>row.id==='keeper').quickNote,'作者的记忆提示');
+  view.relations[0].direction = 'both';
+  view.relations[0].description = '互相帮助';
+  const result = apply(doc,view);
+  assert.equal(result.content.relations[0].direction,'both');
+  assert.equal(result.content.relations[0].description,'互相帮助');
+  assert.deepEqual(result.editor,doc.editor);
+  assert.deepEqual(result.content.characters,doc.content.characters);
+});
+
 test('opening all v2 samples creates no implicit edits', () => {
   for (const name of ['blank', 'lighthouse', 'outpost']) {
     const doc = read(name);
     assert.deepEqual(commandsFromView(doc, projectView(doc)), [], name);
   }
+});
+
+test('older v2 documents without notes or relation metadata open without implicit edits', () => {
+  const doc = read('outpost');
+  delete doc.editor.character_notes;
+  for (const row of doc.content.relations) { delete row.direction; delete row.description; }
+  assert.deepEqual(commandsFromView(doc,projectView(doc)),[]);
 });
 
 test('editing a custom character preserves branches, facts, rules and other canvases', () => {
@@ -61,13 +82,14 @@ test('generic dialogue text edits retain options, effects and conditions', () =>
   assert.deepEqual(result.content.dialogues[0].nodes[1].condition, doc.content.dialogues[0].nodes[1].condition);
 });
 
-test('connection handles persist in editor and example preview remains layout data', () => {
+test('connection handles persist without changing preserved migration metadata', () => {
   const doc = read('lighthouse'), view = projectView(doc);
   view.relations[0].sourceHandle = 'top';
-  view.scenario.day = 4;
   const result = apply(doc, view);
   assert.equal(result.content_revision, 1);
-  assert.equal(result.editor.legacy_preview.day, 4);
+  assert.deepEqual(result.metadata.migration, doc.metadata.migration);
+  assert.equal(result.metadata.created_at, doc.metadata.created_at);
+  assert.deepEqual(result.editor.legacy_preview, doc.editor.legacy_preview);
   assert.equal(result.editor.canvases[0].edges[0].source_handle, 'top');
 });
 
@@ -75,4 +97,23 @@ test('model settings and session key are outside all project commands', () => {
   const doc = read('outpost'), view = projectView(doc);
   view.modelProfile = { endpoint: 'https://example.com/v1', model: 'my-model', apiKey: 'not-in-project' };
   assert.deepEqual(commandsFromView(doc, view), []);
+});
+
+test('migrated example dialogue and event edits use generic commands and retain authored conditions', () => {
+  const doc = read('lighthouse'), view = projectView(doc);
+  const graph = view.entities.find(row => row.kind === 'dialogue' && row.characterId === 'eve');
+  const event = view.entities.find(row => row.id === 'retaliation');
+  const sourceGraph = doc.content.dialogues.find(row => row.id === graph.id);
+  const sourceEvent = doc.content.events.find(row => row.id === event.id);
+  graph.text = '作者重新编写的开场，不应被旧示例对白覆盖。';
+  event.enabled = !event.enabled;
+  const result = apply(doc, view);
+  const updated = result.content.dialogues.find(row => row.id === graph.id);
+  assert.equal(updated.nodes.find(row => row.id === graph.entryNodeId).text, graph.text);
+  assert.deepEqual(updated.nodes.map(row => row.options), sourceGraph.nodes.map(row => row.options));
+  assert.deepEqual(result.content.events.find(row => row.id === event.id).condition, sourceEvent.condition);
+  assert.equal(result.content.events.find(row => row.id === event.id).enabled, event.enabled);
+  assert.deepEqual(result.editor.legacy_preview, doc.editor.legacy_preview);
+  assert.deepEqual(result.metadata.migration, doc.metadata.migration);
+  assert.equal(result.metadata.created_at, doc.metadata.created_at);
 });

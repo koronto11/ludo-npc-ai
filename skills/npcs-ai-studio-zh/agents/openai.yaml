@@ -1,0 +1,4 @@
+interface:
+  display_name: "NPCs AI Studio 叙事协作（中文）"
+  short_description: "把故事转成关卡、人物与对白卡片，协同创作并提交导演台待审核草稿"
+  default_prompt: "使用 $npcs-ai-studio-zh 把我的故事整理成可在 NPCs AI Studio 导演台查看和试玩的新工程。"

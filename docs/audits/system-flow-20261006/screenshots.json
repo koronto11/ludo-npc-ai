@@ -1,0 +1,281 @@
+[
+  {
+    "file": "01-new-project-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "02-world-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "03-characters-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "04-level-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "05-role-1280.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "10-level-1280.jpg",
+    "size": [
+      1280,
+      720
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "11-role-1024.jpg",
+    "size": [
+      1024,
+      576
+    ],
+    "format": "JPEG",
+    "primary_evidence": false
+  },
+  {
+    "file": "12-role-760.jpg",
+    "size": [
+      760,
+      570
+    ],
+    "format": "JPEG",
+    "primary_evidence": false
+  },
+  {
+    "file": "13-role-390.jpg",
+    "size": [
+      390,
+      462
+    ],
+    "format": "JPEG",
+    "primary_evidence": false
+  },
+  {
+    "file": "14-blank-project-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "15-review-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "16-review-dialog-1024.jpg",
+    "size": [
+      1024,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "17-global-blocked-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "18-global-dialogue-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "19-record-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "20-export-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "21-model-1024.jpg",
+    "size": [
+      1024,
+      576
+    ],
+    "format": "JPEG",
+    "primary_evidence": false
+  },
+  {
+    "file": "22-role-state-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "23-role-760-clean.jpg",
+    "size": [
+      760,
+      900
+    ],
+    "format": "JPEG",
+    "primary_evidence": false
+  },
+  {
+    "file": "24-role-1920.jpg",
+    "size": [
+      1920,
+      1080
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "25-role-760-drawer-closed.jpg",
+    "size": [
+      760,
+      900
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "26-role-760-scrolled.jpg",
+    "size": [
+      760,
+      900
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "27-role-390.jpg",
+    "size": [
+      390,
+      844
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "28-role-english-1024.jpg",
+    "size": [
+      1024,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "29-relationship-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "30-rules-1024.jpg",
+    "size": [
+      1024,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "31-generation-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "32-record-reopened-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "33-templates-1366.jpg",
+    "size": [
+      1366,
+      768
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "34-world-short-1366x600.jpg",
+    "size": [
+      1366,
+      600
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  },
+  {
+    "file": "flow-overview.jpg",
+    "size": [
+      1440,
+      1312
+    ],
+    "format": "JPEG",
+    "primary_evidence": true
+  }
+]

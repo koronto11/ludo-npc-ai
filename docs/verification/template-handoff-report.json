@@ -1,0 +1,19 @@
+{
+  "project_revision": 4,
+  "characters": 7,
+  "dialogues": 3,
+  "downloads": [
+    {
+      "format": "markdown",
+      "bytes": 6628,
+      "exact_match": true
+    },
+    {
+      "format": "csv",
+      "bytes": 11845,
+      "exact_match": true
+    }
+  ],
+  "csv_rows": 21,
+  "csv_nodes": 7
+}

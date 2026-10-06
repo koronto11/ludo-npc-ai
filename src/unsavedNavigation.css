@@ -1,0 +1,14 @@
+.unsaved-navigation { flex:none; display:flex; align-items:center; gap:14px; padding:16px 20px; background:#493322; border-bottom:2px solid #d6aa7c; color:#f0d7b7; box-shadow:0 4px 16px #0003; z-index:30; }
+.unsaved-navigation:focus { outline:none; }
+.unsaved-navigation>svg { flex:none; color:#ecc28e; }
+.unsaved-navigation-copy { flex:1; min-width:0; }
+.unsaved-navigation-copy strong { font-size:14px; }
+.unsaved-navigation-copy p { font-size:11px; line-height:1.6; margin:5px 0 0; overflow-wrap:anywhere; }
+.unsaved-navigation-actions { display:flex; flex-wrap:wrap; gap:8px; flex:none; }
+.unsaved-navigation-actions button { min-height:36px; font-size:12px; }
+.unsaved-navigation .unsaved-discard { background:#38291f; border-color:#b38b65; color:#f0d0ae; }
+.unsaved-navigation-error { color:#ffd1bd; }
+.dialogue-discard-button { background:#443024; border:1px solid #c89572; color:#f0c5a4; min-height:34px; padding:8px 12px; display:inline-flex; align-items:center; gap:7px; border-radius:4px; font-size:11px; }
+.dialogue-discard-button:hover { background:#5b3b29; }
+@media(max-width:1000px) { .unsaved-navigation { flex-wrap:wrap; gap:10px; padding:12px 15px; }.unsaved-navigation-actions { width:100%; padding-left:34px; } }
+@media(max-width:760px) { .unsaved-navigation-actions { padding-left:0; }.unsaved-navigation-actions button { flex:1; padding-inline:8px; }.dialogue-footer { flex-wrap:wrap; }.dialogue-discard-button { margin-left:auto; } }

@@ -4,6 +4,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   build: {
     outDir: "dist/client",
+    // Keep local fonts compatible with the application's self-only CSP.
+    assetsInlineLimit: 0,
   },
   optimizeDeps: {
     include: ["react", "react-dom/client"],
@@ -11,7 +13,7 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     allowedHosts: ["terminal.local"],
-    proxy: { "/api": { target: "http://127.0.0.1:4174", changeOrigin: true } },
+    proxy: { "/api": { target: `http://127.0.0.1:${process.env.LUDO_API_PORT || '4174'}`, changeOrigin: true } },
     warmup: {
       clientFiles: ["./src/main.jsx"],
     },

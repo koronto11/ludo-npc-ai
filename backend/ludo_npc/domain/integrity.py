@@ -3,6 +3,7 @@
 from .models import (
     COLLECTIONS,
     ENTITY_MODELS,
+    AppearanceCondition,
     Character,
     ConditionGroup,
     ConditionNot,
@@ -24,6 +25,7 @@ from .models import (
     StoryText,
     UnlockText,
     VariableCondition,
+    dialogue_edge_ids,
     value_matches,
 )
 
@@ -98,6 +100,19 @@ def validate_project(project: Project):
             ref("fact", value.fact_id, path)
         elif isinstance(value, SceneCondition):
             ref("location", value.location_id, path)
+        elif isinstance(value, AppearanceCondition):
+            require(
+                not path.startswith("content.levels."),
+                path,
+                "出场条件不能引用其他出场，避免递归依赖",
+            )
+            bound_level = next((row for row in content.levels if row.id == value.level_id), None)
+            require(bound_level is not None, path, "跟随出场的关卡不存在，请先解除对白联动")
+            require(
+                any(row.id == value.appearance_id for row in bound_level.appearances),
+                path,
+                "跟随的人物出场不存在，请先解除对白联动",
+            )
         elif isinstance(value, LocationCondition):
             ref("character", value.character_id, path)
             ref("location", value.location_id, path)
@@ -134,6 +149,24 @@ def validate_project(project: Project):
         elif isinstance(row, Location):
             ref("location", row.parent_id, path)
         elif isinstance(row, (Event, Rule)):
+            if row.scope:
+                scoped_level = next(
+                    (level for level in content.levels if level.id == row.scope.level_id), None
+                )
+                require(scoped_level is not None, path, "剧情关联关卡不存在")
+                require(
+                    row.scope.track_id is None
+                    or any(track.id == row.scope.track_id for track in scoped_level.tracks),
+                    path,
+                    "剧情关联场景不存在，请先调整该场景的事件和规则",
+                )
+            if isinstance(row, Event) and row.anchor_id:
+                require(row.scope is not None, path, "绑定锚点的事件必须指定关卡")
+                anchor = next(
+                    (anchor for anchor in scoped_level.anchors if anchor.id == row.anchor_id), None
+                )
+                require(anchor is not None, path, "事件时间锚点不存在")
+                require(anchor.tick == row.scheduled_at, path, "事件时间与绑定锚点不一致")
             condition(row.condition, f"{path}.condition")
             effects(row.effects, f"{path}.effects")
             if isinstance(row, Event):
@@ -189,6 +222,58 @@ def validate_project(project: Project):
         entity_ref(relation.source, f"content.relations.{relation.id}.source")
         entity_ref(relation.target, f"content.relations.{relation.id}.target")
 
+    unique(content.levels, "content.levels")
+    for level in content.levels:
+        at = f"content.levels.{level.id}"
+        unique(level.anchors, f"{at}.anchors")
+        unique(level.tracks, f"{at}.tracks")
+        unique(level.appearances, f"{at}.appearances")
+        unique(level.npc_groups, f"{at}.npc_groups")
+        anchors = {anchor.id: anchor for anchor in level.anchors}
+        tracks = {track.id: track for track in level.tracks}
+        groups = {group.id: group for group in level.npc_groups}
+        for group in level.npc_groups:
+            require(group.track_id in tracks, f"{at}.npc_groups.{group.id}", "NPC 组所在场景不存在")
+        for track in level.tracks:
+            ref("location", track.location_id, f"{at}.tracks.{track.id}")
+        for appearance in level.appearances:
+            path = f"{at}.appearances.{appearance.id}"
+            ref("character", appearance.character_id, path)
+            if appearance.npc_group_id:
+                group = groups.get(appearance.npc_group_id)
+                require(group is not None, path, "NPC 组不存在")
+                if group:
+                    require(
+                        group.track_id == appearance.track_id,
+                        path,
+                        "NPC 组成员必须出现在组所在场景",
+                    )
+            require(
+                appearance.track_id is None or appearance.track_id in tracks, path, "场景轨道不存在"
+            )
+            for edge in ("start", "end"):
+                anchor_id = getattr(appearance, f"{edge}_anchor_id")
+                if anchor_id:
+                    require(anchor_id in anchors, path, "时间锚点不存在")
+                    require(
+                        anchors[anchor_id].tick == getattr(appearance, f"{edge}_tick"),
+                        path,
+                        "绑定锚点与出场时间不一致",
+                    )
+            condition(appearance.condition, f"{path}.condition")
+            require(
+                len(appearance.dialogue_ids) == len(set(appearance.dialogue_ids)),
+                path,
+                "出场对白重复",
+            )
+            for identifier in appearance.dialogue_ids:
+                dialogue = ref("dialogue", identifier, path)
+                require(
+                    dialogue.character_id in (None, appearance.character_id),
+                    path,
+                    "出场对白属于另一个人物",
+                )
+
     initial = content.initial_state
     variables(initial.variables, "content.initial_state.variables")
     for identifier, state in initial.characters.items():
@@ -203,6 +288,11 @@ def validate_project(project: Project):
     unique(content.simulation_cases, "content.simulation_cases")
     for case in content.simulation_cases:
         at = f"content.simulation_cases.{case.id}"
+        require(
+            case.level_id is None or any(level.id == case.level_id for level in content.levels),
+            at,
+            "预演关卡不存在",
+        )
         require(case.at_tick >= initial.tick, at, "预演日期早于初始状态")
         ref("location", case.location_id, at)
         variables(case.variable_overrides, at)
@@ -267,6 +357,93 @@ def validate_project(project: Project):
             entity_ref(target, f"content.generation_history.{record.id}")
 
     unique(project.editor.canvases, "editor.canvases")
+    unique(project.editor.play_records, "editor.play_records")
+    generation_keys = [
+        (row.source, row.record_id, row.item_index)
+        for row in project.editor.deleted_generation_entries
+    ]
+    require(
+        len(generation_keys) == len(set(generation_keys)),
+        "editor.deleted_generation_entries",
+        "生成记录删除标记不能重复",
+    )
+    for row in project.editor.deleted_generation_entries:
+        if row.source == "draft":
+            require(
+                any(d.id == row.record_id for d in content.drafts),
+                "editor.deleted_generation_entries",
+                "删除标记引用不存在的草稿",
+            )
+        else:
+            record = next((r for r in content.generation_history if r.id == row.record_id), None)
+            require(
+                record is not None, "editor.deleted_generation_entries", "删除标记引用不存在的任务"
+            )
+            if record is not None:
+                require(
+                    (
+                        bool(record.items)
+                        and row.item_index < len(record.items)
+                        and record.items[row.item_index].get("status") == "failed"
+                    )
+                    or (
+                        not record.items
+                        and row.item_index == 0
+                        and record.status in {"failed", "interrupted", "cancelled"}
+                    ),
+                    "editor.deleted_generation_entries",
+                    "删除标记引用的失败项不存在",
+                )
+    deleted_keys = [(row.source, row.record_id) for row in project.editor.deleted_play_records]
+    require(
+        len(deleted_keys) == len(set(deleted_keys)),
+        "editor.deleted_play_records",
+        "删除标记不能重复",
+    )
+    for character_id in project.editor.character_notes:
+        ref("character", character_id, "editor.character_notes")
+    for level_id, widths in project.editor.level_control_widths.items():
+        level = next((row for row in content.levels if row.id == level_id), None)
+        require(level is not None, "editor.level_control_widths", "宽度引用不存在的关卡")
+        if level is None:
+            continue
+        require(
+            set(widths.groups) <= {row.id for row in level.npc_groups},
+            "editor.level_control_widths.groups",
+            "宽度引用不存在的 NPC 组",
+        )
+        require(
+            set(widths.events)
+            <= {row.id for row in content.events if row.scope and row.scope.level_id == level_id},
+            "editor.level_control_widths.events",
+            "宽度引用不属于关卡的事件",
+        )
+    for level_id, order in project.editor.level_control_orders.items():
+        level = next((row for row in content.levels if row.id == level_id), None)
+        require(level is not None, "editor.level_control_orders", "排列引用不存在的关卡")
+        if level is None:
+            continue
+        allowed = (
+            {f"appearance:{row.id}" for row in level.appearances if not row.npc_group_id}
+            | {f"group:{row.id}" for row in level.npc_groups}
+            | {f"event:{row.id}" for row in content.events if row.scope and row.scope.level_id == level_id}
+        )
+        require(len(order) == len(set(order)) and set(order) <= allowed,
+                "editor.level_control_orders", "排列引用重复或不属于关卡的控件")
+    for dialogue_id, positions in project.editor.dialogue_layouts.items():
+        dialogue = ref("dialogue", dialogue_id, "editor.dialogue_layouts")
+        require(
+            set(positions) <= {node.id for node in dialogue.nodes},
+            "editor.dialogue_layouts",
+            "对白布局引用不存在的节点",
+        )
+    for dialogue_id, edges in project.editor.dialogue_edges.items():
+        dialogue = ref("dialogue", dialogue_id, "editor.dialogue_edges")
+        require(
+            set(edges) <= dialogue_edge_ids(dialogue),
+            "editor.dialogue_edges",
+            "连线布局引用不存在的对白分支",
+        )
     for canvas in project.editor.canvases:
         edges = [edge.relation_id for edge in canvas.edges]
         require(len(edges) == len(set(edges)), f"editor.canvases.{canvas.id}.edges", "关系布局重复")

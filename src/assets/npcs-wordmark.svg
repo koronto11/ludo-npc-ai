@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="21" viewBox="0 0 22 7" shape-rendering="crispEdges">
+  <title>NPCs</title>
+  <!-- Local pixel lettering: colored N/P/C, neutral lowercase s. -->
+  <path fill="#95bbc9" d="M0 0h1v1h-1z M4 0h1v1h-1z M0 1h1v1h-1z M1 1h1v1h-1z M4 1h1v1h-1z M0 2h1v1h-1z M1 2h1v1h-1z M4 2h1v1h-1z M0 3h1v1h-1z M2 3h1v1h-1z M4 3h1v1h-1z M0 4h1v1h-1z M3 4h1v1h-1z M4 4h1v1h-1z M0 5h1v1h-1z M3 5h1v1h-1z M4 5h1v1h-1z M0 6h1v1h-1z M4 6h1v1h-1z"/>
+  <path fill="#deb184" d="M6 0h1v1h-1z M7 0h1v1h-1z M8 0h1v1h-1z M9 0h1v1h-1z M6 1h1v1h-1z M10 1h1v1h-1z M6 2h1v1h-1z M10 2h1v1h-1z M6 3h1v1h-1z M7 3h1v1h-1z M8 3h1v1h-1z M9 3h1v1h-1z M6 4h1v1h-1z M6 5h1v1h-1z M6 6h1v1h-1z"/>
+  <path fill="#a2bea0" d="M13 0h1v1h-1z M14 0h1v1h-1z M15 0h1v1h-1z M16 0h1v1h-1z M12 1h1v1h-1z M12 2h1v1h-1z M12 3h1v1h-1z M12 4h1v1h-1z M12 5h1v1h-1z M13 6h1v1h-1z M14 6h1v1h-1z M15 6h1v1h-1z M16 6h1v1h-1z"/>
+  <path fill="#e3d9cb" d="M19 2h1v1h-1z M20 2h1v1h-1z M21 2h1v1h-1z M18 3h1v1h-1z M19 4h1v1h-1z M20 4h1v1h-1z M21 5h1v1h-1z M18 6h1v1h-1z M19 6h1v1h-1z M20 6h1v1h-1z"/>
+</svg>

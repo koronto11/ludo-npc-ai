@@ -1,0 +1,58 @@
+{
+  "checked_at_local": "2026-10-07T04:38:39",
+  "scope": "README presentation; no platform code changes or external provider requests",
+  "documents": [
+    {
+      "document": "README.md",
+      "references_checked": 44,
+      "broken_references": 0
+    },
+    {
+      "document": "README.zh-CN.md",
+      "references_checked": 45,
+      "broken_references": 0
+    },
+    {
+      "document": "docs/development-history.md",
+      "references_checked": 27,
+      "broken_references": 0
+    }
+  ],
+  "browser": {
+    "renderer": "Local GitHub-style approximation of actual Markdown; not published GitHub rendering",
+    "english_images_loaded": 8,
+    "chinese_images_loaded": 9,
+    "desktop_viewport_width": 1280,
+    "desktop_document_width": 1265,
+    "narrow_viewport_width": 390,
+    "narrow_document_width": 375,
+    "language_navigation": "passed",
+    "section_navigation": "passed",
+    "temporary_viewport_reset": true
+  },
+  "skill_example": {
+    "name": "Tide Town",
+    "compiled_and_validated_languages": [
+      "en",
+      "zh"
+    ],
+    "rehearsals": {
+      "injured": {
+        "complete": true,
+        "diagnostics": 0,
+        "node": "node-treatment"
+      },
+      "healthy": {
+        "complete": true,
+        "diagnostics": 0,
+        "node": "node-opening"
+      }
+    }
+  },
+  "boundaries": [
+    "No GIFs",
+    "No fabricated trending rank or CI badge",
+    "No public publication",
+    "Existing user project and model configuration were not edited"
+  ]
+}

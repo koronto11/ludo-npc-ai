@@ -28,6 +28,19 @@ from pydantic import (
 Id = Annotated[StrictStr, StringConstraints(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$")]
 Name = Annotated[StrictStr, StringConstraints(strip_whitespace=True, min_length=1, max_length=150)]
 Text = Annotated[StrictStr, StringConstraints(max_length=30_000)]
+QuickNote = Annotated[StrictStr, StringConstraints(max_length=3000)]
+ControlWidth = Annotated[StrictInt, Field(ge=180, le=1200)]
+LevelControlKey = Annotated[
+    StrictStr,
+    StringConstraints(pattern=r"^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"),
+]
+LevelControlOrder = Annotated[list[LevelControlKey], Field(max_length=30_000)]
+DialogueEdgeId = Annotated[
+    StrictStr,
+    StringConstraints(
+        pattern=r"^(entry:default|route:[0-9]+|option:[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$"
+    ),
+]
 Tick = Annotated[StrictInt, Field(ge=0)]
 Revision = Annotated[StrictInt, Field(ge=1)]
 Scalar = StrictBool | StrictInt | StrictFloat | StrictStr
@@ -63,6 +76,7 @@ class Named(Contract):
 
 class World(Contract):
     name: Name = "未命名世界"
+    # Legacy v1/v2 input retained for explicit transfer to a level, not global context.
     district: Text = ""
     premise: Text = ""
     rules: list[Text] = Field(default_factory=list, max_length=500)
@@ -165,6 +179,12 @@ class SceneCondition(Contract):
     location_id: Id
 
 
+class AppearanceCondition(Contract):
+    op: Literal["appearance"]
+    level_id: Id
+    appearance_id: Id
+
+
 class TimeCondition(Contract):
     op: Literal["time"]
     comparison: Comparison = "gte"
@@ -180,7 +200,8 @@ Condition = Annotated[
     | KnowledgeCondition
     | LocationCondition
     | TimeCondition
-    | SceneCondition,
+    | SceneCondition
+    | AppearanceCondition,
     Field(discriminator="op"),
 ]
 ConditionGroup.model_rebuild()
@@ -228,6 +249,11 @@ Effect = Annotated[
 ]
 
 
+class StoryScope(Contract):
+    level_id: Id
+    track_id: Id | None = None
+
+
 class Event(Named):
     kind: Literal["event"] = "event"
     scheduled_at: Tick
@@ -237,6 +263,8 @@ class Event(Named):
     effects: list[Effect] = Field(default_factory=list, max_length=500)
     affected_character_ids: list[Id] = Field(default_factory=list, max_length=1000)
     trigger_policy: Literal["once"] = "once"
+    scope: StoryScope | None = None
+    anchor_id: Id | None = None
 
 
 class Rule(Named):
@@ -244,6 +272,7 @@ class Rule(Named):
     enabled: StrictBool = True
     condition: Condition
     effects: list[Effect] = Field(min_length=1, max_length=500)
+    scope: StoryScope | None = None
 
 
 class DialogueOption(Contract):
@@ -319,6 +348,54 @@ class Relation(Contract):
     target: EntityRef
     label: Text
     category: Literal["social", "story", "dialogue"] = "social"
+    direction: Literal["forward", "both"] = "forward"
+    description: Text = ""
+
+
+class AxisNode(Named):
+    color: Literal["default", "copper", "red", "amber", "green", "blue", "purple"] = "default"
+    icon: Literal["none", "flag", "chat", "swords", "moon", "map", "star", "warning"] = "none"
+
+
+class TimeAnchor(AxisNode):
+    tick: Tick
+
+
+class SceneTrack(AxisNode):
+    location_id: Id
+
+
+class Appearance(Contract):
+    id: Id
+    character_id: Id
+    npc_group_id: Id | None = None
+    track_id: Id | None = None
+    start_tick: Tick
+    end_tick: Tick
+    start_anchor_id: Id | None = None
+    end_anchor_id: Id | None = None
+    condition: Condition = Field(default_factory=Always)
+    dialogue_ids: list[Id] = Field(default_factory=list, max_length=1000)
+    behavior: Text = ""
+
+    @model_validator(mode="after")
+    def ordered_range(self):
+        if self.end_tick < self.start_tick:
+            raise ValueError("出场结束时间不能早于开始时间")
+        return self
+
+
+class NpcGroup(Named):
+    track_id: Id
+
+
+class Level(Named):
+    region: Text = ""
+    axis_mode: Literal["time", "phase"] = "phase"
+    anchors: list[TimeAnchor] = Field(default_factory=list, max_length=1000)
+    tracks: list[SceneTrack] = Field(default_factory=list, max_length=1000)
+    appearances: list[Appearance] = Field(default_factory=list, max_length=20_000)
+    npc_groups: list[NpcGroup] = Field(default_factory=list, max_length=1000)
 
 
 class CharacterState(Contract):
@@ -362,6 +439,87 @@ class SimulationCase(Named):
     scene_changes: list[SceneRecord] = Field(default_factory=list, max_length=1000)
     seed: StrictInt = 0
     notes: Text = ""
+    level_id: Id | None = None
+
+
+class TrialVariable(Contract):
+    type: Literal["variable"]
+    variable_id: Id
+    value: Scalar
+
+
+class TrialChoice(Contract):
+    type: Literal["choice"]
+    option_id: Id
+
+
+TrialAction = Annotated[TrialVariable | TrialChoice, Field(discriminator="type")]
+
+
+class CardTrial(Contract):
+    dialogue_id: Id
+    start_node_id: Id | None = None
+    use_entry_routes: StrictBool = False
+    started: StrictBool = False
+    actions: list[TrialAction] = Field(default_factory=list, max_length=128)
+
+    @model_validator(mode="after")
+    def requires_start(self):
+        if self.actions and not self.started:
+            raise ValueError("开始试玩后才可记录玩家操作")
+        return self
+
+
+class PlayInputs(Contract):
+    at_tick: Tick
+    location_id: Id | None = None
+    level_id: Id | None = None
+    variable_overrides: dict[Id, Scalar] = Field(default_factory=dict)
+    choices: list[ChoiceRecord] = Field(default_factory=list, max_length=10_000)
+    scene_changes: list[SceneRecord] = Field(default_factory=list, max_length=1000)
+    card_trial: CardTrial | None = None
+
+
+class PlayFrame(Contract):
+    kind: Literal["npc", "player", "state", "end"]
+    label: Text = ""
+    text: Text = ""
+    node_id: Id | None = None
+    speaker: Text = ""
+    tick: Tick
+
+
+class PlayRecord(Contract):
+    id: Id
+    name: Name
+    created_at: AwareDatetime = Field(default_factory=utc_now)
+    content_revision: Revision
+    character_id: Id | None = None
+    dialogue_id: Id | None = None
+    character_name: Text = ""
+    dialogue_name: Text = ""
+    scene_name: Text = ""
+    initial_variables: dict[Id, Scalar] = Field(default_factory=dict)
+    variable_labels: dict[Id, Name] = Field(default_factory=dict)
+    inputs: PlayInputs
+    transcript: list[PlayFrame] = Field(default_factory=list, max_length=384)
+
+
+class SceneGenerationContext(Contract):
+    level_id: Id
+    track_id: Id
+    location_id: Id
+    appearance_id: Id | None = None
+    group_name: Name
+    mode: Literal["pool", "people"]
+    start_tick: Tick
+    end_tick: Tick
+
+    @model_validator(mode="after")
+    def ordered_range(self):
+        if self.end_tick < self.start_tick:
+            raise ValueError("场景生成结束时间不能早于开始时间")
+        return self
 
 
 class Draft(Named):
@@ -377,6 +535,7 @@ class Draft(Named):
     source_refs: list[EntityRef] = Field(default_factory=list, max_length=1000)
     model: Text = ""
     issues: list[Text] = Field(default_factory=list, max_length=500)
+    scene_context: SceneGenerationContext | None = None
 
 
 class GenerationRecord(Named):
@@ -420,6 +579,7 @@ class Content(Contract):
     dialogues: list[Dialogue] = Field(default_factory=list, max_length=10_000)
     texts: list[StoryText] = Field(default_factory=list, max_length=10_000)
     relations: list[Relation] = Field(default_factory=list, max_length=50_000)
+    levels: list[Level] = Field(default_factory=list, max_length=1000)
     initial_state: InitialState = Field(default_factory=InitialState)
     drafts: list[Draft] = Field(default_factory=list, max_length=10_000)
     simulation_cases: list[SimulationCase] = Field(default_factory=list, max_length=1000)
@@ -448,8 +608,65 @@ class Canvas(Named):
     edges: list[CanvasEdge] = Field(default_factory=list, max_length=50_000)
 
 
+class DialogueEdgeLayout(Contract):
+    color: Annotated[StrictStr, StringConstraints(pattern=r"^#[0-9a-fA-F]{6}$")] | None = None
+    points: list[Position] = Field(default_factory=list, max_length=8)
+
+
+def dialogue_edge_ids(dialogue):
+    """Editor-only IDs; option prefixes keep IDs separate from entrance routes."""
+    nodes = dialogue.nodes if hasattr(dialogue, "nodes") else dialogue["nodes"]
+    routes = (
+        dialogue.entry_routes if hasattr(dialogue, "entry_routes") else dialogue["entry_routes"]
+    )
+    return {
+        "entry:default",
+        *(f"route:{i}" for i in range(len(routes))),
+        *(
+            f"option:{option.id if hasattr(option, 'id') else option['id']}"
+            for node in nodes
+            for option in (node.options if hasattr(node, "options") else node["options"])
+        ),
+    }
+
+
+class DeletedPlayRecord(Contract):
+    source: Literal["play_record", "simulation_case"]
+    record_id: Id
+    deleted_at: AwareDatetime = Field(default_factory=utc_now)
+
+
+class DeletedGenerationEntry(Contract):
+    source: Literal["draft", "failed_item"]
+    record_id: Id
+    item_index: Annotated[StrictInt, Field(ge=0, le=9)] | None = None
+    deleted_at: AwareDatetime = Field(default_factory=utc_now)
+
+    @model_validator(mode="after")
+    def valid_source(self):
+        if (self.source == "failed_item") != (self.item_index is not None):
+            raise ValueError("失败项需要索引，草稿不能附带索引")
+        return self
+
+
+class LevelControlWidths(Contract):
+    groups: dict[Id, Annotated[StrictInt, Field(ge=280, le=1200)]] = Field(default_factory=dict)
+    events: dict[Id, ControlWidth] = Field(default_factory=dict)
+
+
 class Editor(Contract):
+    level_control_orders: dict[Id, LevelControlOrder] = Field(default_factory=dict)
+    level_control_widths: dict[Id, LevelControlWidths] = Field(default_factory=dict)
     canvases: list[Canvas] = Field(default_factory=list, max_length=100)
+    dialogue_layouts: dict[Id, dict[Id, Position]] = Field(default_factory=dict)
+    dialogue_edges: dict[Id, dict[DialogueEdgeId, DialogueEdgeLayout]] = Field(default_factory=dict)
+    character_notes: dict[Id, QuickNote] = Field(default_factory=dict, max_length=10_000)
+    # Historical labels/text survive later author edits and removed references.
+    play_records: list[PlayRecord] = Field(default_factory=list, max_length=1000)
+    deleted_play_records: list[DeletedPlayRecord] = Field(default_factory=list, max_length=2000)
+    deleted_generation_entries: list[DeletedGenerationEntry] = Field(
+        default_factory=list, max_length=110_000
+    )
     legacy_preview: LegacyPreviewSnapshot | None = None
 
 

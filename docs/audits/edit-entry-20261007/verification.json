@@ -1,0 +1,22 @@
+{
+  "frontend_tests": 128,
+  "build": "passed",
+  "original_project_unchanged": true,
+  "saved_region": "验收区域",
+  "faction_policies": [
+    "禁止明火离开篝火",
+    "夜间巡逻"
+  ],
+  "actual_viewports": [
+    [
+      500,
+      844
+    ],
+    [
+      1024,
+      600
+    ]
+  ],
+  "embedded_fonts": 0,
+  "provider_requests": 0
+}

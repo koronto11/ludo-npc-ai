@@ -2,6 +2,8 @@
 
 import asyncio
 import json
+from ipaddress import ip_address
+from urllib.parse import urlsplit
 
 import httpx2 as httpx
 
@@ -15,6 +17,19 @@ class ProviderError(Exception):
 def completion_url(endpoint):
     value = endpoint.rstrip("/")
     return value if value.endswith("/chat/completions") else value + "/chat/completions"
+
+
+def use_environment(profile):
+    """Remote calls inherit proxy/NO_PROXY settings; local endpoints stay direct."""
+    if profile.mode == "local":
+        return False
+    host = (urlsplit(profile.endpoint).hostname or "").lower().rstrip(".")
+    if host == "localhost":
+        return False
+    try:
+        return not ip_address(host).is_loopback
+    except ValueError:
+        return True
 
 
 def token_usage(value):
@@ -48,7 +63,7 @@ class ChatProvider:
                     asyncio.timeout(profile.timeout_seconds),
                     httpx.AsyncClient(
                         timeout=profile.timeout_seconds,
-                        trust_env=False,
+                        trust_env=use_environment(profile),
                         follow_redirects=False,
                         transport=self.transport,
                     ) as client,

@@ -1,0 +1,51 @@
+{
+  "feature": "Chinese/English console and synchronized full help",
+  "checks": {
+    "backend_tests": 302,
+    "frontend_tests": 114,
+    "sites_tests": 4,
+    "packaged_http_checks": 33,
+    "ruff": "passed",
+    "contracts": "current",
+    "skills": "synchronized",
+    "help_guides": "synchronized"
+  },
+  "browser": {
+    "tested_workspaces": [
+      "levels",
+      "characters",
+      "role workbench",
+      "relationships",
+      "draft review"
+    ],
+    "models": "English configuration inspected without provider call",
+    "help_chapters": 16,
+    "help_search": "English keyword, no results and clearing verified",
+    "chapter_language_switch": "preserved selection",
+    "unsaved_dialogue_language_switch": "retained exact temporary text, navigation guard remained active",
+    "saved_test_project": "unchanged SHA256 and revision 1",
+    "main_project": "unchanged SHA256 and revision 232",
+    "desktop_help_width": 1080,
+    "short_window": {
+      "width": 720,
+      "height": 620,
+      "horizontal_overflow": false,
+      "article_scrollable": true,
+      "footer_visible": true
+    },
+    "fresh_main_console_errors": []
+  },
+  "release": {
+    "archive": "D:\\Code\\ludo-npc-ai\\release\\npcs-ai-studio-i18n\\NPCsAIStudio-bilingual-preview-20261006.zip",
+    "size": 39258101,
+    "sha256": "b66a891f4746be45eb7692c5f79da9c32c64441cabc6c64d14a9532a13bf40fa",
+    "clean_machine_acceptance": false,
+    "remote_model_requests": 0
+  },
+  "boundaries": [
+    "No remote model request or translation service was called.",
+    "Native OS dialogs and unknown service/provider details may retain their original language.",
+    "Local Windows executable checks are not clean-machine acceptance.",
+    "No Git push or publication performed."
+  ]
+}

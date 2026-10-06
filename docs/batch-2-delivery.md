@@ -18,7 +18,7 @@
 
 ## 存储位置与行为
 
-默认建议工程目录为当前用户 `Documents/Ludo Projects`，用户可以选择其他本地目录。Windows 配置默认在 `%LOCALAPPDATA%/Ludo NPC AI/settings.json`，记录目录、最近 20 个工程和不含凭据的连接档案。
+默认建议工程目录为当前用户 `Documents/NPCs AI Studio Projects`，用户可以选择其他本地目录。Windows 配置默认在 `%LOCALAPPDATA%/NPCs AI Studio/settings.json`，记录目录、最近 20 个工程和不含凭据的连接档案。
 
 ```text
 用户选定的目录/

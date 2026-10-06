@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import tempfile
+from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 from threading import RLock
@@ -17,6 +18,7 @@ from .application.commands import ProjectConflict
 from .application.projects import MemoryProjects
 from .domain.models import Contract, Id, Name, Project, Text, utc_now
 from .migration import dump_project, load_document
+from .project_paths import directory_name, reserved
 
 
 class FileProblem(Exception):
@@ -71,6 +73,7 @@ class ProviderProfile(ConnectionProfile):
 
 
 class Settings(Contract):
+    ui_language: Literal["zh", "en"] = "zh"
     project_folder: str = ""
     recent: list[str] = []
     last_project: str | None = None
@@ -89,16 +92,29 @@ class ModelDefaults(Contract):
     )
 
 
+class WorkspacePreferences(Contract):
+    ui_language: Literal["zh", "en"]
+
+
 def profile_signature(profile):
     return profile.model_dump(exclude={"id", "name", "enabled", "archived", "last_test"})
 
 
 def default_data_dir():
-    return Path(os.environ.get("LOCALAPPDATA", str(Path.home() / ".local/share"))) / "Ludo NPC AI"
+    root = Path(os.environ.get("LOCALAPPDATA", str(Path.home() / ".local/share")))
+    current = root / "NPCs AI Studio"
+    legacy = root / "Ludo NPC AI"
+    # Keep existing settings/templates together; a rename must not hide user data.
+    if not (current / "settings.json").exists() and legacy.is_dir():
+        return legacy
+    return current
 
 
 def default_project_dir():
-    return Path.home() / "Documents" / "Ludo Projects"
+    root = Path.home() / "Documents"
+    current = root / "NPCs AI Studio Projects"
+    legacy = root / "Ludo Projects"
+    return legacy if not current.exists() and legacy.is_dir() else current
 
 
 def read_json(path):
@@ -203,20 +219,45 @@ class LocalProjects(MemoryProjects):
                 self.settings_warning = "应用配置无法读取；原文件已保留，暂不更新最近项目"
         self._bindings = {}
         self._disk_lock = RLock()
+        # Import here to keep atomic file primitives independent of credentials.
+        from .credentials import Credentials
+
+        self.credentials = Credentials(self.data_dir)
 
     def workspace(self):
         return {
             **self.settings.model_dump(),
             "data_dir": str(self.data_dir),
             "warning": self.settings_warning,
+            "credentials": self.credentials.status(self.settings.model_profiles),
         }
+
+    def set_preferences(self, body):
+        with self._lock:
+            if self.settings_warning:
+                raise FileProblem("应用配置存在读取或保存警告，请先处理本地配置文件")
+            candidate = self.settings.model_copy(update={"ui_language": body.ui_language})
+            atomic_bytes(self.settings_path, candidate.model_dump_json(indent=2).encode("utf-8"))
+            self.settings = candidate
+            return {"ui_language": self.settings.ui_language}
+
+    def provider_key(self, profile, supplied=""):
+        return supplied or self.credentials.get(profile)
+
+    def credential_profile(self, identifier):
+        profile = next((p for p in self.settings.model_profiles if p.id == identifier), None)
+        if profile is None or profile.archived:
+            raise FileProblem("模型配置不存在或已移除")
+        return profile
 
     def _remember(self, path):
         self.settings.last_project = str(path)
         self.settings.recent = [str(path)] + [p for p in self.settings.recent if p != str(path)][
             :19
         ]
-        self.settings.project_folder = str(path.parent)
+        self.settings.project_folder = str(
+            path.parent.parent if self.managed_root(path) else path.parent
+        )
         self._persist_settings()
 
     def _persist_settings(self):
@@ -321,12 +362,125 @@ class LocalProjects(MemoryProjects):
     def status(self, identifier):
         project = self.get(identifier)
         binding = self._bindings.get(identifier)
+        root = self.managed_root(binding["path"], identifier) if binding else None
         return {
             "path": str(binding["path"]) if binding else None,
             "saved_revision": binding["revision"] if binding else None,
             "dirty": binding is None or project.revision != binding["revision"],
             "warning": self.settings_warning,
+            "folder": str(binding["path"].parent) if binding else None,
+            "managed_folder": root is not None,
+            "exports_dir": str(root / "exports") if root else None,
         }
+
+    def managed_root(self, path, identifier=None):
+        marker = path.parent / ".npcs-project.json"
+        if marker.is_file():
+            try:
+                info = read_json(marker)
+                if (
+                    info.get("format") == "npcs-project-folder-v1"
+                    and info.get("file") == path.name
+                    and (identifier is None or info.get("project_id") == identifier)
+                ):
+                    return path.parent
+            except (OSError, ValueError, AttributeError, FileProblem):
+                pass
+        return None
+
+    def folder_child(self, root, relative):
+        destination = (root / relative).resolve()
+        if not destination.is_relative_to(root):
+            raise FileProblem("项目子目录指向了文件夹外部，请检查目录链接", "folder_conflict")
+        return destination
+
+    def backup_paths(self, path, identifier):
+        root = self.managed_root(path, identifier)
+        if root:
+            return (
+                self.folder_child(root, "backups/previous.ludo.json"),
+                self.folder_child(root, "backups/history"),
+            )
+        return Path(str(path) + ".bak"), Path(str(path) + ".history")
+
+    def save_in_folder(self, identifier, expected_revision, parent, filename, *, copy_history=False):
+        """Create an exclusive folder and rebind only after every copied backup is valid."""
+        with self._lock, self._disk_lock:
+            project = self.get(identifier)
+            if project.revision != expected_revision:
+                raise ProjectConflict(project.revision)
+            if (
+                Path(filename).name != filename
+                or any(c in filename for c in '\\/:*?"<>|')
+                or reserved(filename)
+                or not filename.lower().endswith(".ludo.json")
+            ):
+                raise FileProblem("请填写有效的 .ludo.json 项目文件名")
+            source = self._bindings.get(identifier)
+            points = []
+            if copy_history and source:
+                if fingerprint(source["path"]) != source["fingerprint"]:
+                    raise FileProblem("原项目文件已被外部修改，请重新打开后整理", "disk_conflict")
+                previous, history = self.backup_paths(source["path"], identifier)
+                for point in [previous, *sorted(history.glob("*.json"))[-20:]]:
+                    try:
+                        if point.is_file() and load_document(read_json(point)).project_id == identifier:
+                            points.append(("previous" if point == previous else point.name, point.read_bytes()))
+                    except (ValueError, FileProblem):
+                        continue
+            base = Path(parent).expanduser().resolve()
+            base.mkdir(parents=True, exist_ok=True)
+            root = base / directory_name(project.name)
+            try:
+                root.mkdir()  # Existing directories, including empty ones, are never reused.
+            except FileExistsError as exc:
+                raise FileProblem("同名项目文件夹已存在，请更改项目名称或保存位置", "file_exists") from exc
+            try:
+                (root / "backups/history").mkdir(parents=True)
+                (root / "exports").mkdir()
+                atomic_bytes(root / ".npcs-project.json", json.dumps({
+                    "format": "npcs-project-folder-v1", "project_id": identifier, "file": filename
+                }, ensure_ascii=False, indent=2).encode("utf-8"), exclusive=True)
+                for point_id, payload in points:
+                    target = root / "backups" / (
+                        "previous.ludo.json" if point_id == "previous" else f"history/{point_id}"
+                    )
+                    atomic_bytes(target, payload, exclusive=True)
+                return self.save(identifier, expected_revision, str(root / filename))
+            except Exception:
+                # Preserve partial files for recovery; remove only truly empty
+                # directories created above, never recursively delete user data.
+                for directory in [root / "exports", root / "backups/history", root / "backups", root]:
+                    try:
+                        directory.rmdir()
+                    except OSError:
+                        pass
+                raise
+
+    def save_export(self, identifier, result):
+        with self._lock, self._disk_lock:
+            project = self.get(identifier)
+            if project.revision != result["revision"]:
+                raise ProjectConflict(project.revision)
+            binding = self._bindings.get(identifier)
+            root = self.managed_root(binding["path"], identifier) if binding else None
+            if root is None:
+                raise FileProblem("先将工程整理为项目文件夹，再保存到 exports")
+            folder = self.folder_child(root, "exports")
+            folder.mkdir(exist_ok=True)
+            filename = result["filename"]
+            if Path(filename).name != filename:
+                raise FileProblem("导出文件名无效")
+            if reserved(filename):
+                filename = "导出-" + filename
+            with closing(FileLock(folder / ".exports")):
+                path = folder / filename
+                count = 1
+                while path.exists():
+                    count += 1
+                    path = folder / f"{Path(filename).stem}-{count}{Path(filename).suffix}"
+                atomic_bytes(path, result["text"].encode("utf-8"), exclusive=True)
+            return {"path": str(path), "filename": path.name, "revision": project.revision}
 
     def envelope(self, project):
         return {"project": project.model_dump(mode="json"), "file": self.status(project.project_id)}
@@ -349,6 +503,7 @@ class LocalProjects(MemoryProjects):
                                 "外部文件的项目 ID 已改变，请打开为另一个项目", "disk_conflict"
                             )
                         self._projects[identifier] = project
+                        self.clear_history(identifier)
                         binding.update(revision=project.revision, fingerprint=fingerprint(path))
                         return self.envelope(project)
                     raise FileProblem(
@@ -367,6 +522,7 @@ class LocalProjects(MemoryProjects):
                     if old_binding:
                         old_binding["lock"].close()
                     self._projects[project.project_id] = project
+                    self.clear_history(project.project_id)
                 else:
                     self.add(project)
                 if source.get("schema_version") == 2:
@@ -423,8 +579,8 @@ class LocalProjects(MemoryProjects):
                 if previous is not None:
                     # Validate recovery data before publishing a backup of it.
                     load_document(read_json(path))
-                    atomic_bytes(Path(str(path) + ".bak"), previous)
-                    history = Path(str(path) + ".history")
+                    backup, history = self.backup_paths(path, identifier)
+                    atomic_bytes(backup, previous)
                     atomic_bytes(
                         history / f"{utc_now().strftime('%Y%m%dT%H%M%S%f')}-{uuid4().hex[:8]}.json",
                         previous,
@@ -440,7 +596,7 @@ class LocalProjects(MemoryProjects):
                 }
                 lock = None
                 self._remember(path)
-                history = Path(str(path) + ".history")
+                _, history = self.backup_paths(path, identifier)
                 if history.exists():
                     for obsolete in sorted(history.glob("*.json"))[:-20]:
                         try:
@@ -458,9 +614,8 @@ class LocalProjects(MemoryProjects):
         if not binding:
             return []
         path = binding["path"]
-        candidates = [Path(str(path) + ".bak")] + sorted(
-            Path(str(path) + ".history").glob("*.json"), reverse=True
-        )
+        previous, history = self.backup_paths(path, identifier)
+        candidates = [previous] + sorted(history.glob("*.json"), reverse=True)
         result = []
         for candidate in candidates:
             if candidate.is_file():
@@ -470,7 +625,7 @@ class LocalProjects(MemoryProjects):
                         continue
                     result.append(
                         {
-                            "id": "previous" if candidate.name.endswith(".bak") else candidate.name,
+                            "id": "previous" if candidate == previous else candidate.name,
                             "name": project.name,
                             "revision": project.revision,
                             "updated_at": project.metadata.updated_at.isoformat(),
@@ -490,11 +645,8 @@ class LocalProjects(MemoryProjects):
             if not binding or point_id not in points:
                 raise FileProblem("恢复点不存在或已失效")
             path = binding["path"]
-            source = (
-                Path(str(path) + ".bak")
-                if point_id == "previous"
-                else Path(str(path) + ".history") / point_id
-            )
+            previous, history = self.backup_paths(path, identifier)
+            source = previous if point_id == "previous" else history / point_id
             restored = load_document(read_json(source)).model_dump()
             restored.update(
                 revision=current.revision + 1,
@@ -505,7 +657,9 @@ class LocalProjects(MemoryProjects):
             candidate = Project.model_validate(restored)
             self._projects[identifier] = candidate
             try:
-                return self.save(identifier, candidate.revision)
+                result = self.save(identifier, candidate.revision)
+                self.clear_history(identifier)
+                return result
             except Exception:
                 self._projects[identifier] = current
                 raise
@@ -518,6 +672,7 @@ class LocalProjects(MemoryProjects):
             if binding:
                 binding["lock"].close()
             self._projects.pop(identifier)
+            self._histories.pop(identifier, None)
 
     def shutdown(self):
         for binding in self._bindings.values():

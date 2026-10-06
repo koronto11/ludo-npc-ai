@@ -1,0 +1,12 @@
+.character-importance{display:inline-flex;align-items:center;flex:none;max-width:100%;width:max-content;border:1px solid;border-radius:3px;padding:2px 6px;font-size:10px;font-weight:500;line-height:1.5;white-space:nowrap;vertical-align:middle}
+.importance-key{--importance-text:#e4be93;color:var(--importance-text);border-color:#866444;background:#443427}
+.importance-supporting{--importance-text:#c8b9d0;color:var(--importance-text);border-color:#68566f;background:#352c39}
+.importance-background{--importance-text:#bdc9b4;color:var(--importance-text);border-color:#58634c;background:#2d3529}
+.cast-card-main .character-importance{margin:7px auto 0}
+.cast-detail-title .character-importance{margin-top:6px}
+.node-identity .character-importance{margin-top:5px}
+.story-person-identity .character-importance{margin-top:6px}
+.story-active-dialogue header .character-importance{margin-left:8px}
+.story-frame-heading{flex-wrap:wrap}
+.profile-field>select{width:100%}
+.role-workspace .planning-heading h1 .character-importance{font-size:10px;margin-left:8px;color:var(--importance-text)}

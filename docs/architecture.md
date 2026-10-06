@@ -1,51 +1,60 @@
-# 原型数据与架构
+# NPCs AI Studio 数据与架构
 
-> 本文保留阶段 0 / v1 原型的历史架构。当前导演台使用 Python v2 API、本地 JSON 文件及通用预演执行器；参见 [第三批交付](batch-3-delivery.md) 与 [后端说明](../backend/README.md)。`src/project.js` 的旧示例规则仅保留作迁移回归，不计算当前页面的预演。
-
-`src/project.js` 定义 v1 项目、示例剧情规则、格式校验和 JSON 序列化。`App.jsx` 持有唯一项目状态；画布、属性面板、时间线与对话预演读取同一份状态。
+当前主线使用 React 工作台、Python v2 本地 API、用户选择的 JSON 工程文件和通用确定性预演执行器。Python 项目是权威数据源，前端投影用于展示和提交类型化编辑命令，不再运行早期 JavaScript 示例模拟器。
 
 ```mermaid
 flowchart LR
-    W[世界规则与角色设定] --> P[项目状态]
-    E[事件日期与证据条件] --> P
-    C[对话选择与发生日期] --> P
-    P --> S[人物状态和可用对话]
-    P --> G[关系画布]
-    S --> T[时间线与情境预演]
-    P --> B[本地保存与 JSON]
-    M[会话 API Key] --> F[未来模型适配器]
+    UI[React 创作工作台] --> CMD[类型化命令 / 修订检查]
+    SKILL[中英文 Skill / 本地桥接] --> CMD
+    CMD --> P[Python v2 项目与引用校验]
+    P --> STORE[本地 JSON / 备份 / 恢复]
+    P --> SIM[通用剧情与对话预演]
+    SIM --> UI
+    P --> GEN[限量生成任务 / 用户配置的模型]
+    GEN --> DRAFT[候选草稿 / 字段审核]
+    DRAFT --> CMD
+    SETTINGS[本地模型配置 / 独立凭据存储] --> GEN
 ```
 
-## v1 字段
+## 作者数据与运行状态
 
-| 字段 | 当前用途 |
+项目层级是 **项目 → 共享世界底稿 → 关卡 → 场景**。角色档案在整个项目中共享；关卡出场引用角色，并独立保存场景、时间、条件、行为说明和对白绑定。NPC 组由出场记录组成，不复制人物档案。区域与局部剧情属于关卡，世界底稿保存全局前提、规则和写作风格。
+
+| 数据 | 职责 |
 | --- | --- |
-| `version`, `name` | 格式版本与项目名 |
-| `world` | 世界名称、区域、前提、规则、风格、版本 |
-| `entities` | 五种对象：character / location / faction / event / dialogue；稳定 ID、设定与画布位置 |
-| `relations` | 来源、目标、连接点、名称和事件/对话分类 |
-| `dialogue`, `notes` | 内置剧情阶段文本与诊所信件 |
-| `scenario` | 日期、证据、信任、承诺、知识及选择日期 |
-| `modelProfile` | 接口地址与模型名；没有 API Key |
-| `tasks` | 内容生成/写入记录 |
+| `content` | 世界、角色、地点、阵营、事实、变量、事件、规则、对话、文本、关卡，以及草稿与生成历史 |
+| `content.initial_state` | 作者设置的预演起点，不是当前模拟结果 |
+| 预演输入与结果 | Python 重放场景、选择和变量操作；结果不会自动改写人物设定 |
+| `editor` | 画布、连线、卡片宽度与顺序、作者快捷备注、独立试玩记录及恢复标记 |
+| 本地应用配置 | 模型档案、默认用途、模板与最近项目，独立于故事项目 |
+| 独立凭据文件 | Windows 当前用户 DPAPI 加密密钥；不进入项目、导出、模板或 Skill |
 
-可导入的完整示例见 `examples/lighthouse.ludo.json`。该格式暂时要求 `eve`、`relic`、`retaliation` 及对应类型存在，以确保内置情境可运行。
+稳定 ID 和类型化引用保证改名后连接仍有效。`revision` 控制事务冲突，`content_revision` 与 `layout_revision` 区分内容和布局变化；生成审核另使用作者内容摘要。纯外观布局和历史记录更新不应使候选文本失效。
 
-## 状态约束
+## 当前模块
 
-- 一次项目编辑立即进入所有视图，500 ms 后自动保存。关闭页面前尝试刷新保存。
-- 事件发生需满足启用、日期及证据条件。人物状态和对话从当前情境派生。
-- 伊芙状态轨道按逐日派生的状态合并，避免轨道与实际状态判断使用两套逻辑。
-- 保护和来源选择带发生日期；向前回溯不会提前得到后续承诺/知识。信任数值暂为当前分支快照，尚无完整事件溯源。
-- 重复保护或说明来源不会反复叠加信任。
-- 导入只重建允许的字段，检查版本、引用、对象类型、日期、坐标和容量；未知字段、密钥丢弃。
-- 图上的关系表示创作关联。目前只有内置剧情规则执行状态变化，新增连线不会自动变成运行规则。
+| 位置 | 职责 |
+| --- | --- |
+| `src/App.jsx`、`src/useLocalProject.js` | 工作台导航、本地项目接入与编辑状态 |
+| `src/projectBridge.js` | Python 项目到界面投影，以及保留未编辑字段的命令转换 |
+| `src/LevelCanvas.jsx`、`src/RoleWorkbench.jsx` | 关卡出场编排与角色对白编辑 |
+| `src/LevelStory.jsx`、`src/RolePreview.jsx`、`src/Rehearsal.jsx` | 故事流、卡片试玩和运行时间线 |
+| `backend/ludo_npc/domain/` | 数据契约与跨对象引用校验 |
+| `backend/ludo_npc/application/` | 原子命令、项目会话与有界撤销/重做 |
+| `backend/ludo_npc/storage.py`、`project_paths.py` | 用户项目目录、原子保存、文件锁、备份与恢复 |
+| `backend/ludo_npc/simulation.py` | 场景存在性、条件、效果、事件/规则、重放与执行边界 |
+| `backend/ludo_npc/generation.py`、`drafts.py` | 并发任务、取消/重试、候选校验、字段保护与采用 |
+| `backend/ludo_npc/providers.py`、`credentials.py` | 模型请求与本地凭据隔离 |
+| `backend/ludo_npc/skill_bridge.py`、`skills/` | 故事编译、作者上下文与待审核提案；中英文分发资源 |
+| `backend/ludo_npc/templates.py`、`exports.py` | 独立模板库和可预览的作者交付导出 |
+| `schemas/` | 由 Python 契约生成的项目、命令与 API Schema |
 
-## 扩展顺序
+## 兼容边界与主线检查
 
-1. 将示例规则提取成通用条件、效果、知识事实、分支与时间事件；用版本迁移替代必须保留示例 ID。
-2. 为任意角色编排可编辑的对话节点、选项、条件与效果，并提供可追溯的模拟日志。
-3. 接入第三方模型适配器，携带经过裁剪的世界事实与人物上下文，返回可校验的结构化草稿；由用户审核后提交。
-4. 加入任务取消、错误重试、批量生成、差异审阅与版本恢复，再考虑游戏文本格式导出。
+旧 v1 工程通过明确迁移导入，浏览器旧存档通过 `src/legacyProjectStorage.js` 中的原存储键读取。迁移保留警告与旧预演输入，不猜测旧记录缺失的历史文本。`docs/examples/lighthouse.ludo.json` 是迁移测试夹具；它的固定故事 ID 不属于当前通用运行规则。旧 JavaScript 模拟器、旧时间线组件和对应测试已从主线移除。
 
-视觉原型、项目规则与数据接口的职责保持清晰，避免让模型直接重写整个项目。
+`ludo_npc` 包名、`ludo-npc-project` 协议、既有浏览器存储键与 `.ludo.json` 扩展名保留兼容。中英文 Skill 的桥接和 Schema 副本由打包脚本同步，是分发所需资源。
+
+`npm test` 自动发现并运行所有 `tests/*.test.mjs`；后端执行 `backend/tests`。发布前还需构建、Schema 漂移检查、帮助文本生成检查和 Skill 资源检查。真实模型效果与干净 Windows 机器验收分别进行，本地协议测试不代替这些验收。
+
+详细 API 与开发命令见 [后端说明](../backend/README.md)，工作流与执行约束见 [产品计划](product-and-development-plan.md)、[第三批交付](batch-3-delivery.md)、[Skill 协同指南](skill-collaboration-guide.md)。早期交付记录作为历史证据保留，不作为当前架构入口。

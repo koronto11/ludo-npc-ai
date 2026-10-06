@@ -515,7 +515,9 @@
         "affected_character_ids": [
           "eve"
         ],
-        "trigger_policy": "once"
+        "trigger_policy": "once",
+        "scope": null,
+        "anchor_id": null
       },
       {
         "id": "retaliation",
@@ -568,7 +570,9 @@
           "lorn",
           "mela"
         ],
-        "trigger_policy": "once"
+        "trigger_policy": "once",
+        "scope": null,
+        "anchor_id": null
       }
     ],
     "rules": [],
@@ -938,7 +942,9 @@
           "id": "eve"
         },
         "label": "相互信任",
-        "category": "social"
+        "category": "social",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "eve-clinic",
@@ -951,7 +957,9 @@
           "id": "clinic"
         },
         "label": "常驻",
-        "category": "social"
+        "category": "social",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "mela-eve",
@@ -964,7 +972,9 @@
           "id": "eve"
         },
         "label": "提供情报",
-        "category": "social"
+        "category": "social",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "guild-kas",
@@ -977,7 +987,9 @@
           "id": "kas"
         },
         "label": "雇佣",
-        "category": "social"
+        "category": "social",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "relic-eve",
@@ -990,7 +1002,9 @@
           "id": "eve"
         },
         "label": "认知更新",
-        "category": "story"
+        "category": "story",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "retaliation-eve",
@@ -1003,7 +1017,9 @@
           "id": "eve"
         },
         "label": "被迫离开",
-        "category": "story"
+        "category": "story",
+        "direction": "forward",
+        "description": ""
       },
       {
         "id": "retaliation-lighthouse",
@@ -1016,9 +1032,12 @@
           "id": "lighthouse"
         },
         "label": "解锁",
-        "category": "dialogue"
+        "category": "dialogue",
+        "direction": "forward",
+        "description": ""
       }
     ],
+    "levels": [],
     "initial_state": {
       "tick": 1,
       "variables": {},
@@ -1124,7 +1143,8 @@
         "choices": [],
         "scene_changes": [],
         "seed": 0,
-        "notes": "旧预演快照完整保留于 metadata.migration；选择历史缺失时需人工核对。"
+        "notes": "旧预演快照完整保留于 metadata.migration；选择历史缺失时需人工核对。",
+        "level_id": null
       }
     ],
     "generation_history": [
@@ -1153,6 +1173,8 @@
     ]
   },
   "editor": {
+    "level_control_orders": {},
+    "level_control_widths": {},
     "canvases": [
       {
         "id": "canvas-main",
@@ -1351,6 +1373,12 @@
         "edges": []
       }
     ],
+    "dialogue_layouts": {},
+    "dialogue_edges": {},
+    "character_notes": {},
+    "play_records": [],
+    "deleted_play_records": [],
+    "deleted_generation_entries": [],
     "legacy_preview": null
   },
   "metadata": {

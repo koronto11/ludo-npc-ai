@@ -1,0 +1,19 @@
+{
+  "at_tick": 6,
+  "location_id": "loc-clinic",
+  "level_id": "level-tide-town",
+  "variable_overrides": {
+    "var-injured": true
+  },
+  "card_trial": {
+    "dialogue_id": "dialogue-clinic",
+    "started": true,
+    "use_entry_routes": false,
+    "actions": [
+      {
+        "type": "choice",
+        "option_id": "option-treatment"
+      }
+    ]
+  }
+}

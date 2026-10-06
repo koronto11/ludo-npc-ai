@@ -66,7 +66,7 @@ def boot():
     with (AREA / "server.log").open("a", encoding="utf-8") as stream:
         proc = subprocess.Popen(
             [
-                str(ROOT / "release/LudoNPC/LudoNPC.exe"),
+                str(ROOT / "release/npcs-ai-studio-preview/NPCsAIStudio/NPCsAIStudio.exe"),
                 "--port",
                 "4176",
                 "--data-dir",

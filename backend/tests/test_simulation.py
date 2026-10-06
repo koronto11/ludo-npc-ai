@@ -323,3 +323,31 @@ def test_unlock_does_not_bypass_scene_or_knowledge_conditions():
     assert not preview(p, 2, location_id="gate")["texts"][0]["available"]
     assert not preview(p, 3, location_id="outpost")["texts"][0]["available"]
     assert preview(p, 3, location_id="gate")["texts"][0]["available"]
+
+
+def test_entry_preview_explains_conditional_start_without_changing_execution():
+    def edit(c):
+        next(n for n in c["dialogues"][0]["nodes"] if n["id"] == "arrival-answer")["condition"] = {"op": "always"}
+        c["dialogues"][0]["entry_routes"] = [{
+            "node_id": "arrival-answer",
+            "condition": {"op": "variable", "variable_id": "supplies", "comparison": "eq", "value": 2},
+        }]
+
+    p = changed(outpost_project(), edit)
+    result = preview(p, 0)
+    entry = result["dialogues"][0]["entry_preview"]
+    assert entry["node_id"] == "arrival-answer"
+    assert entry["route_index"] == 0
+    assert entry["reason"]["passed"]
+    assert not result["dialogues"][0]["started"]
+    assert not any(row["kind"] == "node" for row in result["log"])
+    assert preview(p, 0, variable_overrides={"supplies": 1})["dialogues"][0]["entry_preview"]["route_index"] is None
+    started = preview(p, 0, choices=[{"tick": 0, "dialogue_id": "gate-conversation", "action": "start"}])
+    assert started["dialogues"][0]["node_id"] == entry["node_id"]
+
+
+def test_default_entry_preview_obeys_node_conditions():
+    p = changed(outpost_project(), lambda c: c["dialogues"][0]["nodes"][0].update(condition={"op": "variable", "variable_id": "supplies", "comparison": "eq", "value": 99}))
+    result = preview(p, 0)
+    assert result["dialogues"][0]["entry_preview"]["node_id"] is None
+    assert not result["dialogues"][0]["entry_preview"]["reason"]["passed"]

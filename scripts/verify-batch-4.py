@@ -23,7 +23,7 @@ REPORT = {
 }
 KEY = "fixture-session-key-not-a-real-credential"
 COMMAND = [
-    str(ROOT / "release/LudoNPC/LudoNPC.exe"),
+    str(ROOT / "release/npcs-ai-studio-preview/NPCsAIStudio/NPCsAIStudio.exe"),
     "--port",
     "4176",
     "--data-dir",

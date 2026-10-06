@@ -1,0 +1,14 @@
+{
+  "transport": "real_http_packaged_executable",
+  "external_model_called": false,
+  "checks": [
+    "session",
+    "campfire_template",
+    "conditional_entry",
+    "scene_scope",
+    "dialogue_layout",
+    "save",
+    "close",
+    "reopen"
+  ]
+}

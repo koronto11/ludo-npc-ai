@@ -16,6 +16,9 @@ backend/.test-tmp/
 .local-projects/
 .local-build/
 release/
+credentials.json
+credentials.json.lock
 *.ludo.json.lock
 *.ludo.json.bak
 *.ludo.json.history/
+.local-archive/

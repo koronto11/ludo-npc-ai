@@ -1,6 +1,6 @@
-# Python 本地工程服务 · 第四批
+# NPCs AI Studio · Python 本地工程服务
 
-已实现 v2 数据契约、引用校验、原型迁移、原子编辑命令、React 接入、本地 JSON 保存与恢复、通用确定性剧情执行器，以及 chat/completions 模型适配、限量任务与字段审核。生成仅针对已绑定本地文件的工程；先保存独立草稿，审核后更新正式内容。协议传输由本机测试服务验证，尚无真实服务商质量验收。
+当前主线包括 v2 数据契约、引用校验、旧工程迁移、原子编辑与撤销、本地工程目录/保存/恢复、通用剧情与卡片预演、模型配置与 Windows 加密凭据、限量生成与字段审核，以及中英文 Skill 协同、模板和导出。生成仅针对已绑定本地文件的工程；先保存独立草稿，审核后更新正式内容。自动化协议夹具不代表真实服务商的输出质量验收。架构总览见 [当前架构](../docs/architecture.md)，批次交付文档保留阶段性的证据与约束。
 
 ## 开发环境
 
@@ -12,7 +12,7 @@ backend/.venv/Scripts/python.exe -m pip install -e './backend[dev,package]' -c b
 backend/.venv/Scripts/python.exe -m ludo_npc --data-dir .local-data --project-dir .local-projects
 ```
 
-默认监听 `http://127.0.0.1:4174`，只运行一个进程；`--port` 可以更改端口。构建前端后，`/` 提供完整导演台，`/docs` 提供本地开发说明，`/api/session` 建立本机会话。开发时 React 使用 4173 并代理 `/api` 到 4174。上述目录参数是仓库内的开发专用覆盖；省略参数时，工程默认建议目录为用户 `Documents/Ludo Projects`，配置为 `%LOCALAPPDATA%/Ludo NPC AI`。用户可以更改工程目录。
+默认监听 `http://127.0.0.1:4174`，只运行一个进程；`--port` 可以更改端口。构建前端后，`/` 提供完整导演台，`/docs` 提供本地开发说明，`/api/session` 建立本机会话。开发时 React 使用 4173 并代理 `/api` 到 4174。上述目录参数是仓库内的开发专用覆盖；省略参数时，工程默认建议目录为用户 `Documents/NPCs AI Studio Projects`，配置为 `%LOCALAPPDATA%/NPCs AI Studio`。用户可以更改工程目录。
 
 ## 目录与职责
 
@@ -61,7 +61,10 @@ v2 导出包含 `format: ludo-npc-project` 和整数 `schema_version: 2`。所�
 | GET `/api/v2/schema` | 项目 JSON Schema |
 | GET `/openapi.json` | API 请求和响应契约 |
 | GET `/api/workspace` | 本地目录、最近工程、无密钥连接档案 |
-| POST `/api/files/new` | 指定名称、目录、文件名与模板，立即创建工程文件 |
+| POST `/api/files/new` | 指定名称、目录、文件名与模板；UI 传 `layout: folder` 创建同名目录，旧调用默认 `file` 保持单文件兼容 |
+| POST `/api/v2/projects/{id}/organize` | 修订检查后，将已保存工程及有效备份复制到独立目录，继续编辑新文件，保留原文件 |
+| POST `/api/v2/projects/{id}/open-folder` | 打开当前已保存工程所属的本地文件夹 |
+| POST `/api/v2/projects/{id}/export-file` | 将当前修订的设计稿、对白表或工程备份写入项目 exports，不覆盖既有文件 |
 | POST `/api/files/open` | 按完整路径校验、打开；旧版另存为迁移 |
 | POST `/api/files/dialog` | 按 folder/open/save 弹出系统选择器；取消返回空路径 |
 | POST `/api/v2/projects/{id}/save` | 修订号检查、首次保存或另存为；拒绝覆盖已有副本目标 |
@@ -70,7 +73,7 @@ v2 导出包含 `format: ludo-npc-project` 和整数 `schema_version: 2`。所�
 | POST `/api/v2/projects/{id}/close` | 释放锁；未保存需明确放弃 |
 | PUT `/api/workspace/model-profile` | 只保存接口地址与模型名，拒绝凭据字段 |
 | PUT `/api/workspace/model-profiles` | 保存/选择多个无密钥连接档案，最多 30 个 |
-| POST `/api/models/test` | 使用本次请求密钥发出一次小文本请求，不保存密钥 |
+| POST `/api/models/test` | 优先使用本次请求密钥，否则读取同接口的本机加密密钥；测试本身不保存密钥 |
 | POST `/api/v2/projects/{id}/generate` | 带修订号、唯一 request_id、档案 ID、字段范围与可选预演输入启动任务；202 |
 | GET `/api/v2/projects/{id}/generation` | 当前任务状态、逐项结果、失败项与实际返回用量 |
 | GET `/api/v2/projects/{id}/generation/events` | SSE 状态事件与心跳；不推送凭据或未经校验的模型片段 |
@@ -79,6 +82,7 @@ v2 导出包含 `format: ludo-npc-project` 和整数 `schema_version: 2`。所�
 | POST `/api/v2/projects` | `{name, world}` 创建空白项目，返回 201 |
 | GET `/api/v2/projects` | 列出内存中的项目摘要 |
 | GET `/api/v2/projects/{id}` | 读取完整项目，缺失返回 404 |
+| GET `/api/v2/projects/{id}/author-context` | 同一快照的完整工程与作者内容摘要，供外部 AI 生成可审核提案；要求本机会话 |
 | POST `/api/v2/projects/validate` | `{document: {...}}` 校验 v2 或迁移校验 v1，不暂存 |
 | POST `/api/v2/projects/import` | `{document: {...}}` 导入到内存，重复项目 ID 返回 409 |
 | POST `/api/v2/projects/{id}/commands` | `{expected_revision, commands: [...]}` 原子修改 |
@@ -150,8 +154,16 @@ backend/.venv/Scripts/python.exe scripts/verify-batch-4.py
 
 ## 多模型配置管理补充
 
+远程模型请求继承运行进程的 `HTTP_PROXY`、`HTTPS_PROXY`、`ALL_PROXY` 与 `NO_PROXY` 环境设置；本机模式和 localhost/回环 IP 始终直连。仍保留 HTTPS 证书校验、不跟随重定向及原有超时/重试规则。程序不会启动或修改代理软件，也不将代理参数写入项目；只有 Windows 系统代理而没有环境变量时，不保证自动读取系统代理。
+
+服务重启后，前端遇到本地 `401 session_required` 会在原页面请求 `/api/session`，并仅重试被会话守卫拒绝的请求一次。并发请求共享恢复动作，不刷新页面、清空密钥或重复提交已执行任务。模型服务的认证失败及网络错误不走这条重试路径。兼容仍打开的旧版页面：受保护的 GET 首次仍返回 401，但设置新的 HttpOnly、SameSite=strict 本机会话 cookie，随后请求可继续；跨源请求在此前拒绝，不能恢复 cookie。
+
 `GET /api/workspace` 返回配置列表、`active_profile_id` 和 `purpose_defaults`。`PUT /api/workspace/model-profiles` 按 ID 保存参数，保留已有通用默认；首个已启用配置成为默认。`PUT /api/workspace/model-defaults` 设置通用默认及 character/story/dialogue/text 用途默认，仅允许选择已启用配置。
 
 `DELETE /api/workspace/model-profiles/{id}` 进行可恢复移除；`POST /api/workspace/model-profiles/{id}/restore` 恢复并启用。停用/移除会清理匹配的用途分配，通用默认选择列表中首个仍启用配置；全部停用时默认为空。配置（含已移除项）最多 30 套。最近测试记录由后端写入，连接参数改变即清空，过期测试不写入另一套参数。
 
 生成请求仍明确提交 `profile_id`，新增可选 `purpose`；实际调用与密钥以明确选用的配置为准。新任务持久化 `profile_name`、`model_endpoint`、`purpose` 和已有模型 ID；旧 v2 记录默认缺省，向后兼容。测试用 `scripts/verify-model-configs.py` 验证已构建 exe 的多配置、密钥隔离、默认分配和重启；仅使用本机协议夹具。
+
+## 本机加密模型密钥
+
+Windows 通过当前用户 DPAPI 保存独立的 `credentials.json`；`settings.json` 与工程文件保持无密钥。Workspace 只返回 `credentials.supported/saved/warning`。PUT `/api/workspace/model-profiles/{id}/credential` 接收 `{api_key, endpoint}`；DELETE 同路径清除。两者受本机会话与同源保护。生成/测试的 `api_key` 留空时使用本机同目的地密钥，非空时仅覆盖该请求。接口/mode/protocol 不匹配则拒绝自动读取，复制配置不复制密钥。文件原子替换、跨进程文件锁、失败保留原文件；其他平台不做明文降级。详见 [交付说明](../docs/local-credentials-delivery.md)。

@@ -13,7 +13,7 @@ AREA = ROOT / ".local-build/batch-3-package-verification"
 AREA.mkdir(parents=True, exist_ok=True)
 REPORT = {"transport": "real_http_packaged_executable", "checks": []}
 COMMAND = [
-    str(ROOT / "release/LudoNPC/LudoNPC.exe"),
+    str(ROOT / "release/npcs-ai-studio-preview/NPCsAIStudio/NPCsAIStudio.exe"),
     "--port",
     "4176",
     "--data-dir",

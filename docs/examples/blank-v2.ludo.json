@@ -25,6 +25,7 @@
     "dialogues": [],
     "texts": [],
     "relations": [],
+    "levels": [],
     "initial_state": {
       "tick": 0,
       "variables": {},
@@ -35,7 +36,15 @@
     "generation_history": []
   },
   "editor": {
+    "level_control_orders": {},
+    "level_control_widths": {},
     "canvases": [],
+    "dialogue_layouts": {},
+    "dialogue_edges": {},
+    "character_notes": {},
+    "play_records": [],
+    "deleted_play_records": [],
+    "deleted_generation_entries": [],
     "legacy_preview": null
   },
   "metadata": {

@@ -1,0 +1,4 @@
+interface:
+  display_name: "NPCs AI Studio Narrative Collaboration"
+  short_description: "Build NPCs AI Studio projects and reviewable story drafts"
+  default_prompt: "Use $npcs-ai-studio-en to turn my story into a new NPCs AI Studio project I can inspect and rehearse."

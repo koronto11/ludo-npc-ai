@@ -125,7 +125,9 @@
         "affected_character_ids": [
           "keeper"
         ],
-        "trigger_policy": "once"
+        "trigger_policy": "once",
+        "scope": null,
+        "anchor_id": null
       }
     ],
     "rules": [
@@ -148,7 +150,8 @@
             "character_id": "keeper",
             "behavior": "限制访客进入储水间"
           }
-        ]
+        ],
+        "scope": null
       }
     ],
     "dialogues": [
@@ -240,9 +243,12 @@
           "id": "caravan-guild"
         },
         "label": "等待商会补给",
-        "category": "social"
+        "category": "social",
+        "direction": "forward",
+        "description": ""
       }
     ],
+    "levels": [],
     "initial_state": {
       "tick": 0,
       "variables": {},
@@ -281,7 +287,8 @@
           }
         ],
         "model": "",
-        "issues": []
+        "issues": [],
+        "scene_context": null
       }
     ],
     "simulation_cases": [
@@ -296,7 +303,8 @@
         "choices": [],
         "scene_changes": [],
         "seed": 0,
-        "notes": ""
+        "notes": "",
+        "level_id": null
       },
       {
         "id": "case-after",
@@ -318,12 +326,15 @@
         ],
         "scene_changes": [],
         "seed": 0,
-        "notes": ""
+        "notes": "",
+        "level_id": null
       }
     ],
     "generation_history": []
   },
   "editor": {
+    "level_control_orders": {},
+    "level_control_widths": {},
     "canvases": [
       {
         "id": "outpost-board",
@@ -357,6 +368,12 @@
         "edges": []
       }
     ],
+    "dialogue_layouts": {},
+    "dialogue_edges": {},
+    "character_notes": {},
+    "play_records": [],
+    "deleted_play_records": [],
+    "deleted_generation_entries": [],
     "legacy_preview": null
   },
   "metadata": {

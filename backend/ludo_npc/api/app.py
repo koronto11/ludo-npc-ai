@@ -26,9 +26,11 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .. import __version__
 from ..application.commands import CommandBatch, CommandError, ProjectConflict
 from ..application.projects import ProjectNotFound
-from ..dialogs import choose_path
+from ..camp_sample import campfire_project
+from ..dialogs import choose_path, open_folder
 from ..domain.models import Contract, Name, Project, Revision, World, utc_now
-from ..drafts import ReviewError, review
+from ..drafts import ReviewError, author_hash, review
+from ..exports import ExportRequest, build_export
 from ..generation import GenerateInput, GenerationEngine
 from ..migration import DocumentError, dump_project, load_document
 from ..providers import ChatProvider, ProviderError, connection_test
@@ -40,7 +42,16 @@ from ..storage import (
     LocalProjects,
     ModelDefaults,
     ProviderProfile,
+    WorkspacePreferences,
     read_json,
+)
+from ..templates import (
+    ApplyTemplate,
+    ArchiveTemplate,
+    CaptureTemplate,
+    TemplateLibrary,
+    apply_commands,
+    capture,
 )
 
 
@@ -63,11 +74,23 @@ class SaveInput(Contract):
     path: str | None = None
 
 
+class HistoryInput(Contract):
+    expected_revision: Revision
+    direction: Literal["undo", "redo"]
+
+
 class DiskProjectInput(Contract):
     name: Name
     folder: str
     filename: Name
-    template: Literal["blank", "lighthouse", "outpost"] = "blank"
+    template: Literal["blank", "lighthouse", "outpost", "campfire"] = "blank"
+    # Legacy callers explicitly name a file; the UI now always chooses folder.
+    layout: Literal["file", "folder"] = "file"
+
+
+class OrganizeInput(Contract):
+    expected_revision: Revision
+    folder: str
 
 
 class RestoreInput(Contract):
@@ -88,18 +111,25 @@ class ConnectionTestInput(Contract):
     api_key: SecretStr = SecretStr("")
 
 
+class CredentialInput(Contract):
+    api_key: SecretStr
+    endpoint: str
+
+
 def resource_dir():
     return Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[3]))
 
 
 def create_app(
-    data_dir=None, project_dir=None, dialog_provider=choose_path, frontend_dir=None, provider=None
+    data_dir=None, project_dir=None, dialog_provider=choose_path, frontend_dir=None, provider=None,
+    folder_opener=open_folder,
 ) -> FastAPI:
     store = LocalProjects(
-        data_dir or os.environ.get("LUDO_DATA_DIR"),
-        project_dir or os.environ.get("LUDO_PROJECT_DIR"),
+        data_dir or os.environ.get("NPCS_AI_STUDIO_DATA_DIR") or os.environ.get("LUDO_DATA_DIR"),
+        project_dir or os.environ.get("NPCS_AI_STUDIO_PROJECT_DIR") or os.environ.get("LUDO_PROJECT_DIR"),
     )
     adapter = provider or ChatProvider()
+    templates = TemplateLibrary(store.data_dir)
     engine = GenerationEngine(store, adapter)
     frontend = (
         Path(frontend_dir)
@@ -114,7 +144,7 @@ def create_app(
         store.shutdown()
 
     app = FastAPI(
-        title="Ludo NPC AI · 本地数据服务",
+        title="NPCs AI Studio · 本地数据服务",
         version=__version__,
         docs_url=None,
         redoc_url=None,
@@ -164,10 +194,19 @@ def create_app(
                 request.cookies.get("ludo_session", "").encode("utf-8"), session.encode("utf-8")
             )
         ):
-            return JSONResponse(
-                {"error": "session_required", "message": "请先访问 /start 建立本机会话"},
+            response = JSONResponse(
+                {
+                    "error": "session_required",
+                    "message": "本机会话已失效，请重试当前操作以恢复连接",
+                },
                 status_code=401,
             )
+            # Older open pages can bootstrap/renew through a same-origin read.
+            # This request remains rejected; no protected handler is executed.
+            if request.method == "GET":
+                response.set_cookie("ludo_session", session, httponly=True, samesite="strict")
+                response.headers["Cache-Control"] = "no-store"
+            return response
         response = await call_next(request)
         response.headers["Cache-Control"] = "no-store"
         response.headers["X-Content-Type-Options"] = "nosniff"
@@ -273,8 +312,8 @@ def create_app(
     @app.get("/docs", response_class=HTMLResponse, include_in_schema=False)
     def docs():
         return """<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Ludo · 本地数据服务</title><style>body{background:#222321;color:#ded8cf;font:16px/1.8 system-ui;margin:6vh auto;padding:32px;max-width:920px}a{color:#d9a67d}h1{font-size:32px}small{color:#b3aa9d}code{color:#d9a67d}table{width:100%;border-collapse:collapse}td,th{text-align:left;border-bottom:1px solid #45453e;padding:10px}aside{background:#33332d;border-left:3px solid #c69872;padding:16px}h2{font-size:21px;margin-top:32px}</style>
-<small>LUDO NPC AI / DEVELOPMENT / BATCH 04</small><h1>本地项目数据服务</h1>
+<title>NPCs AI Studio · 本地数据服务</title><style>body{background:#222321;color:#ded8cf;font:16px/1.8 system-ui;margin:6vh auto;padding:32px;max-width:920px}a{color:#d9a67d}h1{font-size:32px}small{color:#b3aa9d}code{color:#d9a67d}table{width:100%;border-collapse:collapse}td,th{text-align:left;border-bottom:1px solid #45453e;padding:10px}aside{background:#33332d;border-left:3px solid #c69872;padding:16px}h2{font-size:21px;margin-top:32px}</style>
+<small>NPCs AI Studio / DEVELOPMENT / BATCH 04</small><h1>本地项目数据服务</h1>
 <p>Python 数据底座已就绪：世界、角色、关系、条件、事件、对话分支、文本、草稿和画布使用统一的 v2 项目契约。</p>
 <aside>本地文件与导演台已接入。选择工程文件后自动保存，重启可重新打开；未指定文件的草稿仍只在当前会话。备份与历史保存在工程旁，偏好在本机应用目录。</aside>
 <p><a href="/">打开导演台</a> · <a href="/api/health">服务状态</a> · <a href="/api/v2/schema">项目 JSON Schema</a> · <a href="/openapi.json">OpenAPI 契约</a> · <a href="/start">建立本机会话</a></p>
@@ -319,6 +358,7 @@ def create_app(
             "story_execution": True,
             "model_generation": True,
             "draft_review": True,
+            "author_context": True,
         }
 
     @app.get("/api/v2/schema")
@@ -329,6 +369,45 @@ def create_app(
     def workspace():
         return store.workspace()
 
+    @app.put("/api/workspace/preferences")
+    def workspace_preferences(body: WorkspacePreferences):
+        return store.set_preferences(body)
+
+    @app.get("/api/templates")
+    def template_library():
+        return templates.snapshot()
+
+    @app.post("/api/templates")
+    def capture_template(body: CaptureTemplate):
+        project = store.get(body.project_id)
+        if project.revision != body.expected_revision:
+            raise ProjectConflict(project.revision)
+        item = capture(project, body.source_kind, body.source_id, body.name)
+        return templates.change(body.library_revision, item=item)
+
+    @app.post("/api/templates/{template_id}/archive")
+    def archive_template(template_id: str, body: ArchiveTemplate):
+        return templates.change(
+            body.library_revision, identifier=template_id, archived=body.archived
+        )
+
+    @app.post("/api/v2/projects/{project_id}/templates/apply")
+    def instantiate_template(project_id: str, body: ApplyTemplate):
+        commands, identifier = apply_commands(
+            store.get(project_id), templates.get(body.template_id), body
+        )
+        project = store.apply(project_id, commands)
+        return {"project": project, "created_id": identifier}
+
+    @app.post("/api/v2/projects/{project_id}/handoff")
+    def handoff(project_id: str, body: ExportRequest):
+        return build_export(store.get(project_id), body)
+
+    @app.post("/api/v2/projects/{project_id}/export-file")
+    def export_file(project_id: str, body: ExportRequest):
+        with store._lock:
+            return store.save_export(project_id, build_export(store.get(project_id), body))
+
     @app.put("/api/workspace/model-profile")
     def profile(body: ConnectionProfile):
         return store.set_profile(body)
@@ -336,6 +415,23 @@ def create_app(
     @app.put("/api/workspace/model-profiles")
     def provider_profile(body: ProviderProfile):
         return store.set_provider(body)
+
+    @app.put("/api/workspace/model-profiles/{profile_id}/credential")
+    def save_credential(profile_id: str, body: CredentialInput):
+        with store._lock:
+            profile = store.credential_profile(profile_id)
+            if profile.endpoint != body.endpoint:
+                raise FileProblem("接口地址已修改，请重新打开配置后保存密钥")
+            store.credentials.set(profile, body.api_key.get_secret_value())
+            return store.workspace()
+
+    @app.delete("/api/workspace/model-profiles/{profile_id}/credential")
+    def clear_credential(profile_id: str):
+        with store._lock:
+            if not any(p.id == profile_id for p in store.settings.model_profiles):
+                raise FileProblem("模型配置不存在")
+            store.credentials.clear(profile_id)
+            return store.workspace()
 
     @app.put("/api/workspace/model-defaults")
     def model_defaults(body: ModelDefaults):
@@ -351,9 +447,14 @@ def create_app(
 
     @app.post("/api/models/test")
     async def test_connection(body: ConnectionTestInput):
-        key = body.api_key.get_secret_value()
+        # Resolve only against the actual submitted destination; unsaved new
+        # endpoints cannot receive a credential bound to the old endpoint.
+        key = store.provider_key(body.profile, body.api_key.get_secret_value())
+        stored = next((p for p in store.settings.model_profiles if p.id == body.profile.id), None)
+        if not body.api_key.get_secret_value() and (not stored or stored.archived):
+            key = ""
         if body.profile.mode == "remote" and not key:
-            raise ReviewError("远程连接测试需要本次会话密钥")
+            raise ReviewError("请填写 API Key 或保存此配置的本机密钥")
         try:
             result = await connection_test(adapter, body.profile, key)
         except ProviderError as exc:
@@ -431,7 +532,9 @@ def create_app(
             c in body.filename for c in '\\/:*?"<>|'
         ):
             raise FileProblem("文件名不能包含路径或系统保留字符")
-        if body.template == "outpost":
+        if body.template == "campfire":
+            project = campfire_project()
+        elif body.template == "outpost":
             project = outpost_project()
         elif body.template == "lighthouse":
             path = resource_dir() / (
@@ -447,6 +550,8 @@ def create_app(
         project.metadata.created_at = project.metadata.updated_at = utc_now()
         store.add(project)
         try:
+            if body.layout == "folder":
+                return store.save_in_folder(project.project_id, project.revision, body.folder, body.filename)
             return store.save(
                 project.project_id, project.revision, str(Path(body.folder) / body.filename)
             )
@@ -457,6 +562,26 @@ def create_app(
     @app.get("/api/v2/projects/{project_id}/file")
     def file_status(project_id: str):
         return store.status(project_id)
+
+    @app.post("/api/v2/projects/{project_id}/organize")
+    def organize_project(project_id: str, body: OrganizeInput):
+        if engine.has_active(project_id):
+            raise FileProblem("请先取消或等待该工程的生成任务", "task_running")
+        status = store.status(project_id)
+        if not status["path"]:
+            raise FileProblem("请先保存本地工程，再整理项目文件夹")
+        return store.save_in_folder(
+            project_id, body.expected_revision, body.folder,
+            Path(status["path"]).name, copy_history=True,
+        )
+
+    @app.post("/api/v2/projects/{project_id}/open-folder")
+    def show_project_folder(project_id: str):
+        folder = store.status(project_id)["folder"]
+        if not folder:
+            raise FileProblem("请先保存本地工程")
+        folder_opener(folder)
+        return {"folder": folder, "opened": True}
 
     @app.post("/api/v2/projects/{project_id}/save")
     def save_file(project_id: str, body: SaveInput):
@@ -506,9 +631,28 @@ def create_app(
     def get(project_id: str):
         return store.get(project_id)
 
+    @app.get("/api/v2/projects/{project_id}/author-context")
+    def author_context(project_id: str):
+        project = store.get(project_id)
+        return {
+            "format": "ludo-author-context",
+            "version": 1,
+            "project": project.model_dump(mode="json"),
+            "author_hash": author_hash(project),
+        }
+
     @app.post("/api/v2/projects/{project_id}/commands", response_model=Project)
     def commands(project_id: str, body: CommandBatch):
         return store.apply(project_id, body)
+
+    @app.get("/api/v2/projects/{project_id}/edit-history")
+    def edit_history(project_id: str):
+        return store.edit_history(project_id)
+
+    @app.post("/api/v2/projects/{project_id}/edit-history")
+    def undo_edit(project_id: str, body: HistoryInput):
+        store.undo_edit(project_id, body.expected_revision, body.direction)
+        return store.envelope(store.get(project_id))
 
     @app.get("/api/v2/projects/{project_id}/export")
     def export(project_id: str):

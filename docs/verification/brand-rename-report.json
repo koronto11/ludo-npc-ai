@@ -1,0 +1,44 @@
+{
+  "brand": "NPCs AI Studio",
+  "date": "2026-10-06",
+  "python_tests": 282,
+  "frontend_tests": 107,
+  "skill_frontmatter_validation": [
+    "zh",
+    "en"
+  ],
+  "source_skill_http_checks": 30,
+  "windows_skill_http_checks": 30,
+  "windows_file_http_checks": 16,
+  "browser_widths": [
+    1280,
+    1024,
+    768
+  ],
+  "preview_project_unchanged": {
+    "path": "D:\\Code\\ludo-npc-ai\\.local-projects\\planning-preview\\camp-plot-preview.ludo.json",
+    "sha256": "195e4f42b25ec30435a256d73a43758e89317be1994ca356eafbf4d2aa43de7c"
+  },
+  "packages": [
+    {
+      "path": "D:\\Code\\ludo-npc-ai\\release\\npcs-ai-studio-preview\\NPCsAIStudio-preview-20261006.zip",
+      "bytes": 39162398,
+      "sha256": "2cc8c40416ee4030b92e4bda6fe217d9f5f33b981977b653502fedc6a9c8d93f",
+      "crc_verified": true
+    },
+    {
+      "path": "D:\\Code\\ludo-npc-ai\\release\\skills\\npcs-ai-studio-zh-1.0.0.zip",
+      "bytes": 27966,
+      "sha256": "ee483cca0a35c587f2aa271cc233a6012ea8ebd203a4c8624abd9b00bca08b8d",
+      "crc_verified": true
+    },
+    {
+      "path": "D:\\Code\\ludo-npc-ai\\release\\skills\\npcs-ai-studio-en-1.0.0.zip",
+      "bytes": 26601,
+      "sha256": "6658635f1bfc8f86409534f0c8bf279cf98546c5251f9d1ec083aa2496eb1c0e",
+      "crc_verified": true
+    }
+  ],
+  "real_model_calls": false,
+  "clean_windows_acceptance": false
+}

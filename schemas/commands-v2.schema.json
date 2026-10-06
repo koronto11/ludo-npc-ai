@@ -13,6 +13,184 @@
       "title": "Always",
       "type": "object"
     },
+    "Appearance": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "npc_group_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Npc Group Id"
+        },
+        "track_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Track Id"
+        },
+        "start_tick": {
+          "minimum": 0,
+          "title": "Start Tick",
+          "type": "integer"
+        },
+        "end_tick": {
+          "minimum": 0,
+          "title": "End Tick",
+          "type": "integer"
+        },
+        "start_anchor_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Anchor Id"
+        },
+        "end_anchor_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Anchor Id"
+        },
+        "condition": {
+          "discriminator": {
+            "mapping": {
+              "all": "#/$defs/ConditionGroup",
+              "always": "#/$defs/Always",
+              "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
+              "at_location": "#/$defs/LocationCondition",
+              "event_occurred": "#/$defs/EventCondition",
+              "knows": "#/$defs/KnowledgeCondition",
+              "not": "#/$defs/ConditionNot",
+              "scene": "#/$defs/SceneCondition",
+              "time": "#/$defs/TimeCondition",
+              "variable": "#/$defs/VariableCondition"
+            },
+            "propertyName": "op"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Always"
+            },
+            {
+              "$ref": "#/$defs/ConditionGroup"
+            },
+            {
+              "$ref": "#/$defs/ConditionNot"
+            },
+            {
+              "$ref": "#/$defs/VariableCondition"
+            },
+            {
+              "$ref": "#/$defs/EventCondition"
+            },
+            {
+              "$ref": "#/$defs/KnowledgeCondition"
+            },
+            {
+              "$ref": "#/$defs/LocationCondition"
+            },
+            {
+              "$ref": "#/$defs/TimeCondition"
+            },
+            {
+              "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
+            }
+          ],
+          "title": "Condition"
+        },
+        "dialogue_ids": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Dialogue Ids",
+          "type": "array"
+        },
+        "behavior": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Behavior",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "character_id",
+        "start_tick",
+        "end_tick"
+      ],
+      "title": "Appearance",
+      "type": "object"
+    },
+    "AppearanceCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "appearance",
+          "title": "Op",
+          "type": "string"
+        },
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        },
+        "appearance_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Appearance Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "level_id",
+        "appearance_id"
+      ],
+      "title": "AppearanceCondition",
+      "type": "object"
+    },
     "Canvas": {
       "additionalProperties": false,
       "properties": {
@@ -124,6 +302,66 @@
         "position"
       ],
       "title": "CanvasNode",
+      "type": "object"
+    },
+    "CardTrial": {
+      "additionalProperties": false,
+      "properties": {
+        "dialogue_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Dialogue Id",
+          "type": "string"
+        },
+        "start_node_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Node Id"
+        },
+        "use_entry_routes": {
+          "default": false,
+          "title": "Use Entry Routes",
+          "type": "boolean"
+        },
+        "started": {
+          "default": false,
+          "title": "Started",
+          "type": "boolean"
+        },
+        "actions": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "choice": "#/$defs/TrialChoice",
+                "variable": "#/$defs/TrialVariable"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TrialVariable"
+              },
+              {
+                "$ref": "#/$defs/TrialChoice"
+              }
+            ]
+          },
+          "maxItems": 128,
+          "title": "Actions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "dialogue_id"
+      ],
+      "title": "CardTrial",
       "type": "object"
     },
     "Character": {
@@ -364,6 +602,7 @@
                 "all": "#/$defs/ConditionGroup",
                 "always": "#/$defs/Always",
                 "any": "#/$defs/ConditionGroup",
+                "appearance": "#/$defs/AppearanceCondition",
                 "at_location": "#/$defs/LocationCondition",
                 "event_occurred": "#/$defs/EventCondition",
                 "knows": "#/$defs/KnowledgeCondition",
@@ -401,6 +640,9 @@
               },
               {
                 "$ref": "#/$defs/SceneCondition"
+              },
+              {
+                "$ref": "#/$defs/AppearanceCondition"
               }
             ]
           },
@@ -431,6 +673,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -468,6 +711,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -559,6 +805,27 @@
         "target"
       ],
       "title": "DeleteEntity",
+      "type": "object"
+    },
+    "DeleteLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "delete_level",
+          "title": "Type",
+          "type": "string"
+        },
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "level_id"
+      ],
+      "title": "DeleteLevel",
       "type": "object"
     },
     "DeleteRelation": {
@@ -684,6 +951,34 @@
       "title": "Dialogue",
       "type": "object"
     },
+    "DialogueEdgeLayout": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "anyOf": [
+            {
+              "pattern": "^#[0-9a-fA-F]{6}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Color"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/Position"
+          },
+          "maxItems": 8,
+          "title": "Points",
+          "type": "array"
+        }
+      },
+      "title": "DialogueEdgeLayout",
+      "type": "object"
+    },
     "DialogueEntry": {
       "additionalProperties": false,
       "properties": {
@@ -698,6 +993,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -735,6 +1031,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -785,6 +1084,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -822,6 +1122,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -899,6 +1202,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -936,6 +1240,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -1121,6 +1428,17 @@
           "maxItems": 500,
           "title": "Issues",
           "type": "array"
+        },
+        "scene_context": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SceneGenerationContext"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -1221,6 +1539,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -1258,6 +1577,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -1314,6 +1636,30 @@
           "default": "once",
           "title": "Trigger Policy",
           "type": "string"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StoryScope"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "anchor_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Anchor Id"
         }
       },
       "required": [
@@ -1861,6 +2207,91 @@
       "title": "LegacyPreviewSnapshot",
       "type": "object"
     },
+    "Level": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "region": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Region",
+          "type": "string"
+        },
+        "axis_mode": {
+          "default": "phase",
+          "enum": [
+            "time",
+            "phase"
+          ],
+          "title": "Axis Mode",
+          "type": "string"
+        },
+        "anchors": {
+          "items": {
+            "$ref": "#/$defs/TimeAnchor"
+          },
+          "maxItems": 1000,
+          "title": "Anchors",
+          "type": "array"
+        },
+        "tracks": {
+          "items": {
+            "$ref": "#/$defs/SceneTrack"
+          },
+          "maxItems": 1000,
+          "title": "Tracks",
+          "type": "array"
+        },
+        "appearances": {
+          "items": {
+            "$ref": "#/$defs/Appearance"
+          },
+          "maxItems": 20000,
+          "title": "Appearances",
+          "type": "array"
+        },
+        "npc_groups": {
+          "items": {
+            "$ref": "#/$defs/NpcGroup"
+          },
+          "maxItems": 1000,
+          "title": "Npc Groups",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Level",
+      "type": "object"
+    },
     "Location": {
       "additionalProperties": false,
       "properties": {
@@ -2007,6 +2438,50 @@
       "title": "MoveNode",
       "type": "object"
     },
+    "NpcGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "track_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Track Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "track_id"
+      ],
+      "title": "NpcGroup",
+      "type": "object"
+    },
     "PatchEntity": {
       "additionalProperties": false,
       "properties": {
@@ -2032,6 +2507,275 @@
         "changes"
       ],
       "title": "PatchEntity",
+      "type": "object"
+    },
+    "PlayFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "npc",
+            "player",
+            "state",
+            "end"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Label",
+          "type": "string"
+        },
+        "text": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Text",
+          "type": "string"
+        },
+        "node_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Id"
+        },
+        "speaker": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Speaker",
+          "type": "string"
+        },
+        "tick": {
+          "minimum": 0,
+          "title": "Tick",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "tick"
+      ],
+      "title": "PlayFrame",
+      "type": "object"
+    },
+    "PlayInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "at_tick": {
+          "minimum": 0,
+          "title": "At Tick",
+          "type": "integer"
+        },
+        "location_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location Id"
+        },
+        "level_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Level Id"
+        },
+        "variable_overrides": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "title": "Variable Overrides",
+          "type": "object"
+        },
+        "choices": {
+          "items": {
+            "$ref": "#/$defs/ChoiceRecord"
+          },
+          "maxItems": 10000,
+          "title": "Choices",
+          "type": "array"
+        },
+        "scene_changes": {
+          "items": {
+            "$ref": "#/$defs/SceneRecord"
+          },
+          "maxItems": 1000,
+          "title": "Scene Changes",
+          "type": "array"
+        },
+        "card_trial": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CardTrial"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "at_tick"
+      ],
+      "title": "PlayInputs",
+      "type": "object"
+    },
+    "PlayRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "content_revision": {
+          "minimum": 1,
+          "title": "Content Revision",
+          "type": "integer"
+        },
+        "character_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Character Id"
+        },
+        "dialogue_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dialogue Id"
+        },
+        "character_name": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Character Name",
+          "type": "string"
+        },
+        "dialogue_name": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Dialogue Name",
+          "type": "string"
+        },
+        "scene_name": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Scene Name",
+          "type": "string"
+        },
+        "initial_variables": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "title": "Initial Variables",
+          "type": "object"
+        },
+        "variable_labels": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "maxLength": 150,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "title": "Variable Labels",
+          "type": "object"
+        },
+        "inputs": {
+          "$ref": "#/$defs/PlayInputs"
+        },
+        "transcript": {
+          "items": {
+            "$ref": "#/$defs/PlayFrame"
+          },
+          "maxItems": 384,
+          "title": "Transcript",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "content_revision",
+        "inputs"
+      ],
+      "title": "PlayRecord",
       "type": "object"
     },
     "Position": {
@@ -2086,6 +2830,54 @@
       "title": "PutCanvas",
       "type": "object"
     },
+    "PutDialogueLayout": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_dialogue_layout",
+          "title": "Type",
+          "type": "string"
+        },
+        "dialogue_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Dialogue Id",
+          "type": "string"
+        },
+        "positions": {
+          "patternProperties": {
+            "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "$ref": "#/$defs/Position"
+            }
+          },
+          "title": "Positions",
+          "type": "object"
+        },
+        "edges": {
+          "anyOf": [
+            {
+              "patternProperties": {
+                "^(entry:default|route:[0-9]+|option:[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
+                  "$ref": "#/$defs/DialogueEdgeLayout"
+                }
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edges"
+        }
+      },
+      "required": [
+        "type",
+        "dialogue_id",
+        "positions"
+      ],
+      "title": "PutDialogueLayout",
+      "type": "object"
+    },
     "PutDraft": {
       "additionalProperties": false,
       "properties": {
@@ -2122,6 +2914,25 @@
         "record"
       ],
       "title": "PutGenerationRecord",
+      "type": "object"
+    },
+    "PutLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "put_level",
+          "title": "Type",
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/$defs/Level"
+        }
+      },
+      "required": [
+        "type",
+        "level"
+      ],
+      "title": "PutLevel",
       "type": "object"
     },
     "PutRelation": {
@@ -2215,6 +3026,21 @@
             "dialogue"
           ],
           "title": "Category",
+          "type": "string"
+        },
+        "direction": {
+          "default": "forward",
+          "enum": [
+            "forward",
+            "both"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
           "type": "string"
         }
       },
@@ -2357,6 +3183,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -2394,6 +3221,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -2436,6 +3266,17 @@
           "minItems": 1,
           "title": "Effects",
           "type": "array"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StoryScope"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -2445,6 +3286,25 @@
         "effects"
       ],
       "title": "Rule",
+      "type": "object"
+    },
+    "SavePlayRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "save_play_record",
+          "title": "Type",
+          "type": "string"
+        },
+        "record": {
+          "$ref": "#/$defs/PlayRecord"
+        }
+      },
+      "required": [
+        "type",
+        "record"
+      ],
+      "title": "SavePlayRecord",
       "type": "object"
     },
     "SceneCondition": {
@@ -2466,6 +3326,74 @@
         "location_id"
       ],
       "title": "SceneCondition",
+      "type": "object"
+    },
+    "SceneGenerationContext": {
+      "additionalProperties": false,
+      "properties": {
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        },
+        "track_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Track Id",
+          "type": "string"
+        },
+        "location_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Location Id",
+          "type": "string"
+        },
+        "appearance_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Appearance Id"
+        },
+        "group_name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Group Name",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "pool",
+            "people"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "start_tick": {
+          "minimum": 0,
+          "title": "Start Tick",
+          "type": "integer"
+        },
+        "end_tick": {
+          "minimum": 0,
+          "title": "End Tick",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "level_id",
+        "track_id",
+        "location_id",
+        "group_name",
+        "mode",
+        "start_tick",
+        "end_tick"
+      ],
+      "title": "SceneGenerationContext",
       "type": "object"
     },
     "SceneRecord": {
@@ -2509,6 +3437,79 @@
       "title": "SceneRecord",
       "type": "object"
     },
+    "SceneTrack": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "color": {
+          "default": "default",
+          "enum": [
+            "default",
+            "copper",
+            "red",
+            "amber",
+            "green",
+            "blue",
+            "purple"
+          ],
+          "title": "Color",
+          "type": "string"
+        },
+        "icon": {
+          "default": "none",
+          "enum": [
+            "none",
+            "flag",
+            "chat",
+            "swords",
+            "moon",
+            "map",
+            "star",
+            "warning"
+          ],
+          "title": "Icon",
+          "type": "string"
+        },
+        "location_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Location Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "location_id"
+      ],
+      "title": "SceneTrack",
+      "type": "object"
+    },
     "SetBehavior": {
       "additionalProperties": false,
       "properties": {
@@ -2534,6 +3535,95 @@
         "behavior"
       ],
       "title": "SetBehavior",
+      "type": "object"
+    },
+    "SetCharacterNote": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_character_note",
+          "title": "Type",
+          "type": "string"
+        },
+        "character_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Character Id",
+          "type": "string"
+        },
+        "note": {
+          "maxLength": 3000,
+          "title": "Note",
+          "type": "string"
+        },
+        "expected_note": {
+          "anyOf": [
+            {
+              "maxLength": 3000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Note"
+        }
+      },
+      "required": [
+        "type",
+        "character_id",
+        "note"
+      ],
+      "title": "SetCharacterNote",
+      "type": "object"
+    },
+    "SetGenerationEntryDeleted": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_generation_entry_deleted",
+          "title": "Type",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "draft",
+            "failed_item"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "record_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Record Id",
+          "type": "string"
+        },
+        "item_index": {
+          "anyOf": [
+            {
+              "maximum": 9,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Item Index"
+        },
+        "deleted": {
+          "title": "Deleted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "source",
+        "record_id",
+        "deleted"
+      ],
+      "title": "SetGenerationEntryDeleted",
       "type": "object"
     },
     "SetInitialState": {
@@ -2572,6 +3662,125 @@
         "preview"
       ],
       "title": "SetLegacyPreview",
+      "type": "object"
+    },
+    "SetLevelControlOrder": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_level_control_order",
+          "title": "Type",
+          "type": "string"
+        },
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        },
+        "order": {
+          "items": {
+            "pattern": "^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 30000,
+          "title": "Order",
+          "type": "array"
+        },
+        "expected_order": {
+          "items": {
+            "pattern": "^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 30000,
+          "title": "Expected Order",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "level_id",
+        "order",
+        "expected_order"
+      ],
+      "title": "SetLevelControlOrder",
+      "type": "object"
+    },
+    "SetLevelControlWidth": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_level_control_width",
+          "title": "Type",
+          "type": "string"
+        },
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "group",
+            "event"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "control_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Control Id",
+          "type": "string"
+        },
+        "width": {
+          "maximum": 1200,
+          "minimum": 180,
+          "title": "Width",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "level_id",
+        "kind",
+        "control_id",
+        "width"
+      ],
+      "title": "SetLevelControlWidth",
+      "type": "object"
+    },
+    "SetPlayRecordDeleted": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_play_record_deleted",
+          "title": "Type",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "play_record",
+            "simulation_case"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "record_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Record Id",
+          "type": "string"
+        },
+        "deleted": {
+          "title": "Deleted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "source",
+        "record_id",
+        "deleted"
+      ],
+      "title": "SetPlayRecordDeleted",
       "type": "object"
     },
     "SetVariable": {
@@ -2710,6 +3919,19 @@
           "maxLength": 30000,
           "title": "Notes",
           "type": "string"
+        },
+        "level_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Level Id"
         }
       },
       "required": [
@@ -2717,6 +3939,34 @@
         "name"
       ],
       "title": "SimulationCase",
+      "type": "object"
+    },
+    "StoryScope": {
+      "additionalProperties": false,
+      "properties": {
+        "level_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Level Id",
+          "type": "string"
+        },
+        "track_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Track Id"
+        }
+      },
+      "required": [
+        "level_id"
+      ],
+      "title": "StoryScope",
       "type": "object"
     },
     "StoryText": {
@@ -2792,6 +4042,7 @@
               "all": "#/$defs/ConditionGroup",
               "always": "#/$defs/Always",
               "any": "#/$defs/ConditionGroup",
+              "appearance": "#/$defs/AppearanceCondition",
               "at_location": "#/$defs/LocationCondition",
               "event_occurred": "#/$defs/EventCondition",
               "knows": "#/$defs/KnowledgeCondition",
@@ -2829,6 +4080,9 @@
             },
             {
               "$ref": "#/$defs/SceneCondition"
+            },
+            {
+              "$ref": "#/$defs/AppearanceCondition"
             }
           ],
           "title": "Condition"
@@ -2840,6 +4094,79 @@
         "body"
       ],
       "title": "StoryText",
+      "type": "object"
+    },
+    "TimeAnchor": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 150,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 30000,
+          "title": "Description",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Tags",
+          "type": "array"
+        },
+        "color": {
+          "default": "default",
+          "enum": [
+            "default",
+            "copper",
+            "red",
+            "amber",
+            "green",
+            "blue",
+            "purple"
+          ],
+          "title": "Color",
+          "type": "string"
+        },
+        "icon": {
+          "default": "none",
+          "enum": [
+            "none",
+            "flag",
+            "chat",
+            "swords",
+            "moon",
+            "map",
+            "star",
+            "warning"
+          ],
+          "title": "Icon",
+          "type": "string"
+        },
+        "tick": {
+          "minimum": 0,
+          "title": "Tick",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "tick"
+      ],
+      "title": "TimeAnchor",
       "type": "object"
     },
     "TimeCondition": {
@@ -2874,6 +4201,66 @@
         "value"
       ],
       "title": "TimeCondition",
+      "type": "object"
+    },
+    "TrialChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "choice",
+          "title": "Type",
+          "type": "string"
+        },
+        "option_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Option Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "option_id"
+      ],
+      "title": "TrialChoice",
+      "type": "object"
+    },
+    "TrialVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "variable",
+          "title": "Type",
+          "type": "string"
+        },
+        "variable_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+          "title": "Variable Id",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "type",
+        "variable_id",
+        "value"
+      ],
+      "title": "TrialVariable",
       "type": "object"
     },
     "UnlockText": {
@@ -3086,21 +4473,30 @@
           "mapping": {
             "create_entity": "#/$defs/CreateEntity",
             "delete_entity": "#/$defs/DeleteEntity",
+            "delete_level": "#/$defs/DeleteLevel",
             "delete_relation": "#/$defs/DeleteRelation",
             "delete_simulation_case": "#/$defs/DeleteSimulationCase",
             "move_node": "#/$defs/MoveNode",
             "patch_entity": "#/$defs/PatchEntity",
             "put_canvas": "#/$defs/PutCanvas",
+            "put_dialogue_layout": "#/$defs/PutDialogueLayout",
             "put_draft": "#/$defs/PutDraft",
             "put_generation_record": "#/$defs/PutGenerationRecord",
+            "put_level": "#/$defs/PutLevel",
             "put_relation": "#/$defs/PutRelation",
             "put_simulation_case": "#/$defs/PutSimulationCase",
             "rebase_draft": "#/$defs/RebaseDraft",
             "rename_project": "#/$defs/RenameProject",
             "replace_world": "#/$defs/ReplaceWorld",
             "review_draft": "#/$defs/ReviewDraft",
+            "save_play_record": "#/$defs/SavePlayRecord",
+            "set_character_note": "#/$defs/SetCharacterNote",
+            "set_generation_entry_deleted": "#/$defs/SetGenerationEntryDeleted",
             "set_initial_state": "#/$defs/SetInitialState",
-            "set_legacy_preview": "#/$defs/SetLegacyPreview"
+            "set_legacy_preview": "#/$defs/SetLegacyPreview",
+            "set_level_control_order": "#/$defs/SetLevelControlOrder",
+            "set_level_control_width": "#/$defs/SetLevelControlWidth",
+            "set_play_record_deleted": "#/$defs/SetPlayRecordDeleted"
           },
           "propertyName": "type"
         },
@@ -3124,6 +4520,24 @@
             "$ref": "#/$defs/PutCanvas"
           },
           {
+            "$ref": "#/$defs/SetCharacterNote"
+          },
+          {
+            "$ref": "#/$defs/SetLevelControlWidth"
+          },
+          {
+            "$ref": "#/$defs/SetLevelControlOrder"
+          },
+          {
+            "$ref": "#/$defs/PutLevel"
+          },
+          {
+            "$ref": "#/$defs/DeleteLevel"
+          },
+          {
+            "$ref": "#/$defs/PutDialogueLayout"
+          },
+          {
             "$ref": "#/$defs/MoveNode"
           },
           {
@@ -3143,6 +4557,15 @@
           },
           {
             "$ref": "#/$defs/PutSimulationCase"
+          },
+          {
+            "$ref": "#/$defs/SavePlayRecord"
+          },
+          {
+            "$ref": "#/$defs/SetPlayRecordDeleted"
+          },
+          {
+            "$ref": "#/$defs/SetGenerationEntryDeleted"
           },
           {
             "$ref": "#/$defs/DeleteSimulationCase"

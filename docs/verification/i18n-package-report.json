@@ -1,0 +1,178 @@
+{
+  "transport": "real_http_packaged_executable",
+  "checks": [
+    {
+      "name": "packaged_health",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "application_language_default",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "save_english_preference",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "language_changes_only_preference",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "unsupported_language_refused",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "bundled_frontend",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "bundled_javascript",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "bundled_stylesheet",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "csp_allows_bundled_styles_and_node_positions",
+      "passed": true
+    },
+    {
+      "name": "new_local_project",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "edit_content_and_layout",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "save_local_file",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "backup_preserves_previous_file",
+      "passed": true
+    },
+    {
+      "name": "recovery_points",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "recent_projects_survive_restart",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "reopen_after_process_restart",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "content_and_coordinates_survive_restart",
+      "passed": true
+    },
+    {
+      "name": "restore_previous_version",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "save_as_new_file",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "existing_target_not_overwritten",
+      "passed": true,
+      "status": 409
+    },
+    {
+      "name": "new_managed_folder",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "edit_managed_project",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "save_managed_project",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "export_markdown_to_folder",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "export_csv_to_folder",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "export_project_to_folder",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "folder_collision_refused",
+      "passed": true,
+      "status": 409
+    },
+    {
+      "name": "organize_legacy_project",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "portable_folder_after_restart",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "portable_folder_recovery_points",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "portable_folder_restore",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "remember_parent_collection",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "english_preference_survives_executable_restart",
+      "passed": true
+    }
+  ],
+  "capabilities": {
+    "status": "ok",
+    "version": "0.1.0",
+    "schema_version": 2,
+    "batch": 4,
+    "storage_mode": "local_json",
+    "disk_persistence": true,
+    "story_execution": true,
+    "model_generation": true,
+    "draft_review": true,
+    "author_context": true
+  }
+}

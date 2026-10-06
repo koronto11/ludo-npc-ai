@@ -1,0 +1,16 @@
+.character-editor { max-height:90vh; }
+.profile-body { padding:20px 24px; border:0; margin:0; min-width:0; }
+.profile-field { margin-bottom:16px; min-width:0; }
+.profile-field-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; color:var(--muted); font-size:12px; }
+.profile-lock { display:flex; align-items:center; gap:5px; font-size:10px; cursor:pointer; }
+.profile-lock input { width:13px; height:13px; }
+.profile-field>input,.profile-field>textarea { width:100%; }
+.profile-field>textarea { resize:vertical; line-height:1.8; }
+.profile-field>small { display:block; font-size:10px; color:var(--muted); margin-top:5px; }
+.profile-more { border-top:1px solid var(--line); padding-top:12px; }
+.profile-more summary { cursor:pointer; color:var(--accent); font-size:12px; margin-bottom:16px; }
+.character-editor .modal-actions { position:sticky; bottom:0; background:#2a231d; z-index:1; }
+.profile-unsaved { padding:16px 24px; background:#493521; border-bottom:1px solid var(--accent); font-size:12px; }
+.profile-unsaved>div { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+
+.profile-position-help{font-size:11px;margin:-8px 0 16px;line-height:1.7}

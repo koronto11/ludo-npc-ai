@@ -1,0 +1,35 @@
+.modal.wide-modal.template-modal,.modal.wide-modal.export-panel {width:min(900px,calc(100vw - 32px));max-height:90dvh;}
+.template-modal[open],.export-panel[open] {display:flex;flex-direction:column;overflow:hidden;}
+.template-modal .modal-header,.export-panel .modal-header,.template-modal .handoff-tabs,.template-modal .modal-actions,.export-panel .modal-actions {flex:none;}
+.template-modal .template-body,.export-panel .export-body {overflow:auto;min-height:0;}
+.handoff-tabs {display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:16px 24px;border-bottom:1px solid var(--line);font-size:12px;}
+.handoff-tabs select {max-width:160px;}
+.handoff-tabs label {display:flex;align-items:center;gap:6px;margin-left:auto;}
+.handoff-tabs label input {width:14px;height:14px;}
+.template-body {display:grid;grid-template-columns:210px minmax(0,1fr);min-height:340px;}
+.template-cards {padding:16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px;}
+.template-cards>button,.export-formats>button {padding:14px;text-align:left;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--text);}
+.template-cards>button.active,.export-formats>button.active {border-color:var(--accent);background:#423225;}
+.template-cards small,.export-formats small {display:block;margin-top:6px;color:var(--muted);font-size:11px;line-height:1.6;}
+.template-detail {padding:20px;min-width:0;}
+.template-detail h3 {margin:0 0 12px;font-size:15px;}
+.template-detail form {padding:0;}
+.template-note {padding:12px;border:1px solid var(--line);border-radius:5px;font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:18px;}
+.template-note small {display:block;}
+.template-note p {margin:8px 0 0;}
+.template-detail details {font-size:12px;margin-bottom:20px;}
+.template-detail summary {cursor:pointer;color:var(--accent);padding-bottom:10px;}
+.template-detail article {padding:12px 0;border-bottom:1px solid var(--line);}
+.template-detail article small {display:block;color:var(--muted);margin:4px 0;}
+.template-detail form>.primary {margin:12px 0;}
+.template-modal .modal-actions,.export-panel .modal-actions {position:sticky;bottom:0;background:#2a231d;z-index:1;}
+.template-modal .modal-actions small {color:var(--muted);font-size:10px;line-height:1.7;margin-right:auto;}
+.handoff-error {padding:12px 24px;color:#e9b99a;font-size:12px;}
+.handoff-error button {margin-left:12px;}
+.export-body {padding:20px 24px;}
+.export-formats {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+.export-formats strong {font-size:12px;}
+.export-summary {display:flex;flex-direction:column;gap:8px;font-size:12px;border-top:1px solid var(--line);padding:18px 0;margin-top:16px;}
+.export-summary span {color:var(--muted);}
+.export-panel .json-editor {min-height:200px;max-height:300px;}
+@media(max-width:700px){.template-body {grid-template-columns:1fr;}.template-cards {border-right:0;border-bottom:1px solid var(--line);max-height:180px;overflow:auto;}.export-formats {grid-template-columns:1fr;}.template-detail,.export-body {padding:16px;}}

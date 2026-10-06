@@ -1,0 +1,86 @@
+.role-preview.role-preview-panel { display:flex; flex-direction:column; overflow:hidden; padding:0; min-width:0; }
+.role-preview-panel>header.preview-header { flex:none; display:block; padding:13px 14px 8px; margin:0; border-bottom:0; }
+.preview-heading { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+.preview-heading>strong { display:flex; align-items:center; gap:5px; color:#e1c2a3; font-size:12px; }
+.preview-heading .preview-status { font-size:9px; padding:3px 6px; border:1px solid #635440; border-radius:4px; white-space:nowrap; color:#c6b8a6; }
+.preview-heading .preview-status.playing { color:#bbd7c2; border-color:#58715c; background:#303b30; }
+.preview-heading .preview-status.warning { color:#efd0a2; border-color:#8c6841; background:#493721; }
+.preview-heading .preview-status.finished { color:#bfd0bf; background:#32362c; }
+.preview-context { display:flex; align-items:center; gap:9px; margin:10px 0 5px; }
+.preview-context strong { font-size:11px; color:#e7d6c0; }.preview-header .preview-context span { font-size:10px; color:#b6a38b; }
+.preview-graph-name { color:#bba58a; font-size:10px; line-height:1.6; margin:0; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+.preview-tools { display:flex; align-items:center; justify-content:space-between; margin-top:6px; }.preview-tools>button { display:flex; align-items:center; gap:5px; font-size:10px; padding:5px 0; color:#ccb08d; }
+.role-preview-panel details.preview-more { position:relative; border:0; padding:0; }.preview-more>summary { display:flex; list-style:none; padding:2px 5px; border:1px solid #574637; border-radius:4px; }.preview-more>summary::-webkit-details-marker { display:none; }
+.preview-more-menu { position:absolute; top:30px; right:0; z-index:15; width:185px; padding:9px; background:#332b22; border:1px solid #806244; border-radius:5px; box-shadow:0 8px 18px #0006; }.preview-more-menu small { display:block; padding:4px; }.preview-more-menu button { display:block; width:100%; padding:8px; text-align:left; font-size:11px; }.preview-more-menu button:hover:not(:disabled) { background:#493828; }
+.preview-tabs { flex:none; display:flex; gap:2px; padding:0 12px; border-bottom:1px solid #584633; }.preview-tabs button { flex:1; padding:9px 2px; font-size:11px; color:#b8a58c; border-bottom:2px solid transparent; }.preview-tabs button[aria-selected=true] { border-color:#d6aa7e; color:#efd0a7; }.preview-count { margin-left:6px; font-size:9px; background:#493725; padding:1px 5px; border-radius:3px; }
+.preview-body { flex:1; min-height:0; overflow:auto; padding:14px; scrollbar-gutter:stable; }
+.preview-body h3 { font-size:11px; color:#e4bf94; margin:0 0 10px; }.preview-body h3 small { float:right; font-size:9px; font-weight:400; color:#b3a087; }
+.preview-speech { border:1px solid #72543a; background:#362a20; border-radius:5px; padding:12px; }.preview-speech>div { display:flex; justify-content:space-between; align-items:center; gap:8px; }.preview-speech strong { font-size:11px; color:#e4b784; }.preview-speech small { color:#ac9479; font-size:9px; }.preview-speech blockquote { margin:9px 0 0; font-size:13px; line-height:1.9; color:#f0e2cf; white-space:pre-wrap; overflow-wrap:anywhere; }
+.preview-option-label { font-size:9px; color:#b8a58d; margin:14px 0 7px; }.preview-options>div { margin:7px 0; border:1px solid #64503a; border-radius:5px; background:#2e271f; }.preview-options button { display:flex; align-items:center; gap:8px; width:100%; padding:11px 9px; text-align:left; font-size:11px; line-height:1.7; color:#e3c8a5; }.preview-options button>span:nth-child(2) { flex:1; min-width:0; overflow-wrap:anywhere; }.preview-options button>svg { flex:none; }.preview-option-number { color:#b38b62; font-size:9px; }.preview-options button:hover:not(:disabled) { background:#443323; }.preview-options .unavailable { border-style:dashed; border-color:#594635; background:#29251f; }.preview-options .unavailable button:disabled { opacity:1; color:#a99b8a; }.preview-options .unavailable p { padding:0 10px 9px; margin:0; font-size:10px; line-height:1.6; color:#d3ac7d; }
+.preview-help { font-size:10px; line-height:1.7; color:#b4a28c; margin:9px 0; }.preview-notice { padding:10px; border:1px solid #86613c; background:#423224; font-size:10px; color:#e5c29a; line-height:1.8; margin:0 0 12px; border-radius:4px; }.preview-notice strong { display:block; font-size:11px; }.preview-notice p { margin:6px 0; }.preview-notice button { padding:4px 7px; margin-top:5px; border:1px solid #9d744c; border-radius:3px; }.preview-ending { padding:20px 12px; border:1px solid #59634c; background:#303329; color:#cbd5bc; border-radius:5px; font-size:12px; }.preview-ending p { font-size:10px; line-height:1.8; margin-bottom:0; }
+.preview-settings { margin-bottom:15px; padding:11px; border:1px solid #5d4b37; background:#302820; border-radius:5px; }.preview-settings .rehearsal-controls { margin:0; }.preview-settings input,.preview-settings select { min-width:0; }.preview-variables { margin:0; padding:0; border:0; min-width:0; }.preview-branch-picker { display:block; font-size:10px; margin:8px 0; }.preview-branch-picker select { display:block; width:100%; margin-top:6px; }
+.preview-debug section { padding:0 0 16px; margin-bottom:16px; border-bottom:1px solid #4f4031; }.preview-debug section:last-child { border-bottom:0; }.role-preview-panel .preview-debug details { padding:8px 0; font-size:10px; }.preview-debug summary { color:#c5b297; line-height:1.8; overflow-wrap:anywhere; }.preview-debug .preview-check { border-color:#765639; }.preview-debug .preview-check>summary { color:#e7bb87; }.preview-debug .preview-success .preview-check>summary { color:#b7c8af; }.preview-debug p { line-height:1.8; overflow-wrap:anywhere; }
+.preview-footer { flex:none; padding:9px 12px 11px; border-top:1px solid #624a33; background:#30271f; }.preview-footer>small { display:block; font-size:9px; color:#b8a388; line-height:1.5; margin-bottom:7px; }.preview-footer>div { display:flex; gap:7px; }.preview-footer button { display:flex; align-items:center; justify-content:center; gap:4px; flex:1; padding:8px 4px; font-size:10px; white-space:nowrap; }
+.role-preview-panel button:focus-visible,.role-preview-panel summary:focus-visible { outline:2px solid #dab28c; outline-offset:2px; }.role-preview-panel button:disabled { cursor:not-allowed; }
+@media(max-width:760px) { .role-preview.role-preview-panel { height:570px; min-height:400px; overflow:hidden; } }
+/* Compact fixed chrome leaves dialogue choices visible in a short desktop window. */
+.role-preview-panel>header.preview-header { padding:10px 12px 5px; }
+.preview-context { margin:6px 0 3px; }.preview-tools { margin-top:3px; }.preview-tools>button { padding:3px 0; }
+.preview-tabs button { padding:7px 2px; }.preview-body { padding:12px; }
+.preview-speech { padding:10px; }.preview-speech blockquote { font-size:12px; line-height:1.8; margin-top:7px; }
+.preview-speech small { text-align:right; line-height:1.5; }
+.preview-option-label { margin:9px 0 5px; }.preview-options>div { margin:5px 0; }.preview-options button { padding:8px 9px; }
+.preview-footer { padding:7px 12px 8px; }.preview-footer>small { margin-bottom:5px; }.preview-footer button { padding:7px 4px; }
+.preview-test-inputs label { display:block; margin:12px 0; }.preview-test-inputs label:has(input[type=checkbox]) { display:flex; }.preview-test-inputs input:not([type=checkbox]),.preview-test-inputs select { display:block; width:100%; margin-top:5px; }
+.preview-settings-actions { display:flex; gap:7px; flex-wrap:wrap; }.preview-settings-actions button { padding:8px 9px; font-size:10px; }.preview-link { display:inline; color:#e2b27e; text-decoration:underline; font-size:10px; margin-left:5px; padding:0; }
+.preview-entry-hint { margin-bottom:12px; border-left:2px solid #b28653; padding:6px 9px; background:#342b21; }.preview-entry-hint strong { font-size:10px; color:#e3bb87; }.preview-entry-hint p { font-size:10px; color:#bda488; line-height:1.8; margin:4px 0 0; }
+.preview-footer button.preview-undo { display:flex; width:auto; margin:0 0 6px; padding:3px 0; color:#d1af84; font-size:9px; }
+.dialogue-entry-card>strong .icon-button { margin-left:auto; padding:2px; }.dialogue-entry-card>div { line-height:1.7; }.dialogue-entry-settings>p,.entry-rule-help { font-size:11px; line-height:1.8; color:#bfa98c; }.dialogue-entry-settings article { padding:11px; margin:9px 0; border:1px solid #64503a; background:#30281f; border-radius:4px; }.dialogue-entry-settings article strong { font-size:11px; color:#e2c19a; }.dialogue-entry-settings article p { font-size:10px; line-height:1.7; color:#c6ad8e; }.dialogue-entry-settings article>div { display:flex; gap:7px; }.dialogue-entry-settings button { font-size:10px; }.entry-default-action { padding:11px 0; }.entry-default-action small { display:block; font-size:10px; line-height:1.8; color:#b5a087; margin-top:9px; }
+.role-preview-panel details.preview-entry-hint { padding:6px 9px; border:0; border-left:2px solid #b28653; font-size:10px; }.preview-entry-hint summary { color:#e3bb87; line-height:1.8; }
+.preview-footer .preview-settings-actions button { white-space:normal; line-height:1.5; }.preview-footer .preview-settings-actions .primary { flex:1.5; }
+.role-preview-panel .preview-test-inputs label { display:block; }.role-preview-panel .preview-test-inputs label:has(input[type=checkbox]) { display:flex; align-items:center; justify-content:space-between; }
+.role-preview-panel .preview-test-inputs input:not([type=checkbox]),.role-preview-panel .preview-test-inputs select { width:100%; display:block; margin-top:6px; }.role-preview-panel .preview-test-inputs input[type=checkbox] { width:15px; height:15px; flex:none; }
+
+/* Card play: one main action, contextual state controls, visible local records. */
+.preview-context { align-items:baseline; }.preview-context>span { overflow-wrap:anywhere; }
+.play-context-tools { display:flex; gap:8px; align-items:flex-start; justify-content:space-between; }
+.role-preview-panel details.play-scene { border:0; padding:0; flex:1; min-width:0; }
+.play-scene>summary { display:flex; align-items:center; gap:7px; color:#cfb798; font-size:11px; min-height:30px; cursor:pointer; }
+.play-context-form { padding:10px; background:#322a22; border:1px solid #645039; border-radius:4px; margin:6px 0; }
+.play-context-form label,.play-save-form label { display:block; margin:10px 0; font-size:11px; color:#dfc7aa; }
+.play-context-form input,.play-context-form select,.play-save-form input { display:block; width:100%; margin-top:6px; }
+.play-context-form small[role=alert],.play-state-input small { color:#efba8d; font-size:11px; }
+.play-origin { margin:0 0 10px; color:#c1ae96; font-size:11px; line-height:1.7; }
+.role-preview-panel .play-player-state { padding:8px 10px; border:1px solid #5a4936; border-radius:4px; margin:0 0 12px; background:#2c261f; }
+.play-player-state summary { font-size:11px; color:#d7bd9e; cursor:pointer; min-height:24px; line-height:24px; }.play-player-state summary small { float:right; color:#bba78e; font-size:10px; }
+.role-preview-panel .play-state-input { display:flex; align-items:center; flex-wrap:wrap; gap:8px; justify-content:space-between; font-size:11px; color:#e1c4a3; padding:8px 0; margin:0; min-height:36px; }
+.play-state-input>input:not([type=checkbox]) { width:90px; padding:6px 8px; }
+.play-toggle { display:flex; align-items:center; gap:8px; }.role-preview-panel .play-toggle input { width:17px; height:17px; margin:0; accent-color:#cea77f; }
+.role-preview-panel .play-option-condition { padding:0 10px 5px; border-top:1px dashed #64503a; }.role-preview-panel .play-option-condition>p { padding:8px 0 0; font-size:11px; color:#dfbc8e; }
+.play-option-condition .play-state-input { border-top:1px solid #4f4030; margin-top:7px; }
+.play-feedback { color:#c7d6b9; background:#2d3429; border-left:2px solid #8b9d76; font-size:11px; padding:8px 10px; line-height:1.7; margin:0 0 10px; }
+.preview-footer.play-main-footer { display:block; }.play-main-footer>button { width:100%; min-height:38px; font-size:12px; }.play-main-footer>small { text-align:center; margin:7px 0 0; font-size:10px; }
+.play-text-button { color:#e2b786; font-size:11px; min-height:32px; text-align:left; }.play-text-button:disabled { opacity:.5; }.play-text-button:hover:not(:disabled) { text-decoration:underline; }
+.play-record-toolbar { margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #574432; }.play-record-toolbar>button { width:100%; padding:9px; font-size:11px; }.play-record-toolbar p { margin-top:0; }
+.play-save-form { padding:10px; border:1px solid #81623f; border-radius:4px; background:#33291f; margin-bottom:14px; }.play-save-form>div { display:flex; gap:7px; }.play-save-form button { flex:1; padding:9px; font-size:11px; }
+.play-record-list { display:grid; gap:8px; }.play-record-list>button { position:relative; display:block; width:100%; padding:12px 25px 12px 11px; border:1px solid #655039; background:#30271f; border-radius:5px; text-align:left; }.play-record-list>button:hover { border-color:#be9262; background:#3c2f22; }.play-record-list strong { display:block; color:#e6c7a4; font-size:12px; line-height:1.7; overflow-wrap:anywhere; }.play-record-list span,.play-record-list small { display:block; font-size:10px; color:#c6b197; line-height:1.8; margin-top:4px; }.play-record-list svg { position:absolute; right:8px; top:16px; }
+.play-record-detail h3 { margin:12px 0 4px; font-size:13px; overflow-wrap:anywhere; }.play-record-detail>.secondary { width:100%; padding:10px 5px; font-size:11px; }
+.role-preview-panel .play-record-conditions { padding:8px; margin:12px 0; border:1px solid #5f4b36; font-size:11px; line-height:1.7; }
+.play-history-frame { padding:10px; margin:9px 0; border:1px solid #6a5037; border-radius:4px; background:#35291f; }.play-history-frame small { font-size:10px; color:#dbb487; }.play-history-frame p { font-size:12px; line-height:1.8; color:#ecddc7; white-space:pre-wrap; overflow-wrap:anywhere; margin:6px 0 0; }.play-history-frame.player { margin-left:18px; background:#282d27; border-color:#526148; }.play-history-frame.player small { color:#bdd1ae; }.play-history-frame.state,.play-history-frame.end { border:0; background:#29251f; padding:7px 10px; }.play-history-frame.state p,.play-history-frame.end p { font-size:11px; color:#c5b398; }
+.play-card-menu { position:fixed; z-index:90; width:185px; padding:5px; border:1px solid #a17b52; background:#352b21; border-radius:5px; box-shadow:0 8px 20px #0008; }.play-card-menu button { display:flex; align-items:center; gap:7px; width:100%; padding:10px; text-align:left; font-size:12px; color:#e6c59e; }.play-card-menu button:hover:not(:disabled) { background:#493727; }
+.role-preview-panel .preview-more>summary { min-width:30px; min-height:30px; align-items:center; justify-content:center; cursor:pointer; }.role-preview-panel .preview-help { font-size:11px; color:#c4af94; }
+.role-preview-panel .preview-speech { position:sticky; top:0; z-index:2; box-shadow:0 5px 9px #242019; }.play-origin { margin-bottom:7px; font-size:10px; }.role-preview-panel .play-player-state { margin:12px 0 0; }.play-main-footer>small { min-height:16px; color:#c5b399; }.preview-body:has(.preview-options) { scroll-padding-top:100px; }
+.play-record-row { display:flex; align-items:stretch; border:1px solid #655039; background:#30271f; border-radius:5px; min-width:0; }
+.play-record-row:hover { border-color:#be9262; }
+.play-record-row>.play-record-open { flex:1; min-width:0; position:relative; text-align:left; padding:12px 22px 12px 11px; }
+.play-record-row>.play-record-open:hover { background:#3c2f22; }
+.play-record-open>svg { position:absolute; right:5px; top:17px; }
+.play-record-delete { display:flex; align-items:center; justify-content:center; gap:4px; min-width:32px; padding:6px; font-size:11px; color:#c6a48a; flex:none; border-left:1px solid #534231; }
+.play-record-delete:hover:not(:disabled) { color:#f0c3ac; background:#4a3027; }
+.play-record-delete>svg { position:static; }
+.play-record-scope,.play-record-detail-actions { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.play-record-scope>strong { font-size:11px; color:#dbc2a5; }
+.play-record-detail-actions>.play-record-delete { border:1px solid #655039; border-radius:4px; }
+.play-delete-feedback { padding:9px; margin:0 0 12px; border:1px solid #62714f; border-radius:4px; background:#2d3429; font-size:11px; line-height:1.7; }
+.play-delete-feedback>span { display:block; overflow-wrap:anywhere; color:#d2dcc6; }
+.play-delete-feedback>button { color:#e4c09a; padding:5px 0; text-decoration:underline; }

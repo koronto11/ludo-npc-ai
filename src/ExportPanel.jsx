@@ -1,0 +1,22 @@
+import {localizeLabels} from './i18n.js';
+import { t, tm, useI18n } from './i18n';
+import {useEffect,useRef,useState} from 'react';
+import {Modal} from './Modal';
+import {api} from './localApi';
+import './templatesExport.css';
+
+const formats=localizeLabels([['markdown','关卡设计稿','人物故事、出场安排、NPC 组、对白与剧情规则，便于阅读和交付。'],['csv','对白表 CSV','正文、玩家选项、跳转、条件和效果；适合表格整理与程序对接。'],['project','工程备份 JSON','整个工程，包括布局、草稿与记录，可重新打开继续编辑。']]);
+export function ExportPanel({local,initialLevelId,onClose}) {
+  useI18n();
+  const c=local.project._document.content;
+  const [format,setFormat]=useState('markdown'),[levelId,setLevelId]=useState(c.levels.some(l=>l.id===initialLevelId)?initialLevelId:''),[result,setResult]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[url,setUrl]=useState('');
+  const running=useRef(false);
+  const [savedExport,setSavedExport]=useState(null);
+  useEffect(()=>{if(!result)return;const value=URL.createObjectURL(new Blob([result.text],{type:`${result.mime};charset=utf-8`}));setUrl(value);return()=>URL.revokeObjectURL(value);},[result]);
+  const prepare=async()=>{if(running.current)return;running.current=true;setBusy(true);setError('');setResult(null);setSavedExport(null);try{const doc=await local.exportDocument();setResult(await api(`/api/v2/projects/${doc.project_id}/handoff`,{method:'POST',body:{expected_revision:doc.revision,format,level_id:format==='project'?null:levelId||null}}));}catch(e){setError(e.message);}finally{running.current=false;setBusy(false);}};
+  const saveToFolder=async()=>{if(running.current||!result)return;running.current=true;setBusy(true);setError('');try{await local.flush();setSavedExport(await api(`/api/v2/projects/${local.identifier()}/export-file`,{method:'POST',body:{expected_revision:result.revision,format,level_id:format==='project'?null:levelId||null}}));}catch(e){setError(e.status===409?t("工程已更新，请重新生成导出预览再保存。"):e.message);}finally{running.current=false;setBusy(false);}};
+  const change=(callback,value)=>{callback(value);setResult(null);setSavedExport(null);setUrl('');setError('');};
+  return <Modal title={t("导出与交付")} subtitle={local.file.managed_folder?t("预览后保存到项目 exports 文件夹，也可以下载到其他位置。"):t("预览后下载到本机；将工程整理为项目文件夹后，可集中保存导出。")} wide className="export-panel" onClose={()=>{if(!busy)onClose();}}>
+    <div className="export-body"><div className="export-formats">{formats.map(([id,title,desc])=><button key={id} className={format===id?'active':''} disabled={busy} onClick={()=>change(setFormat,id)}><strong>{t(title)}</strong><small>{t(desc)}</small></button>)}</div><label className="form-field">{t("导出范围")}<select aria-label={t("导出关卡范围")} disabled={busy||format==='project'} value={format==='project'?'':levelId} onChange={e=>change(setLevelId,e.target.value)}><option value="">{t("全工程")}</option>{c.levels.map(l=><option key={l.id} value={l.id}>{l.name}</option>)}</select></label><p className="template-note">{format==='project'?t("工程备份保留整个项目，不包含模型连接配置或 API Key。"):t("设计稿与对白表仅使用正式内容，不含待审核草稿、生成记录和试玩记录。设计稿包含作者秘密设定与全工程事实、变量和非对话文本资料。")}{format==='csv'&&<small>{t("UTF-8 编码；公式样式文本加单引号以按文字导入表格。条件与效果保留为 JSON。")}</small>}</p><button className="secondary" disabled={busy} onClick={prepare}>{busy?t("整理中…"):result?t("重新整理最新内容"):t("生成导出预览")}</button>{savedExport&&<div className="project-folder-preview" role="status"><strong>{t("已保存到项目导出文件夹")}</strong><code>{savedExport.path}</code></div>}{error&&<p className="danger" role="alert">{tm(error)}</p>}{result&&<><div className="export-summary"><strong>{result.filename}</strong><span>{t("修订 ")}{result.revision} · {result.counts.characters}{t(" 人物 · ")}{result.counts.appearances}{t(" 出场 · ")}{result.counts.dialogues}{t(" 对白 · ")}{result.counts.nodes}{t(" 卡片")}</span></div><label className="form-field">{t("文件内容预览")}<textarea aria-label={t("导出文件预览")} className="json-editor" readOnly value={result.text.slice(0,100000)}/></label>{result.text.length>100000&&<small>{t("预览显示前 100,000 字符，下载文件包含全文。")}</small>}</>}</div><div className="modal-actions"><button className="secondary" disabled={busy} onClick={onClose}>{t("关闭")}</button>{result&&url&&<><a className={`${local.file.managed_folder?'secondary':'primary'} download-link`} href={url} download={result.filename}>{t("下载")}{format==='project'?t("工程备份"):format==='csv'?t("对白表"):t("设计稿")}</a>{local.file.managed_folder&&<button className="primary" disabled={busy||!!savedExport} onClick={saveToFolder}>{savedExport?t("已保存到项目"):t("保存到项目 exports")}</button>}</>}</div>
+  </Modal>;
+}

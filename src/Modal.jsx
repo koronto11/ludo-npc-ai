@@ -1,7 +1,9 @@
+import { t, useI18n } from './i18n';
 import { useEffect, useRef } from 'react';
 import { X } from '@phosphor-icons/react';
 
 export function Modal({ title, subtitle, children, onClose, wide = false, className = '' }) {
+  useI18n();
   const ref = useRef(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -9,7 +11,7 @@ export function Modal({ title, subtitle, children, onClose, wide = false, classN
     return () => dialog.close();
   }, []);
   return <dialog ref={ref} className={`modal ${wide ? 'wide-modal' : ''} ${className}`} onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === ref.current) onClose(); }}>
-    <header className="modal-header"><div><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div><button className="icon-button" onClick={onClose} aria-label="关闭弹窗"><X size={20} /></button></header>
+    <header className="modal-header"><div><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div><button className="icon-button" onClick={onClose} aria-label={t("关闭弹窗")}><X size={20} /></button></header>
     {children}
   </dialog>;
 }

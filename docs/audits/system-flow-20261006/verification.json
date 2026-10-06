@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-06",
+  "frontend": {
+    "command": "node --test tests/*.test.mjs",
+    "passed": 120,
+    "failed": 0
+  },
+  "backend": {
+    "command": "python -m pytest --basetemp ../.local-build/system-audit-20261006/pytest",
+    "passed": 310,
+    "failed": 0
+  },
+  "schema": {
+    "command": "python -m ludo_npc.tools generate --root . --check",
+    "checked_files": 7
+  },
+  "real_provider_request": false,
+  "clean_windows_acceptance": false,
+  "production_project_modified": false,
+  "qa_service_stopped": true,
+  "main_preview_port": 4184
+}

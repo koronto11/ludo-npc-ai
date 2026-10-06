@@ -39,7 +39,7 @@
 
 分支的变量覆盖是初始参数，改变它会重算整个分支。当前执行器不使用计算快照缓存；重复请求直接从初始状态计算，因此内容修改后不存在旧快照继续生效的问题。改期会重算状态和可用性，作者写下的自然语言正文不会自动改写。
 
-源码开发仍使用仓库内 `.local-data/` 与 `.local-projects/` 覆盖目录。正常程序默认建议保存到用户 `Documents/Ludo Projects`，配置在 `%LOCALAPPDATA%/Ludo NPC AI`；工程可保存到用户选择的文件夹。运行中的完整入口为 `http://127.0.0.1:4174/`。程序包是 `release/LudoNPC/`，需要保留整个文件夹。
+源码开发仍使用仓库内 `.local-data/` 与 `.local-projects/` 覆盖目录。正常程序默认建议保存到用户 `Documents/NPCs AI Studio Projects`，配置在 `%LOCALAPPDATA%/NPCs AI Studio`；工程可保存到用户选择的文件夹。运行中的完整入口为 `http://127.0.0.1:4174/`。程序包是 `release/LudoNPC/`，需要保留整个文件夹。
 
 ## 验证证据
 

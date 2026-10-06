@@ -83,10 +83,12 @@
     "status": "ok",
     "version": "0.1.0",
     "schema_version": 2,
-    "batch": 2,
+    "batch": 4,
     "storage_mode": "local_json",
     "disk_persistence": true,
-    "story_execution": false,
-    "model_generation": false
+    "story_execution": true,
+    "model_generation": true,
+    "draft_review": true,
+    "author_context": true
   }
 }

@@ -1,0 +1,375 @@
+{
+  "format": "ludo-storyboard",
+  "version": 1,
+  "name": "潮汐小镇 · 故事转导演台示例",
+  "notes": [
+    "这是原创示例；0、5、10、12 为演示分钟刻度。"
+  ],
+  "character_notes": {
+    "char-healer": "温和但不替玩家决定；治疗后受伤状态变为否。",
+    "char-guard": "知道桥梁损坏，是码头 NPC 组的一员。",
+    "char-ferryman": "只聊潮水和生计，不知道桥梁秘密。"
+  },
+  "content": {
+    "world": {
+      "name": "潮汐小镇",
+      "clock_unit": "minute",
+      "premise": "旅人抵达临海小镇，在码头和医舍之间寻找帮助。",
+      "rules": [
+        "人物只能透露已经知道的事实。"
+      ],
+      "tone": "朴素、克制，保留玩家选择。"
+    },
+    "characters": [
+      {
+        "id": "char-healer",
+        "name": "林秋",
+        "role": "医师",
+        "importance": "supporting",
+        "tags": [
+          "镇民"
+        ],
+        "story": "她守着医舍，先询问病人的意愿再进行治疗。"
+      },
+      {
+        "id": "char-guard",
+        "name": "阿岗",
+        "role": "码头守卫",
+        "importance": "background",
+        "tags": [
+          "镇民"
+        ]
+      },
+      {
+        "id": "char-ferryman",
+        "name": "老渡",
+        "role": "摆渡人",
+        "importance": "background",
+        "tags": [
+          "镇民"
+        ]
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc-dock",
+        "name": "潮汐码头"
+      },
+      {
+        "id": "loc-clinic",
+        "name": "小镇医舍"
+      }
+    ],
+    "facts": [
+      {
+        "id": "fact-bridge",
+        "name": "北桥受损",
+        "description": "北桥无法通行，守卫已获知。",
+        "visibility": "private",
+        "available_at": 0
+      }
+    ],
+    "variables": [
+      {
+        "id": "var-injured",
+        "name": "玩家受伤",
+        "value_type": "boolean",
+        "default": false
+      },
+      {
+        "id": "var-trust",
+        "name": "信任",
+        "value_type": "number",
+        "default": 0
+      },
+      {
+        "id": "var-alert",
+        "name": "码头警戒",
+        "value_type": "boolean",
+        "default": false
+      }
+    ],
+    "levels": [
+      {
+        "id": "level-tide-town",
+        "name": "第一关 · 潮汐小镇",
+        "axis_mode": "time",
+        "anchors": [
+          {
+            "id": "anchor-arrival",
+            "name": "抵达",
+            "tick": 0
+          },
+          {
+            "id": "anchor-clinic",
+            "name": "到医舍",
+            "tick": 5
+          },
+          {
+            "id": "anchor-alarm",
+            "name": "警报",
+            "tick": 10
+          },
+          {
+            "id": "anchor-end",
+            "name": "离开",
+            "tick": 12
+          }
+        ],
+        "tracks": [
+          {
+            "id": "track-dock",
+            "name": "码头",
+            "location_id": "loc-dock"
+          },
+          {
+            "id": "track-clinic",
+            "name": "医舍",
+            "location_id": "loc-clinic"
+          }
+        ],
+        "npc_groups": [
+          {
+            "id": "group-dock",
+            "name": "码头镇民",
+            "track_id": "track-dock"
+          }
+        ],
+        "appearances": [
+          {
+            "id": "appearance-healer",
+            "character_id": "char-healer",
+            "track_id": "track-clinic",
+            "start_tick": 5,
+            "end_tick": 12,
+            "start_anchor_id": "anchor-clinic",
+            "end_anchor_id": "anchor-end",
+            "dialogue_ids": [
+              "dialogue-clinic"
+            ]
+          },
+          {
+            "id": "appearance-guard",
+            "character_id": "char-guard",
+            "track_id": "track-dock",
+            "start_tick": 0,
+            "end_tick": 12,
+            "npc_group_id": "group-dock",
+            "dialogue_ids": [
+              "dialogue-guard"
+            ]
+          },
+          {
+            "id": "appearance-ferryman",
+            "character_id": "char-ferryman",
+            "track_id": "track-dock",
+            "start_tick": 0,
+            "end_tick": 12,
+            "npc_group_id": "group-dock",
+            "dialogue_ids": [
+              "dialogue-ferryman"
+            ]
+          }
+        ],
+        "region": "潮汐小镇",
+        "description": "旅人初到码头，接触守卫与摆渡人，再前往医舍求助。"
+      }
+    ],
+    "relations": [
+      {
+        "id": "relation-care",
+        "source": {
+          "kind": "character",
+          "id": "char-healer"
+        },
+        "target": {
+          "kind": "character",
+          "id": "char-guard"
+        },
+        "direction": "both",
+        "label": "镇上同伴"
+      },
+      {
+        "id": "relation-dispute",
+        "source": {
+          "kind": "character",
+          "id": "char-guard"
+        },
+        "target": {
+          "kind": "character",
+          "id": "char-ferryman"
+        },
+        "label": "催他检查渡船"
+      }
+    ],
+    "events": [
+      {
+        "id": "event-alarm",
+        "name": "码头警报",
+        "scheduled_at": 10,
+        "scope": {
+          "level_id": "level-tide-town",
+          "track_id": "track-dock"
+        },
+        "anchor_id": "anchor-alarm",
+        "affected_character_ids": [
+          "char-guard",
+          "char-ferryman"
+        ],
+        "effects": [
+          {
+            "op": "set_variable",
+            "variable_id": "var-alert",
+            "value": true
+          },
+          {
+            "op": "set_behavior",
+            "character_id": "char-guard",
+            "behavior": "检查渡船"
+          }
+        ]
+      }
+    ],
+    "dialogues": [
+      {
+        "id": "dialogue-clinic",
+        "name": "医舍问候",
+        "character_id": "char-healer",
+        "entry_node_id": "node-opening",
+        "nodes": [
+          {
+            "id": "node-opening",
+            "label": "开场",
+            "speaker_id": "char-healer",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-healer"
+            },
+            "text": "先坐下。你是来歇脚，还是需要处理伤口？",
+            "options": [
+              {
+                "id": "option-rest",
+                "text": "只是歇脚，谢谢。",
+                "target_node_id": null
+              },
+              {
+                "id": "option-treatment",
+                "text": "我受伤了，请帮我处理。",
+                "condition": {
+                  "op": "variable",
+                  "variable_id": "var-injured",
+                  "value": true
+                },
+                "target_node_id": "node-treatment"
+              }
+            ]
+          },
+          {
+            "id": "node-treatment",
+            "label": "处理伤口",
+            "speaker_id": "char-healer",
+            "text": "我替你清洗伤口。今天先不要用力。",
+            "effects": [
+              {
+                "op": "set_variable",
+                "variable_id": "var-injured",
+                "value": false
+              },
+              {
+                "op": "increment_variable",
+                "variable_id": "var-trust",
+                "amount": 1
+              }
+            ],
+            "options": [
+              {
+                "id": "option-thanks",
+                "text": "谢谢。",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dialogue-guard",
+        "name": "守卫闲聊",
+        "character_id": "char-guard",
+        "entry_node_id": "node-guard",
+        "nodes": [
+          {
+            "id": "node-guard",
+            "label": "闲聊",
+            "speaker_id": "char-guard",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-guard"
+            },
+            "text": "海风大，灯绳得再紧一紧。",
+            "options": [
+              {
+                "id": "option-guard-end",
+                "text": "回头见。",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dialogue-ferryman",
+        "name": "摆渡人闲聊",
+        "character_id": "char-ferryman",
+        "entry_node_id": "node-ferryman",
+        "nodes": [
+          {
+            "id": "node-ferryman",
+            "label": "闲聊",
+            "speaker_id": "char-ferryman",
+            "condition": {
+              "op": "appearance",
+              "level_id": "level-tide-town",
+              "appearance_id": "appearance-ferryman"
+            },
+            "text": "退潮后再搬货，脚底能稳当些。",
+            "options": [
+              {
+                "id": "option-ferryman-end",
+                "text": "回头见。",
+                "target_node_id": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "texts": [
+      {
+        "id": "text-letter",
+        "name": "医舍便条",
+        "text_type": "letter",
+        "author_id": "char-healer",
+        "body": "需要换药的人，请在傍晚之前来医舍。"
+      }
+    ],
+    "initial_state": {
+      "tick": 0,
+      "characters": {
+        "char-healer": {
+          "location_id": "loc-clinic"
+        },
+        "char-guard": {
+          "location_id": "loc-dock",
+          "known_fact_ids": [
+            "fact-bridge"
+          ]
+        },
+        "char-ferryman": {
+          "location_id": "loc-dock"
+        }
+      }
+    }
+  }
+}

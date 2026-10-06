@@ -1,0 +1,62 @@
+.level-workspace { position:relative; }
+.plot-drawer { position:absolute; top:0; bottom:0; right:0; z-index:12; width:min(560px,100%); display:flex; flex-direction:column; background:#29231e; border-left:1px solid #715941; box-shadow:-12px 0 30px #0004; }
+.plot-header { padding:16px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); }
+.plot-header small { color:var(--accent); font-size:10px; }
+.plot-header h2 { font-size:18px; margin:4px 0 0; }
+.plot-tabs { display:flex; padding:0 12px; border-bottom:1px solid var(--line); }
+.plot-tabs button { flex:1; background:none; border:0; border-bottom:2px solid transparent; padding:12px 5px; font-size:12px; }
+.plot-tabs .active { color:var(--accent); border-bottom-color:var(--accent); }
+.plot-scroll { overflow:auto; padding:16px 20px; flex:1; min-height:0; }
+.plot-editor { display:flex; flex-direction:column; flex:1; min-height:0; }
+.plot-editor label,.plot-scroll>label { display:block; margin-bottom:12px; font-size:12px; color:var(--muted); }
+.plot-editor input:not([type=checkbox]),.plot-editor select,.plot-editor textarea,.plot-scroll>label select { width:100%; margin-top:6px; }
+.plot-editor textarea { min-height:65px; resize:vertical; }
+.plot-editor .checkbox-label { display:flex; align-items:center; gap:7px; }
+.plot-step { padding:14px; border:1px solid #584634; border-radius:6px; background:#231f1b; }
+.plot-step h3 { margin:0 0 12px; font-size:13px; display:flex; align-items:center; gap:8px; color:var(--text); }
+.plot-step h3 b { border:1px solid #816144; border-radius:4px; padding:2px 6px; color:var(--accent); font-size:11px; }
+.plot-step-arrow { padding:7px; text-align:center; color:var(--muted); transform:rotate(90deg); }
+.plot-step .form-columns { gap:10px; }.plot-step .effect-row { margin-bottom:10px; }
+.plot-footer { flex:none; display:flex; align-items:center; gap:8px; padding:12px 20px; border-top:1px solid var(--line); }
+.plot-footer span { margin-right:auto; color:var(--muted); font-size:11px; }
+.plot-affected { margin-top:16px; font-size:12px; }.plot-affected summary { margin-bottom:10px; }
+.plot-list-controls { display:flex; gap:8px; }.plot-list-controls input { min-width:0; flex:1; }.plot-list-controls select { width:150px; }
+.plot-create { display:flex; gap:8px; margin:14px 0; }
+.plot-list-card { display:block; width:100%; text-align:left; padding:14px; margin:10px 0; background:#231f1b; border:1px solid #594733; border-radius:5px; }
+.plot-list-card>span { display:flex; gap:6px; align-items:center; font-size:13px; }.plot-list-card span small { margin-left:auto; }.plot-list-card>small { display:block; margin-top:8px; }.plot-list-card p { font-size:11px; color:var(--muted); margin-bottom:0; }
+.plot-empty { text-align:center; padding:40px 10px; color:var(--muted); }
+.plot-resources { width:min(900px,100%); }.plot-resources .story-authoring { overflow:visible; padding:0; }.plot-resources .workspace-heading h1 { font-size:18px; }.plot-resources .authoring-layout { grid-template-columns:125px 1fr; }.plot-resources .authoring-form { overflow:visible; }
+.plot-preview-status,.plot-preview-state,.plot-preview-log { padding:14px; border:1px solid var(--line); margin:14px 0; border-radius:5px; }.plot-preview-status h3,.plot-preview-state h3,.plot-preview-log h3 { font-size:13px; margin-top:0; }.plot-preview-status h3 { display:flex; align-items:center; gap:6px; }.plot-preview-log p { overflow-wrap:anywhere; font-size:11px; }.plot-scroll .rehearsal-controls { padding:0; }.plot-scroll .rehearsal-controls label { min-width:120px; }.plot-scroll .rehearsal-controls label input,.plot-scroll .rehearsal-controls label select { width:100%; }
+.plot-event-card { position:absolute; width:210px; height:76px; border:1px solid #a57a4e; border-radius:5px; background:#30251cf5; padding:0; overflow:hidden; z-index:2; }.plot-event-card.selected { outline:2px solid var(--accent); }.plot-event-card.disabled-event { opacity:.55; }.plot-event-grip { display:flex; align-items:center; gap:8px; width:100%; border:0; border-radius:0; padding:8px; background:transparent; text-align:left; cursor:grab; }.plot-event-grip span { min-width:0; }.plot-event-grip strong { display:block; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; font-size:12px; }.plot-event-grip small { display:block; font-size:10px; color:var(--muted); margin-top:4px; }.plot-event-actions { display:flex; border-top:1px solid #61472f; }.plot-event-actions button { flex:1; font-size:10px; border:0; border-radius:0; background:none; padding:5px; color:var(--accent); }
+.plot-level-track .scene-track-label { color:var(--accent); }.plot-linked-events { margin-top:15px; border-top:1px solid var(--line); padding-top:12px; }.plot-linked-events h3 { font-size:12px; }.plot-linked-events button { width:100%; text-align:left; font-size:11px; margin:4px 0; }
+@media(max-width:760px) { .plot-drawer { width:100%; }.plot-header { padding:12px; }.plot-scroll { padding:12px; }.plot-footer { padding:10px 12px; }.plot-resources .authoring-layout { grid-template-columns:1fr; }.plot-resources .authoring-nav { display:flex; flex-wrap:wrap; }.plot-list-controls { flex-wrap:wrap; }.plot-list-controls select { width:100%; }.plot-editor .form-columns { grid-template-columns:1fr; } }
+
+.level-toolbar { flex-wrap:wrap; gap:8px; }
+.planning-actions { flex-wrap:wrap; justify-content:flex-end; }
+.plot-event-grip { touch-action:none; }
+
+/* Plot events use muted plum, distinct from NPC groups and copper appearance cards. */
+.plot-event-card { border-color:#9680b0; background:#2d2735f5; }
+.plot-event-grip { background:#3d334b; color:#e5d9ed; }
+.plot-event-grip>svg { color:#c5a9dc; }
+.plot-event-grip small { color:#c5b4d1; }
+.plot-event-actions { border-top-color:#66536f; }
+.plot-event-actions button { color:#e0c3ed; }
+.plot-event-actions button:hover { background:#45364f; }
+
+.plot-event-card>header{display:flex;align-items:center;background:#3d334b;height:50px;padding-right:5px}
+.plot-event-card .plot-event-grip{flex:1;min-width:0;height:100%;width:auto}
+.plot-event-grip>svg{flex-shrink:0}
+.plot-event-card>header .icon-button{width:25px;min-width:25px;padding:4px;color:#c5a9dc}
+.plot-event-card.collapsed{height:52px}
+.plot-event-card .plot-event-actions button{min-height:24px;padding:3px 5px}
+
+.plot-scroll .rehearsal-controls { display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; }
+.plot-scroll .rehearsal-controls small { flex-basis:100%; }
+.plot-drawer button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+.plot-test-variables { padding:10px; margin:12px 0; border:1px solid var(--line); }.plot-test-variables label { display:flex; gap:10px; align-items:center; margin:10px 0; font-size:12px; }.plot-test-variables input[type=checkbox] { accent-color:var(--accent); }.plot-test-variables input:not([type=checkbox]) { width:130px; }
+
+.level-workspace.with-plot-panel .level-stage { margin-right:560px; }
+.level-workspace:has(.plot-resources) .level-stage { margin-right:min(900px,100%); }
+@media(max-width:760px) { .level-workspace.with-plot-panel .level-stage { margin-right:0; } }

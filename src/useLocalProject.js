@@ -1,8 +1,9 @@
+import {t,tm} from './i18n.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from './localApi';
 import { commandsFromView, projectView, viewSignature } from './projectBridge';
 
-const empty = { version: 2, name: '正在连接本地项目…', world: { name: '', district: '', rules: [], revision: 1 }, entities: [], relations: [], dialogue: {}, notes: { letter: '' }, scenario: { day: 2, evidence: true, trust: 1 }, tasks: [], modelProfile: { endpoint: '', model: '' } };
+const empty = { version: 2, name: '正在连接本地项目…', world: { name: '', district: '', rules: [], revision: 1 }, entities: [], relations: [], tasks: [], modelProfile: { endpoint: '', model: '' } };
 const authorSignature = value => JSON.stringify({ name:value.name, editor:value.editor, content:Object.fromEntries(Object.entries(value.content).filter(([key])=>!['drafts','generation_history'].includes(key))) });
 
 export function useLocalProject(announce) {
@@ -13,6 +14,9 @@ export function useLocalProject(announce) {
   const [ready, setReady] = useState(false);
   const [failure, setFailure] = useState('');
   const [dragging, setDragging] = useState(false);
+  const [editHistory,setEditHistory] = useState({undo:null,redo:null});
+  const [historyBusy,setHistoryBusy] = useState(false);
+  const historyRunning=useRef(false);
   const current = useRef(empty);
   const document = useRef(null);
   const fileRef = useRef({ path: null });
@@ -52,7 +56,7 @@ export function useLocalProject(announce) {
   },[]);
 
   const flush = useCallback((destination = null) => serial(async () => {
-    if (!document.current) throw new Error('本地服务尚未连接');
+    if (!document.current) throw new Error(t("本地服务尚未连接"));
     let snapshot = current.current;
     let signature = viewSignature(snapshot);
     setSaveState('保存中');
@@ -106,7 +110,7 @@ export function useLocalProject(announce) {
       setWorkspaceInfo(info);
       if (info.last_project) {
         try { return await api('/api/files/open', { method: 'POST', body: { path: info.last_project } }); }
-        catch (error) { announce(`最近项目未打开：${error.message}`); }
+        catch (error) { announce(t("最近项目未打开：{0}", [error.message])); }
       }
       const project = await api('/api/v2/projects', { method: 'POST', body: { name: '未保存的新世界' } });
       return { project, file: { path: null, dirty: true }, initialBlank: true };
@@ -130,7 +134,7 @@ export function useLocalProject(announce) {
   }, []);
 
   const switchProject = useCallback((operation, discard = false) => serial(async () => {
-    if (document.current && !saved.current && !discard && !pristine.current) throw new Error('当前项目尚未保存，请先保存或选择放弃当前修改');
+    if (document.current && !saved.current && !discard && !pristine.current) throw new Error(t("当前项目尚未保存，请先保存或选择放弃当前修改"));
     const envelope = await operation();
     const previous = document.current;
     const view = adopt(envelope);
@@ -148,7 +152,9 @@ export function useLocalProject(announce) {
   const transact = useCallback(async commands => {
     await flush();
     return serial(async () => {
-      const updated = await postCommands(commands);
+      const resolved = typeof commands==='function' ? commands(document.current) : commands;
+      if (!resolved.length) return document.current;
+      const updated = await postCommands(resolved);
       adopt({ project: updated, file: { ...fileRef.current, dirty: true } });
       if (!fileRef.current.path) return updated;
       try {
@@ -162,18 +168,60 @@ export function useLocalProject(announce) {
     });
   }, [flush, serial, adopt,postCommands]);
 
-  const refresh = useCallback(() => serial(async () => {
+  const refresh = useCallback((requireClean=false) => serial(async () => {
     const info=await api('/api/workspace');
     setWorkspaceInfo(info);
-    if(!document.current || viewSignature(current.current)!==baseline.current) return info;
+    if(!document.current || viewSignature(current.current)!==baseline.current) {if(requireClean)throw new Error(t('当前项目仍有未保存修改，请先保存后载入最新工程。'));return info;}
     const identifier=document.current.project_id;
     const [latest,status]=await Promise.all([api(`/api/v2/projects/${identifier}`),api(`/api/v2/projects/${identifier}/file`)]);
-    if(document.current.project_id!==identifier || viewSignature(current.current)!==baseline.current) return info;
+    if(document.current.project_id!==identifier || viewSignature(current.current)!==baseline.current) {if(requireClean)throw new Error(t('载入期间出现新修改，已保留当前编辑。'));return info;}
     profile.current={endpoint:info.model_profile.endpoint,model:info.model_profile.model || ''};
     adopt({project:latest,file:status});
     return info;
   }),[serial,adopt]);
 
   const exportDocument = useCallback(async () => { await flush(); return document.current; }, [flush]);
-  return { project, setProject: changeProject, file, workspaceInfo, saveState, ready, failure, saved, flush, switchProject, restore, exportDocument, transact, refresh, setDragging, identifier: () => document.current?.project_id };
+  const organize=useCallback(async folder=>{
+    await flush();
+    return serial(async()=>{
+      const result=await api(`/api/v2/projects/${document.current.project_id}/organize`,{method:'POST',body:{folder,expected_revision:document.current.revision}});
+      adopt(result);setWorkspaceInfo(await api('/api/workspace'));return result;
+    });
+  },[flush,serial,adopt]);
+  const instantiateTemplate = useCallback(async body => {
+    await flush();
+    return serial(async () => {
+      const result=await api(`/api/v2/projects/${document.current.project_id}/templates/apply`,{method:'POST',body:{...body,expected_revision:document.current.revision}});
+      adopt({project:result.project,file:{...fileRef.current,dirty:true}});
+      if(!fileRef.current.path)return {...result,saved:false};
+      try {
+        let envelope;
+        for(let attempt=0;attempt<3;attempt++) {
+          try {envelope=await api(`/api/v2/projects/${result.project.project_id}/save`,{method:'POST',body:{expected_revision:document.current.revision}});break;}
+          catch(error){if(error.status!==409||attempt===2)throw error;const latest=await api(`/api/v2/projects/${result.project.project_id}`);if(authorSignature(latest)!==authorSignature(document.current))throw error;document.current=latest;}
+        }
+        adopt(envelope);return {...result,project:envelope.project,saved:true};
+      }catch(error){setFailure(error.message);setSaveState('保存失败');return {...result,saved:false,saveError:error.message};}
+    });
+  },[flush,serial,adopt]);
+  useEffect(()=>{
+    const id=project._document?.project_id;
+    if(!id){setEditHistory({undo:null,redo:null});return;}
+    let alive=true;api(`/api/v2/projects/${id}/edit-history`).then(value=>{if(alive)setEditHistory(value);}).catch(()=>{if(alive)setEditHistory({undo:null,redo:null});});
+    return()=>{alive=false;};
+  },[project._document?.project_id,project._document?.revision]);
+  const historyEdit=useCallback(async direction=>{
+    if(historyRunning.current)return;
+    historyRunning.current=true;setHistoryBusy(true);
+    try{
+      await flush();
+      await serial(async()=>{const id=document.current.project_id;
+        const result=await api(`/api/v2/projects/${id}/edit-history`,{method:'POST',body:{expected_revision:document.current.revision,direction}});
+        adopt(result);
+      });
+      await flush();announce(direction==='undo'?t("已撤销上一步编辑"):t("已重做编辑"));
+    }catch(error){setFailure(error.message);announce(error.message);}
+    finally{historyRunning.current=false;setHistoryBusy(false);}
+  },[flush,serial,adopt,announce]);
+  return { project, setProject: changeProject, file, workspaceInfo, saveState, ready, failure, saved, flush, switchProject, restore, exportDocument, organize, transact, refresh, instantiateTemplate, setDragging,editHistory,historyBusy,historyEdit, identifier: () => document.current?.project_id };
 }

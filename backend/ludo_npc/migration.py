@@ -111,7 +111,7 @@ def load_document(data: dict) -> Project:
         return Project.model_validate(data)
     if type(data.get("version")) is int and data["version"] == 1:
         return migrate_v1(data)
-    raise DocumentError("不支持的项目格式或版本；支持原型 v1 和 ludo-npc-project v2")
+    raise DocumentError("不支持的项目格式或版本；支持 NPCs AI Studio 原型 v1 和工程 v2")
 
 
 def migrate_v1(data: dict) -> Project:

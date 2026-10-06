@@ -23,6 +23,29 @@ def test_health_session_and_origin_guard():
         )
 
 
+def test_stale_session_read_renews_cookie_but_remains_rejected():
+    with TestClient(create_app()) as client:
+        client.cookies.set("ludo_session", "previous-process-session")
+        rejected = client.post("/api/v2/projects", json={"name": "Must not be created"})
+        assert rejected.status_code == 401
+        assert "set-cookie" not in rejected.headers
+        read = client.get("/api/v2/projects")
+        assert read.status_code == 401
+        assert "HttpOnly" in read.headers["set-cookie"]
+        assert "SameSite=strict" in read.headers["set-cookie"]
+        assert read.headers["cache-control"] == "no-store"
+        assert client.get("/api/v2/projects").json() == []
+
+
+def test_foreign_origins_cannot_renew_a_stale_session():
+    with TestClient(create_app()) as client:
+        client.cookies.set("ludo_session", "previous-process-session")
+        for headers in ({"Origin": "https://attacker.example"}, {"Sec-Fetch-Site": "cross-site"}):
+            result = client.get("/api/v2/projects", headers=headers)
+            assert result.status_code == 403
+            assert "set-cookie" not in result.headers
+
+
 def test_import_validate_export_and_conflict(client, document):
     body = {"document": document}
     assert client.post("/api/v2/projects/validate", json=body).json()["valid"]

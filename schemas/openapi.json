@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Ludo NPC AI · 本地数据服务",
+    "title": "NPCs AI Studio · 本地数据服务",
     "version": "0.1.0"
   },
   "paths": {
@@ -100,6 +100,280 @@
         }
       }
     },
+    "/api/workspace/preferences": {
+      "put": {
+        "summary": "Workspace Preferences",
+        "operationId": "workspace_preferences_api_workspace_preferences_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkspacePreferences"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/templates": {
+      "get": {
+        "summary": "Template Library",
+        "operationId": "template_library_api_templates_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Capture Template",
+        "operationId": "capture_template_api_templates_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaptureTemplate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/templates/{template_id}/archive": {
+      "post": {
+        "summary": "Archive Template",
+        "operationId": "archive_template_api_templates__template_id__archive_post",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Template Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchiveTemplate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/templates/apply": {
+      "post": {
+        "summary": "Instantiate Template",
+        "operationId": "instantiate_template_api_v2_projects__project_id__templates_apply_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyTemplate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/handoff": {
+      "post": {
+        "summary": "Handoff",
+        "operationId": "handoff_api_v2_projects__project_id__handoff_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/export-file": {
+      "post": {
+        "summary": "Export File",
+        "operationId": "export_file_api_v2_projects__project_id__export_file_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/workspace/model-profile": {
       "put": {
         "summary": "Profile",
@@ -150,6 +424,88 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspace/model-profiles/{profile_id}/credential": {
+      "put": {
+        "summary": "Save Credential",
+        "operationId": "save_credential_api_workspace_model_profiles__profile_id__credential_put",
+        "parameters": [
+          {
+            "name": "profile_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Profile Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Clear Credential",
+        "operationId": "clear_credential_api_workspace_model_profiles__profile_id__credential_delete",
+        "parameters": [
+          {
+            "name": "profile_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Profile Id"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -676,6 +1032,90 @@
         }
       }
     },
+    "/api/v2/projects/{project_id}/organize": {
+      "post": {
+        "summary": "Organize Project",
+        "operationId": "organize_project_api_v2_projects__project_id__organize_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/open-folder": {
+      "post": {
+        "summary": "Show Project Folder",
+        "operationId": "show_project_folder_api_v2_projects__project_id__open_folder_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/projects/{project_id}/save": {
       "post": {
         "summary": "Save File",
@@ -1019,6 +1459,43 @@
         }
       }
     },
+    "/api/v2/projects/{project_id}/author-context": {
+      "get": {
+        "summary": "Author Context",
+        "operationId": "author_context_api_v2_projects__project_id__author_context_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/projects/{project_id}/commands": {
       "post": {
         "summary": "Commands",
@@ -1052,6 +1529,88 @@
                 "schema": {
                   "$ref": "#/components/schemas/Project"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/projects/{project_id}/edit-history": {
+      "get": {
+        "summary": "Edit History",
+        "operationId": "edit_history_api_v2_projects__project_id__edit_history_get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Undo Edit",
+        "operationId": "undo_edit_api_v2_projects__project_id__edit_history_post",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -1120,6 +1679,411 @@
         "additionalProperties": false,
         "type": "object",
         "title": "Always"
+      },
+      "Appearance-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "npc_group_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Npc Group Id"
+          },
+          "track_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Id"
+          },
+          "start_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start Tick"
+          },
+          "end_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "End Tick"
+          },
+          "start_anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Anchor Id"
+          },
+          "end_anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Anchor Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Input"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Input",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Input",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "dialogue_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Dialogue Ids"
+          },
+          "behavior": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Behavior",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "character_id",
+          "start_tick",
+          "end_tick"
+        ],
+        "title": "Appearance"
+      },
+      "Appearance-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "npc_group_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Npc Group Id"
+          },
+          "track_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Id"
+          },
+          "start_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start Tick"
+          },
+          "end_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "End Tick"
+          },
+          "start_anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Anchor Id"
+          },
+          "end_anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Anchor Id"
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Always"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionGroup-Output"
+              },
+              {
+                "$ref": "#/components/schemas/ConditionNot-Output"
+              },
+              {
+                "$ref": "#/components/schemas/VariableCondition"
+              },
+              {
+                "$ref": "#/components/schemas/EventCondition"
+              },
+              {
+                "$ref": "#/components/schemas/KnowledgeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/LocationCondition"
+              },
+              {
+                "$ref": "#/components/schemas/TimeCondition"
+              },
+              {
+                "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
+              }
+            ],
+            "title": "Condition",
+            "discriminator": {
+              "propertyName": "op",
+              "mapping": {
+                "all": "#/components/schemas/ConditionGroup-Output",
+                "always": "#/components/schemas/Always",
+                "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
+                "at_location": "#/components/schemas/LocationCondition",
+                "event_occurred": "#/components/schemas/EventCondition",
+                "knows": "#/components/schemas/KnowledgeCondition",
+                "not": "#/components/schemas/ConditionNot-Output",
+                "scene": "#/components/schemas/SceneCondition",
+                "time": "#/components/schemas/TimeCondition",
+                "variable": "#/components/schemas/VariableCondition"
+              }
+            }
+          },
+          "dialogue_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Dialogue Ids"
+          },
+          "behavior": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Behavior",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "character_id",
+          "start_tick",
+          "end_tick"
+        ],
+        "title": "Appearance"
+      },
+      "AppearanceCondition": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "const": "appearance",
+            "title": "Op"
+          },
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          },
+          "appearance_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Appearance Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "op",
+          "level_id",
+          "appearance_id"
+        ],
+        "title": "AppearanceCondition"
+      },
+      "ApplyTemplate": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "template_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Template Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "character_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Id"
+          },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id"
+          },
+          "appearance_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appearance Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "template_id",
+          "name"
+        ],
+        "title": "ApplyTemplate"
+      },
+      "ArchiveTemplate": {
+        "properties": {
+          "library_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Library Revision"
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "library_revision",
+          "archived"
+        ],
+        "title": "ArchiveTemplate"
       },
       "Canvas": {
         "properties": {
@@ -1233,6 +2197,114 @@
           "position"
         ],
         "title": "CanvasNode"
+      },
+      "CaptureTemplate": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Project Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "library_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Library Revision"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "dialogue"
+            ],
+            "title": "Source Kind"
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Source Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "expected_revision",
+          "library_revision",
+          "source_kind",
+          "source_id",
+          "name"
+        ],
+        "title": "CaptureTemplate"
+      },
+      "CardTrial": {
+        "properties": {
+          "dialogue_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Dialogue Id"
+          },
+          "start_node_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Node Id"
+          },
+          "use_entry_routes": {
+            "type": "boolean",
+            "title": "Use Entry Routes",
+            "default": false
+          },
+          "started": {
+            "type": "boolean",
+            "title": "Started",
+            "default": false
+          },
+          "actions": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/TrialVariable"
+                },
+                {
+                  "$ref": "#/components/schemas/TrialChoice"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "choice": "#/components/schemas/TrialChoice",
+                  "variable": "#/components/schemas/TrialVariable"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 128,
+            "title": "Actions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dialogue_id"
+        ],
+        "title": "CardTrial"
       },
       "Character": {
         "properties": {
@@ -1491,6 +2563,24 @@
                   "$ref": "#/components/schemas/PutCanvas"
                 },
                 {
+                  "$ref": "#/components/schemas/SetCharacterNote"
+                },
+                {
+                  "$ref": "#/components/schemas/SetLevelControlWidth"
+                },
+                {
+                  "$ref": "#/components/schemas/SetLevelControlOrder"
+                },
+                {
+                  "$ref": "#/components/schemas/PutLevel"
+                },
+                {
+                  "$ref": "#/components/schemas/DeleteLevel"
+                },
+                {
+                  "$ref": "#/components/schemas/PutDialogueLayout"
+                },
+                {
                   "$ref": "#/components/schemas/MoveNode"
                 },
                 {
@@ -1512,6 +2602,15 @@
                   "$ref": "#/components/schemas/PutSimulationCase"
                 },
                 {
+                  "$ref": "#/components/schemas/SavePlayRecord"
+                },
+                {
+                  "$ref": "#/components/schemas/SetPlayRecordDeleted"
+                },
+                {
+                  "$ref": "#/components/schemas/SetGenerationEntryDeleted"
+                },
+                {
                   "$ref": "#/components/schemas/DeleteSimulationCase"
                 },
                 {
@@ -1529,21 +2628,30 @@
                 "mapping": {
                   "create_entity": "#/components/schemas/CreateEntity",
                   "delete_entity": "#/components/schemas/DeleteEntity",
+                  "delete_level": "#/components/schemas/DeleteLevel",
                   "delete_relation": "#/components/schemas/DeleteRelation",
                   "delete_simulation_case": "#/components/schemas/DeleteSimulationCase",
                   "move_node": "#/components/schemas/MoveNode",
                   "patch_entity": "#/components/schemas/PatchEntity",
                   "put_canvas": "#/components/schemas/PutCanvas",
+                  "put_dialogue_layout": "#/components/schemas/PutDialogueLayout",
                   "put_draft": "#/components/schemas/PutDraft",
                   "put_generation_record": "#/components/schemas/PutGenerationRecord",
+                  "put_level": "#/components/schemas/PutLevel",
                   "put_relation": "#/components/schemas/PutRelation",
                   "put_simulation_case": "#/components/schemas/PutSimulationCase",
                   "rebase_draft": "#/components/schemas/RebaseDraft",
                   "rename_project": "#/components/schemas/RenameProject",
                   "replace_world": "#/components/schemas/ReplaceWorld",
                   "review_draft": "#/components/schemas/ReviewDraft",
+                  "save_play_record": "#/components/schemas/SavePlayRecord",
+                  "set_character_note": "#/components/schemas/SetCharacterNote",
+                  "set_generation_entry_deleted": "#/components/schemas/SetGenerationEntryDeleted",
                   "set_initial_state": "#/components/schemas/SetInitialState",
-                  "set_legacy_preview": "#/components/schemas/SetLegacyPreview"
+                  "set_legacy_preview": "#/components/schemas/SetLegacyPreview",
+                  "set_level_control_order": "#/components/schemas/SetLevelControlOrder",
+                  "set_level_control_width": "#/components/schemas/SetLevelControlWidth",
+                  "set_play_record_deleted": "#/components/schemas/SetPlayRecordDeleted"
                 }
               }
             },
@@ -1600,6 +2708,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SceneCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/AppearanceCondition"
                 }
               ],
               "discriminator": {
@@ -1608,6 +2719,7 @@
                   "all": "#/components/schemas/ConditionGroup-Input",
                   "always": "#/components/schemas/Always",
                   "any": "#/components/schemas/ConditionGroup-Input",
+                  "appearance": "#/components/schemas/AppearanceCondition",
                   "at_location": "#/components/schemas/LocationCondition",
                   "event_occurred": "#/components/schemas/EventCondition",
                   "knows": "#/components/schemas/KnowledgeCondition",
@@ -1671,6 +2783,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SceneCondition"
+                },
+                {
+                  "$ref": "#/components/schemas/AppearanceCondition"
                 }
               ],
               "discriminator": {
@@ -1679,6 +2794,7 @@
                   "all": "#/components/schemas/ConditionGroup-Output",
                   "always": "#/components/schemas/Always",
                   "any": "#/components/schemas/ConditionGroup-Output",
+                  "appearance": "#/components/schemas/AppearanceCondition",
                   "at_location": "#/components/schemas/LocationCondition",
                   "event_occurred": "#/components/schemas/EventCondition",
                   "knows": "#/components/schemas/KnowledgeCondition",
@@ -1738,6 +2854,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -1747,6 +2866,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -1801,6 +2921,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -1810,6 +2933,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -1960,6 +3084,14 @@
             "maxItems": 50000,
             "title": "Relations"
           },
+          "levels": {
+            "items": {
+              "$ref": "#/components/schemas/Level-Output"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Levels"
+          },
           "initial_state": {
             "$ref": "#/components/schemas/InitialState"
           },
@@ -2054,6 +3186,27 @@
         ],
         "title": "CreateEntity"
       },
+      "CredentialInput": {
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "format": "password",
+            "title": "Api Key",
+            "writeOnly": true
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "Endpoint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "api_key",
+          "endpoint"
+        ],
+        "title": "CredentialInput"
+      },
       "DeleteEntity": {
         "properties": {
           "type": {
@@ -2072,6 +3225,27 @@
           "target"
         ],
         "title": "DeleteEntity"
+      },
+      "DeleteLevel": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "delete_level",
+            "title": "Type"
+          },
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "level_id"
+        ],
+        "title": "DeleteLevel"
       },
       "DeleteRelation": {
         "properties": {
@@ -2114,6 +3288,77 @@
           "case_id"
         ],
         "title": "DeleteSimulationCase"
+      },
+      "DeletedGenerationEntry": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "failed_item"
+            ],
+            "title": "Source"
+          },
+          "record_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Record Id"
+          },
+          "item_index": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item Index"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Deleted At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "record_id"
+        ],
+        "title": "DeletedGenerationEntry"
+      },
+      "DeletedPlayRecord": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "play_record",
+              "simulation_case"
+            ],
+            "title": "Source"
+          },
+          "record_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Record Id"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Deleted At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "record_id"
+        ],
+        "title": "DeletedPlayRecord"
       },
       "DialogInput": {
         "properties": {
@@ -2294,6 +3539,33 @@
         ],
         "title": "Dialogue"
       },
+      "DialogueEdgeLayout": {
+        "properties": {
+          "color": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Position"
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Points"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DialogueEdgeLayout"
+      },
       "DialogueEntry-Input": {
         "properties": {
           "node_id": {
@@ -2329,6 +3601,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2338,6 +3613,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2392,6 +3668,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2401,6 +3680,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2478,6 +3758,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2487,6 +3770,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2610,6 +3894,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2619,6 +3906,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2724,6 +4012,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2733,6 +4024,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2842,6 +4134,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -2851,6 +4146,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -2943,10 +4239,20 @@
             "enum": [
               "blank",
               "lighthouse",
-              "outpost"
+              "outpost",
+              "campfire"
             ],
             "title": "Template",
             "default": "blank"
+          },
+          "layout": {
+            "type": "string",
+            "enum": [
+              "file",
+              "folder"
+            ],
+            "title": "Layout",
+            "default": "file"
           }
         },
         "additionalProperties": false,
@@ -3095,6 +4401,16 @@
             "type": "array",
             "maxItems": 500,
             "title": "Issues"
+          },
+          "scene_context": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SceneGenerationContext"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -3110,6 +4426,29 @@
       },
       "Editor": {
         "properties": {
+          "level_control_orders": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "items": {
+                  "type": "string",
+                  "pattern": "^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+                },
+                "type": "array",
+                "maxItems": 30000
+              }
+            },
+            "type": "object",
+            "title": "Level Control Orders"
+          },
+          "level_control_widths": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "$ref": "#/components/schemas/LevelControlWidths"
+              }
+            },
+            "type": "object",
+            "title": "Level Control Widths"
+          },
           "canvases": {
             "items": {
               "$ref": "#/components/schemas/Canvas"
@@ -3117,6 +4456,69 @@
             "type": "array",
             "maxItems": 100,
             "title": "Canvases"
+          },
+          "dialogue_layouts": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "patternProperties": {
+                  "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                    "$ref": "#/components/schemas/Position"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object",
+            "title": "Dialogue Layouts"
+          },
+          "dialogue_edges": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "patternProperties": {
+                  "^(entry:default|route:[0-9]+|option:[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
+                    "$ref": "#/components/schemas/DialogueEdgeLayout"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object",
+            "title": "Dialogue Edges"
+          },
+          "character_notes": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "type": "string",
+                "maxLength": 3000
+              }
+            },
+            "type": "object",
+            "maxProperties": 10000,
+            "title": "Character Notes"
+          },
+          "play_records": {
+            "items": {
+              "$ref": "#/components/schemas/PlayRecord"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Play Records"
+          },
+          "deleted_play_records": {
+            "items": {
+              "$ref": "#/components/schemas/DeletedPlayRecord"
+            },
+            "type": "array",
+            "maxItems": 2000,
+            "title": "Deleted Play Records"
+          },
+          "deleted_generation_entries": {
+            "items": {
+              "$ref": "#/components/schemas/DeletedGenerationEntry"
+            },
+            "type": "array",
+            "maxItems": 110000,
+            "title": "Deleted Generation Entries"
           },
           "legacy_preview": {
             "anyOf": [
@@ -3242,6 +4644,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -3251,6 +4656,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -3313,6 +4719,28 @@
             "const": "once",
             "title": "Trigger Policy",
             "default": "once"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StoryScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anchor Id"
           }
         },
         "additionalProperties": false,
@@ -3402,6 +4830,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -3411,6 +4842,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -3473,6 +4905,28 @@
             "const": "once",
             "title": "Trigger Policy",
             "default": "once"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StoryScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "anchor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anchor Id"
           }
         },
         "additionalProperties": false,
@@ -3504,6 +4958,43 @@
           "event_id"
         ],
         "title": "EventCondition"
+      },
+      "ExportRequest": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "project",
+              "markdown",
+              "csv"
+            ],
+            "title": "Format"
+          },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "format"
+        ],
+        "title": "ExportRequest"
       },
       "Fact": {
         "properties": {
@@ -3812,6 +5303,62 @@
             "type": "array",
             "maxItems": 30,
             "title": "Fields"
+          },
+          "scene_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scene Id"
+          },
+          "start_tick": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Tick"
+          },
+          "end_tick": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Tick"
+          },
+          "scene_context": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SceneGenerationContext"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "output_limits": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenerationLimits"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -3820,6 +5367,36 @@
           "name"
         ],
         "title": "GenerationItem"
+      },
+      "GenerationLimits": {
+        "properties": {
+          "card_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 6.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Card Count"
+          },
+          "text_length": {
+            "type": "string",
+            "enum": [
+              "short",
+              "medium",
+              "long"
+            ],
+            "title": "Text Length",
+            "default": "short"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "GenerationLimits"
       },
       "GenerationRecord": {
         "properties": {
@@ -4044,6 +5621,30 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "HistoryInput": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "undo",
+              "redo"
+            ],
+            "title": "Direction"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "direction"
+        ],
+        "title": "HistoryInput"
+      },
       "IncrementVariable": {
         "properties": {
           "op": {
@@ -4217,6 +5818,205 @@
         "additionalProperties": false,
         "type": "object",
         "title": "LegacyPreviewSnapshot"
+      },
+      "Level-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Region",
+            "default": ""
+          },
+          "axis_mode": {
+            "type": "string",
+            "enum": [
+              "time",
+              "phase"
+            ],
+            "title": "Axis Mode",
+            "default": "phase"
+          },
+          "anchors": {
+            "items": {
+              "$ref": "#/components/schemas/TimeAnchor"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Anchors"
+          },
+          "tracks": {
+            "items": {
+              "$ref": "#/components/schemas/SceneTrack"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Tracks"
+          },
+          "appearances": {
+            "items": {
+              "$ref": "#/components/schemas/Appearance-Input"
+            },
+            "type": "array",
+            "maxItems": 20000,
+            "title": "Appearances"
+          },
+          "npc_groups": {
+            "items": {
+              "$ref": "#/components/schemas/NpcGroup"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Npc Groups"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Level"
+      },
+      "Level-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Region",
+            "default": ""
+          },
+          "axis_mode": {
+            "type": "string",
+            "enum": [
+              "time",
+              "phase"
+            ],
+            "title": "Axis Mode",
+            "default": "phase"
+          },
+          "anchors": {
+            "items": {
+              "$ref": "#/components/schemas/TimeAnchor"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Anchors"
+          },
+          "tracks": {
+            "items": {
+              "$ref": "#/components/schemas/SceneTrack"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Tracks"
+          },
+          "appearances": {
+            "items": {
+              "$ref": "#/components/schemas/Appearance-Output"
+            },
+            "type": "array",
+            "maxItems": 20000,
+            "title": "Appearances"
+          },
+          "npc_groups": {
+            "items": {
+              "$ref": "#/components/schemas/NpcGroup"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Npc Groups"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Level"
+      },
+      "LevelControlWidths": {
+        "properties": {
+          "groups": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "type": "integer",
+                "maximum": 1200.0,
+                "minimum": 280.0
+              }
+            },
+            "type": "object",
+            "title": "Groups"
+          },
+          "events": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "type": "integer",
+                "maximum": 1200.0,
+                "minimum": 180.0
+              }
+            },
+            "type": "object",
+            "title": "Events"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "LevelControlWidths"
       },
       "Location": {
         "properties": {
@@ -4516,6 +6316,70 @@
         "type": "object",
         "title": "NewProject"
       },
+      "NpcGroup": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "track_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Track Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "track_id"
+        ],
+        "title": "NpcGroup"
+      },
+      "OrganizeInput": {
+        "properties": {
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Revision"
+          },
+          "folder": {
+            "type": "string",
+            "title": "Folder"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expected_revision",
+          "folder"
+        ],
+        "title": "OrganizeInput"
+      },
       "PatchEntity": {
         "properties": {
           "type": {
@@ -4542,6 +6406,269 @@
           "changes"
         ],
         "title": "PatchEntity"
+      },
+      "PlayFrame": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "npc",
+              "player",
+              "state",
+              "end"
+            ],
+            "title": "Kind"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Label",
+            "default": ""
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Text",
+            "default": ""
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "speaker": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Speaker",
+            "default": ""
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tick"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "tick"
+        ],
+        "title": "PlayFrame"
+      },
+      "PlayInputs": {
+        "properties": {
+          "at_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "At Tick"
+          },
+          "location_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location Id"
+          },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id"
+          },
+          "variable_overrides": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "title": "Variable Overrides"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChoiceRecord"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Choices"
+          },
+          "scene_changes": {
+            "items": {
+              "$ref": "#/components/schemas/SceneRecord"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Scene Changes"
+          },
+          "card_trial": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CardTrial"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "at_tick"
+        ],
+        "title": "PlayInputs"
+      },
+      "PlayRecord": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "content_revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Content Revision"
+          },
+          "character_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Character Id"
+          },
+          "dialogue_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dialogue Id"
+          },
+          "character_name": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Character Name",
+            "default": ""
+          },
+          "dialogue_name": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Dialogue Name",
+            "default": ""
+          },
+          "scene_name": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Scene Name",
+            "default": ""
+          },
+          "initial_variables": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "title": "Initial Variables"
+          },
+          "variable_labels": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              }
+            },
+            "type": "object",
+            "title": "Variable Labels"
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/PlayInputs"
+          },
+          "transcript": {
+            "items": {
+              "$ref": "#/components/schemas/PlayFrame"
+            },
+            "type": "array",
+            "maxItems": 384,
+            "title": "Transcript"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "content_revision",
+          "inputs"
+        ],
+        "title": "PlayRecord"
       },
       "Position": {
         "properties": {
@@ -4760,6 +6887,53 @@
         ],
         "title": "PutCanvas"
       },
+      "PutDialogueLayout": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_dialogue_layout",
+            "title": "Type"
+          },
+          "dialogue_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Dialogue Id"
+          },
+          "positions": {
+            "patternProperties": {
+              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "$ref": "#/components/schemas/Position"
+              }
+            },
+            "type": "object",
+            "title": "Positions"
+          },
+          "edges": {
+            "anyOf": [
+              {
+                "patternProperties": {
+                  "^(entry:default|route:[0-9]+|option:[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
+                    "$ref": "#/components/schemas/DialogueEdgeLayout"
+                  }
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edges"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "dialogue_id",
+          "positions"
+        ],
+        "title": "PutDialogueLayout"
+      },
       "PutDraft": {
         "properties": {
           "type": {
@@ -4797,6 +6971,25 @@
           "record"
         ],
         "title": "PutGenerationRecord"
+      },
+      "PutLevel": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "put_level",
+            "title": "Type"
+          },
+          "level": {
+            "$ref": "#/components/schemas/Level-Input"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "level"
+        ],
+        "title": "PutLevel"
       },
       "PutRelation": {
         "properties": {
@@ -4889,6 +7082,21 @@
             ],
             "title": "Category",
             "default": "social"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "forward",
+              "both"
+            ],
+            "title": "Direction",
+            "default": "forward"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
           }
         },
         "additionalProperties": false,
@@ -5072,6 +7280,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -5081,6 +7292,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -5129,6 +7341,16 @@
             "maxItems": 500,
             "minItems": 1,
             "title": "Effects"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StoryScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -5209,6 +7431,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -5218,6 +7443,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -5266,6 +7492,16 @@
             "maxItems": 500,
             "minItems": 1,
             "title": "Effects"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StoryScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -5304,6 +7540,25 @@
         ],
         "title": "SaveInput"
       },
+      "SavePlayRecord": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "save_play_record",
+            "title": "Type"
+          },
+          "record": {
+            "$ref": "#/components/schemas/PlayRecord"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "record"
+        ],
+        "title": "SavePlayRecord"
+      },
       "SceneCondition": {
         "properties": {
           "op": {
@@ -5324,6 +7579,73 @@
           "location_id"
         ],
         "title": "SceneCondition"
+      },
+      "SceneGenerationContext": {
+        "properties": {
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          },
+          "track_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Track Id"
+          },
+          "location_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Location Id"
+          },
+          "appearance_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appearance Id"
+          },
+          "group_name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Group Name"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "pool",
+              "people"
+            ],
+            "title": "Mode"
+          },
+          "start_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start Tick"
+          },
+          "end_tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "End Tick"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "level_id",
+          "track_id",
+          "location_id",
+          "group_name",
+          "mode",
+          "start_tick",
+          "end_tick"
+        ],
+        "title": "SceneGenerationContext"
       },
       "SceneRecord": {
         "properties": {
@@ -5364,6 +7686,79 @@
         ],
         "title": "SceneRecord"
       },
+      "SceneTrack": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "default",
+              "copper",
+              "red",
+              "amber",
+              "green",
+              "blue",
+              "purple"
+            ],
+            "title": "Color",
+            "default": "default"
+          },
+          "icon": {
+            "type": "string",
+            "enum": [
+              "none",
+              "flag",
+              "chat",
+              "swords",
+              "moon",
+              "map",
+              "star",
+              "warning"
+            ],
+            "title": "Icon",
+            "default": "none"
+          },
+          "location_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Location Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "location_id"
+        ],
+        "title": "SceneTrack"
+      },
       "SetBehavior": {
         "properties": {
           "op": {
@@ -5390,6 +7785,93 @@
           "behavior"
         ],
         "title": "SetBehavior"
+      },
+      "SetCharacterNote": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_character_note",
+            "title": "Type"
+          },
+          "character_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Character Id"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 3000,
+            "title": "Note"
+          },
+          "expected_note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 3000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "character_id",
+          "note"
+        ],
+        "title": "SetCharacterNote"
+      },
+      "SetGenerationEntryDeleted": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_generation_entry_deleted",
+            "title": "Type"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "failed_item"
+            ],
+            "title": "Source"
+          },
+          "record_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Record Id"
+          },
+          "item_index": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item Index"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "source",
+          "record_id",
+          "deleted"
+        ],
+        "title": "SetGenerationEntryDeleted"
       },
       "SetInitialState": {
         "properties": {
@@ -5428,6 +7910,125 @@
           "preview"
         ],
         "title": "SetLegacyPreview"
+      },
+      "SetLevelControlOrder": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_level_control_order",
+            "title": "Type"
+          },
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          },
+          "order": {
+            "items": {
+              "type": "string",
+              "pattern": "^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 30000,
+            "title": "Order"
+          },
+          "expected_order": {
+            "items": {
+              "type": "string",
+              "pattern": "^(appearance|group|event):[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 30000,
+            "title": "Expected Order"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "level_id",
+          "order",
+          "expected_order"
+        ],
+        "title": "SetLevelControlOrder"
+      },
+      "SetLevelControlWidth": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_level_control_width",
+            "title": "Type"
+          },
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "group",
+              "event"
+            ],
+            "title": "Kind"
+          },
+          "control_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Control Id"
+          },
+          "width": {
+            "type": "integer",
+            "maximum": 1200.0,
+            "minimum": 180.0,
+            "title": "Width"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "level_id",
+          "kind",
+          "control_id",
+          "width"
+        ],
+        "title": "SetLevelControlWidth"
+      },
+      "SetPlayRecordDeleted": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_play_record_deleted",
+            "title": "Type"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "play_record",
+              "simulation_case"
+            ],
+            "title": "Source"
+          },
+          "record_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Record Id"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "source",
+          "record_id",
+          "deleted"
+        ],
+        "title": "SetPlayRecordDeleted"
       },
       "SetVariable": {
         "properties": {
@@ -5563,6 +8164,18 @@
             "maxLength": 30000,
             "title": "Notes",
             "default": ""
+          },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id"
           }
         },
         "additionalProperties": false,
@@ -5616,6 +8229,18 @@
             ],
             "title": "Location Id"
           },
+          "level_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level Id"
+          },
           "variable_overrides": {
             "patternProperties": {
               "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
@@ -5654,6 +8279,16 @@
             "maxItems": 1000,
             "title": "Scene Changes"
           },
+          "card_trial": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CardTrial"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "max_steps": {
             "type": "integer",
             "maximum": 10000.0,
@@ -5668,6 +8303,33 @@
           "expected_content_revision"
         ],
         "title": "SimulationInput"
+      },
+      "StoryScope": {
+        "properties": {
+          "level_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Level Id"
+          },
+          "track_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Track Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "level_id"
+        ],
+        "title": "StoryScope"
       },
       "StoryText-Input": {
         "properties": {
@@ -5762,6 +8424,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -5771,6 +8436,7 @@
                 "all": "#/components/schemas/ConditionGroup-Input",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Input",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -5884,6 +8550,9 @@
               },
               {
                 "$ref": "#/components/schemas/SceneCondition"
+              },
+              {
+                "$ref": "#/components/schemas/AppearanceCondition"
               }
             ],
             "title": "Condition",
@@ -5893,6 +8562,7 @@
                 "all": "#/components/schemas/ConditionGroup-Output",
                 "always": "#/components/schemas/Always",
                 "any": "#/components/schemas/ConditionGroup-Output",
+                "appearance": "#/components/schemas/AppearanceCondition",
                 "at_location": "#/components/schemas/LocationCondition",
                 "event_occurred": "#/components/schemas/EventCondition",
                 "knows": "#/components/schemas/KnowledgeCondition",
@@ -5912,6 +8582,79 @@
           "body"
         ],
         "title": "StoryText"
+      },
+      "TimeAnchor": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string",
+              "maxLength": 150,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Tags"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "default",
+              "copper",
+              "red",
+              "amber",
+              "green",
+              "blue",
+              "purple"
+            ],
+            "title": "Color",
+            "default": "default"
+          },
+          "icon": {
+            "type": "string",
+            "enum": [
+              "none",
+              "flag",
+              "chat",
+              "swords",
+              "moon",
+              "map",
+              "star",
+              "warning"
+            ],
+            "title": "Icon",
+            "default": "none"
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tick"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "tick"
+        ],
+        "title": "TimeAnchor"
       },
       "TimeCondition": {
         "properties": {
@@ -5946,6 +8689,66 @@
           "value"
         ],
         "title": "TimeCondition"
+      },
+      "TrialChoice": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "choice",
+            "title": "Type"
+          },
+          "option_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Option Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "option_id"
+        ],
+        "title": "TrialChoice"
+      },
+      "TrialVariable": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "variable",
+            "title": "Type"
+          },
+          "variable_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "title": "Variable Id"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "variable_id",
+          "value"
+        ],
+        "title": "TrialVariable"
       },
       "UnlockText": {
         "properties": {
@@ -6131,6 +8934,24 @@
           "value"
         ],
         "title": "VariableCondition"
+      },
+      "WorkspacePreferences": {
+        "properties": {
+          "ui_language": {
+            "type": "string",
+            "enum": [
+              "zh",
+              "en"
+            ],
+            "title": "Ui Language"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ui_language"
+        ],
+        "title": "WorkspacePreferences"
       },
       "World": {
         "properties": {

@@ -1,0 +1,8 @@
+.dialogue-edge-label { position:absolute; font-size:10px; background:#24211edb; color:#d5beaa; padding:2px 5px; border-radius:3px; pointer-events:none; }
+.dialogue-edge-point { position:absolute; pointer-events:all; width:16px; height:16px; padding:0; border:3px solid #c59b78; background:#24211e; border-radius:50%; cursor:move; touch-action:none; box-shadow:0 0 0 3px #211e1a90; }
+.dialogue-edge-point:hover,.dialogue-edge-point:focus-visible { background:#ead7bd; outline:2px solid #ead7bd; outline-offset:3px; }
+.dialogue-edge-tools { position:absolute; z-index:12; top:12px; right:12px; width:215px; padding:12px; background:#30271ff5; border:1px solid #8d6b4b; border-radius:6px; box-shadow:0 6px 22px #0005; }
+.dialogue-edge-tools header { display:flex; justify-content:space-between; align-items:center; color:#dfbb92; font-size:12px; margin-bottom:12px; }.dialogue-edge-tools header button { font-size:20px; line-height:1; }
+.dialogue-edge-palette { display:flex; align-items:center; gap:6px; }.dialogue-edge-palette button { width:18px; height:18px; border:2px solid transparent; border-radius:50%; flex:none; }.dialogue-edge-palette button[aria-pressed=true] { border-color:#fff1dc; outline:1px solid #9e8063; }.dialogue-edge-palette input { width:26px; height:25px; padding:2px; flex:none; background:#211e1a; border:1px solid #826448; }
+.dialogue-edge-actions { display:flex; gap:6px; margin-top:12px; }.dialogue-edge-actions button { font-size:10px; padding:6px; border:1px solid #6b513a; border-radius:3px; color:#dbc0a1; }
+.dialogue-edge-tools p { font-size:10px; color:#b9a286; line-height:1.8; margin:10px 0 0; }

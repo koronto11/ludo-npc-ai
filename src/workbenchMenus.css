@@ -1,0 +1,37 @@
+.app-bar {position:relative;z-index:70;}
+.workbench-menu {position:relative;height:100%;display:flex;align-items:center;}
+.workbench-menu-trigger {display:flex;align-items:center;gap:5px;min-height:30px;}
+.workbench-menu-trigger[aria-expanded=true] {color:var(--accent);}
+.app-bar-actions .language-switch select {appearance:none;text-align:center;}
+.workbench-menu-panel {top:calc(100% - 1px);left:-8px;width:260px;max-width:calc(100vw - 16px);max-height:calc(100dvh - 110px);overflow:auto;}
+.workbench-menu-panel button {text-align:left;white-space:normal;min-height:38px;}
+.workbench-menu-panel button>span {flex:1;}
+.workbench-menu-panel button:focus-visible {outline-offset:-2px;background:#453323;}
+.workbench-menu-panel [role=menuitemcheckbox]>svg {margin-left:auto;color:var(--accent);}
+.workbench-menu-panel .menu-hint {display:block;padding:7px 9px;color:var(--muted);font-size:11px;line-height:1.6;white-space:normal;}
+.world-asset-list {padding:18px 24px 0;max-height:40vh;overflow:auto;}
+.world-asset-list>button {display:flex;gap:10px;align-items:center;text-align:left;width:100%;padding:12px 10px;border-bottom:1px solid var(--line);}
+.world-asset-list small {display:block;color:var(--muted);margin-top:5px;overflow-wrap:anywhere;}
+.world-asset-list p {color:var(--muted);}
+.director.library-hidden {--sidebar-width:0px;}
+.director.library-hidden>.library {display:none;}
+.director.timeline-hidden {--dock-height:0px!important;}
+.director.timeline-hidden>.timeline-dock {display:none;}
+.director>.central {grid-column:2;grid-row:3;}
+@media(max-width:1100px){
+ .app-menus {gap:12px;}
+ .app-bar {gap:10px;}
+ .app-bar-actions .save-indicator,.app-bar-actions .compact-button {font-size:0;gap:0;padding:6px;}
+ .app-bar .project-title {min-width:50px;}
+}
+@media(min-width:761px) and (max-width:850px){.app-bar>.project-title {display:none;}}
+@media(max-width:760px){
+ .director {grid-template-rows:79px 51px minmax(0,1fr) var(--dock-height) 25px;}
+ .app-bar {align-items:flex-start;padding-top:7px;}
+ .app-bar .app-bar-actions {margin-left:auto;}
+ .app-bar>.app-menus {position:absolute;top:43px;left:0;right:0;height:36px;display:flex;gap:22px;padding:0 12px;background:#26221e;border-top:1px solid var(--line);}
+ .workbench-menu-panel {position:fixed;left:8px;right:8px;top:79px;width:auto;max-height:calc(100dvh - 95px);}
+ .director>.library {top:130px;}
+ .director>.dock-scrim {inset:130px 0 25px;}
+ .director>.inspector {top:130px;}
+}

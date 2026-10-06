@@ -1,0 +1,38 @@
+.npc-group-card{position:absolute;z-index:3;width:460px;border:1px solid #678e83;border-radius:7px;background:#222c29;box-shadow:0 5px 16px #0004;overflow:hidden}
+.npc-group-card>header{display:flex;align-items:center;background:#30463e;min-height:62px;padding:5px 10px;gap:5px}
+.npc-group-grip{display:flex;align-items:center;gap:9px;flex:1;min-width:0;background:none;border:0;text-align:left;cursor:grab;touch-action:none;color:#dceae0;padding:8px 0}
+.npc-group-grip span{display:grid;gap:5px;min-width:0}.npc-group-grip strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}.npc-group-grip small{font-size:10px;color:#c2a482}
+.npc-group-members{padding:0 12px}.npc-group-member{display:grid;grid-template-columns:1fr;gap:6px;padding:12px 0;border-bottom:1px solid #4a3c2e;min-height:112px}.npc-member-identity{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.npc-member-identity strong{font-size:12px}.npc-member-identity small{font-size:10px;color:#ac9478}.npc-member-speech{display:flex;gap:8px;align-items:center;min-width:0}.npc-member-speech p{font-size:11px;color:#d5c3ae;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:1.7;margin:0;flex:1}.npc-member-status{font-size:9px;white-space:nowrap;color:#b7a086;background:#332c24;padding:3px 6px;border-radius:3px}.npc-member-status.pending{color:#eac294;background:#4b3924}.npc-member-actions{display:flex;align-items:center;gap:6px}.npc-member-actions button{min-height:25px;font-size:10px;padding:4px 8px}.npc-group-card footer{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;gap:10px}.npc-group-card footer span{font-size:10px;color:#b09a80}.npc-group-card footer button{font-size:10px;min-height:28px;padding:5px 9px}
+.modal.wide-modal.npc-member-modal{width:min(730px,94vw);padding:0}.npc-editor-body{padding:22px;max-height:65vh;overflow:auto}.npc-line-editor{display:grid;gap:8px;margin-top:20px}.npc-line-editor textarea{width:100%;resize:vertical}.npc-line-editor strong{font-size:12px;color:#d5ae85}.npc-line-editor small{font-size:11px;color:#ad967b}.npc-unsaved{padding:16px 22px;background:#49341f;border-bottom:1px solid #ab8052}.npc-unsaved>div{display:flex;gap:7px;margin-top:10px}.npc-member-modal .modal-actions{margin:0;padding:16px 22px;border-top:1px solid #4a3a29}.npc-editor-body label{display:grid;gap:8px}
+.review-detail-only{display:contents}
+.npc-member-identity>button{padding:0;min-height:20px;font-size:12px;font-weight:600;color:#eddbc5;text-align:left;max-width:75%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.npc-group-card{width:620px;overflow:visible}.npc-group-card>header{border-radius:6px 6px 0 0;position:sticky;top:84px;z-index:4}.npc-group-member{grid-template-columns:minmax(0,1fr) auto;column-gap:12px;row-gap:5px;min-height:76px;padding:12px 0}.npc-member-identity{grid-column:1;min-width:0}.npc-member-speech{grid-column:1}.npc-member-actions{grid-column:2;grid-row:1 / span 2}.npc-member-identity>button{max-width:70%;font-size:11px}.npc-member-identity small{white-space:nowrap}.npc-member-actions button{font-size:10px;padding:4px 7px}
+@media(max-width:760px){.npc-group-card{width:460px}}
+
+/* Scene groups use sage green; action buttons retain the workstation's copper accent. */
+.npc-group-grip small,.npc-member-identity small,.npc-group-card footer span{color:#adc5b8}
+.npc-group-grip>svg,.npc-group-card>header .icon-button{color:#a8cdbd}
+.npc-group-member{border-bottom-color:#40564c}
+.npc-member-speech p,.npc-member-identity>button{color:#dce5dc}
+.npc-member-status{background:#31433a;color:#bdd0c2}
+.npc-group-card .secondary{background:#29382f;border-color:#506e60;color:#d2e3d5}
+.npc-group-card .secondary:hover{background:#364b3e;border-color:#789a87}
+.npc-group-card .subtle-button:hover{background:#35443c}
+
+.npc-group-card.collapsed{width:320px;overflow:hidden}
+.npc-group-card.collapsed>header{position:static;min-height:62px;border-radius:6px;padding:4px 8px}
+.npc-group-card.collapsed .npc-group-grip{gap:7px}
+.npc-group-card.collapsed .npc-group-grip strong{font-size:12px}
+.npc-group-card.collapsed .npc-group-grip small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.npc-group-card.collapsed>header .icon-button{width:26px;min-width:26px;padding:4px}
+
+.npc-group-card{container-type:inline-size;container-name:npc-control}
+.npc-group-card>header{padding-right:15px}
+.npc-group-card.collapsed>header{padding-right:12px}
+@container npc-control (max-width:539px){
+  .npc-group-member{grid-template-columns:1fr;min-height:112px}
+  .npc-member-actions{grid-column:1;grid-row:auto;flex-wrap:wrap}
+  .npc-member-identity{flex-wrap:wrap;gap:4px}
+  .npc-member-identity>button{max-width:100%}
+  .npc-group-card footer{flex-wrap:wrap}
+}

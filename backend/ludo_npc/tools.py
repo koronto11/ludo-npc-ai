@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .api.app import create_app
 from .application.commands import CommandBatch
+from .camp_sample import campfire_project
 from .domain.models import Project
 from .migration import DocumentError, dump_project, load_document
 from .samples import outpost_project
@@ -45,7 +46,8 @@ def generated_artifacts(root: Path) -> dict[Path, str]:
     blank = Project(project_id="sample-blank", name="空白叙事项目")
     migrated = load_document(read_document(root / "docs/examples/lighthouse.ludo.json"))
     outpost = outpost_project()
-    for project in (blank, migrated, outpost):
+    camp = campfire_project()
+    for project in (blank, migrated, outpost, camp):
         project.metadata.created_at = timestamp
         project.metadata.updated_at = timestamp
     return {
@@ -55,11 +57,12 @@ def generated_artifacts(root: Path) -> dict[Path, str]:
         root / "docs/examples/blank-v2.ludo.json": dump_project(blank),
         root / "docs/examples/lighthouse-v2.ludo.json": dump_project(migrated),
         root / "docs/examples/outpost-v2.ludo.json": dump_project(outpost),
+        root / "docs/examples/campfire-v2.ludo.json": dump_project(camp),
     }
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Ludo v2 契约和迁移工具")
+    parser = argparse.ArgumentParser(description="NPCs AI Studio v2 契约和迁移工具")
     commands = parser.add_subparsers(dest="command", required=True)
     contracts = commands.add_parser("generate", help="生成可审阅的 Schema 与示例")
     contracts.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])

@@ -1,0 +1,70 @@
+/* Shared workstation recovery and compact layouts. Loaded after feature styles. */
+.workspace-tabs { min-width:0; overflow-x:auto; scrollbar-width:thin; }
+.workspace-tabs button { flex:none; }
+.role-library-shell { min-height:0; overflow:hidden; display:flex; flex-direction:column; }
+.role-library-shell>.role-context { flex:1; min-height:0; }
+.role-compact-controls,.role-library-close { display:none; }
+.mobile-rehearsal-button { display:none; }
+.story-record-scopes { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.story-record-scopes button { padding:7px 12px; border:1px solid var(--line); border-radius:4px; }
+.story-record-scopes [aria-pressed=true] { background:#493725; color:#f0d6b9; }
+.world-editor-modal[open] { display:flex; flex-direction:column; overflow:hidden; max-height:calc(100dvh - 32px); }
+.world-editor-modal>.modal-header { flex:none; }
+.world-editor-modal>form { display:flex; flex-direction:column; min-height:0; overflow:hidden; padding:0; }
+.world-editor-body { overflow:auto; min-height:0; padding:20px 24px 0; }
+.world-editor-footer { flex:none; border-top:1px solid var(--line); background:#2a231d; }
+.world-editor-footer>.modal-actions { margin:0; border:0; flex-wrap:wrap; }
+.world-editor-footer>p { padding:0 24px; font-size:12px; }
+.world-close-guard { padding:16px 24px; font-size:12px; }
+.world-close-guard>div { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.new-project-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0 18px; }
+.new-project-guide { max-width:550px; }
+.modal:not(.world-editor-modal)>.modal-header { position:sticky; top:0; z-index:5; background:#2a231d; }
+.modal:not(.world-editor-modal) .modal-actions { position:sticky; bottom:0; z-index:4; background:#2a231d; flex-wrap:wrap; }
+@media(max-width:1150px) {
+ .role-compact-controls { flex:none; display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 14px; border-bottom:1px solid var(--line); }
+ .role-compact-controls>[role=tablist] { display:flex; gap:4px; }
+ .role-compact-controls [role=tab] { padding:8px 16px; border-radius:4px; color:var(--muted); }
+ .role-compact-controls [aria-selected=true] { color:#f0d6b9; background:#493725; }
+ .role-workspace .role-stage,.role-workspace .role-stage.with-preview { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr); position:relative; overflow:hidden; }
+ .role-workspace .role-stage>.role-editor { grid-area:1/1; min-height:0; height:auto; }
+ .role-workspace .role-stage>.role-preview { grid-area:1/1; min-height:0; height:auto; overflow:hidden; border:0; }
+ .role-stage.compact-play>.role-editor,.role-stage.compact-edit>.role-preview { display:none; }
+ .role-stage>.role-library-shell { display:none; position:absolute; inset:0 auto 0 0; width:min(300px,90%); z-index:12; background:#28221c; box-shadow:12px 0 30px #0008; }
+ .role-stage.library-open>.role-library-shell { display:flex; }
+ .role-library-shell>.role-library-close { display:block; flex:none; margin:10px; }
+ .role-library-shell>.role-context.role-dialogue-library { max-height:none; overflow:auto; }
+ .role-workspace .role-preview-toggle { display:none; }
+ .role-workspace .dialogue-toolbar { flex-wrap:wrap; gap:6px; }
+ .role-workspace .dialogue-toolbar>input { min-width:100px; flex:1; }
+ .role-workspace .dialogue-title-row { flex-wrap:wrap; }
+}
+@media(max-width:760px) {
+ .context-bar>.mobile-rehearsal-button { display:flex; flex:none; width:38px; height:38px; align-items:center; justify-content:center; margin-right:6px; color:#e6bd95; }
+ .app-bar { min-width:0; gap:8px; padding-inline:8px; }
+ .app-bar .project-title { flex:1; min-width:0; max-width:120px; text-overflow:ellipsis; }
+ .app-bar .app-bar-actions { min-width:0; gap:6px; margin-left:0; }
+ .app-bar .save-indicator { padding-inline:6px; }
+ .workspace-bar { min-width:0; }
+ .workspace-tabs { width:100%; }
+ .role-workspace .planning-heading { flex:none; padding:10px 14px; }
+ .role-workspace .planning-heading>div:first-child { min-width:0; width:100%; }
+ .role-workspace .planning-actions { gap:6px; }
+ .role-context-path { overflow-wrap:anywhere; }
+ .role-library-shell .role-dialogue-item,.role-library-shell .role-context article { display:block; width:auto; }
+ .world-editor-modal>.modal-header { padding:16px; }
+ .world-editor-body { padding:16px 16px 0; }
+ .world-editor-footer>.modal-actions,.world-close-guard { padding:12px 16px; }
+}
+@media(max-width:560px) {
+ .app-bar { gap:4px; }
+ .app-bar>.edit-history-actions,.app-bar>.project-title { display:none; }
+}
+
+.breadcrumb-world {display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:inherit;font:inherit;padding:3px 0;}
+.breadcrumb-world:hover {color:var(--accent);}
+.breadcrumb-path {display:flex;align-items:center;gap:7px;min-width:0;flex:1;}
+.breadcrumb-path button {min-width:0;max-width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:inherit;color:inherit;}
+.breadcrumb-level:hover {color:var(--accent);}
+@media(max-width:1100px){.breadcrumb-path {display:none;}}
+@media(max-width:1100px){.breadcrumb-world {display:none;}}
