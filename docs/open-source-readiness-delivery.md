@@ -50,5 +50,9 @@ partial package. Dependency changes require refreshing upstream texts.
   immutable official Action references and no real provider credentials. Cloud
   run status is separate from local verification.
 
+The first cloud run found that the full frontend suite required build files
+that existed locally but not in a fresh checkout. The default `npm test` now
+prepares its build before execution, and CI avoids a redundant second build.
+
 This is local source/build acceptance, not clean Windows machine certification,
 a legal certification, or real-provider output-quality acceptance.

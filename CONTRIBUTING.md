@@ -39,6 +39,10 @@ OS. Set `NPCS_TEST_PYTHON` to a Python executable if using another environment.
 Install the backend into that environment first. Current constraint versions
 were verified on Windows; CI checks Windows and Ubuntu independently.
 
+`npm test` builds the frontend first because the full suite also verifies Sites
+output files. This keeps the same command valid in a fresh clone with no `dist`.
+完整前端测试包含构建输出检查，因此 `npm test` 会先构建；新克隆的仓库也可以直接运行。
+
 ## Checks / 检查
 
 ```sh

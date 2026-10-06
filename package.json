@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prepare-sites-build.mjs && node scripts/prepare-license-assets.mjs",
     "preview": "vite preview",
+    "pretest": "npm run build",
     "test": "node scripts/test-frontend.mjs",
     "test:bridge": "node --test tests/project-bridge.test.mjs",
     "test:sites": "node --test tests/sites-worker.test.mjs"

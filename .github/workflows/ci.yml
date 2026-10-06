@@ -39,7 +39,7 @@ jobs:
         run: |
           npm ci
           python -m pip install -e './backend[dev,package]' -c backend/requirements-dev.lock
-      - name: Frontend and backend tests
+      - name: Build and test frontend and backend
         run: |
           npm test
           python -m pytest backend/tests --basetemp .local-build/ci-pytest
@@ -49,9 +49,8 @@ jobs:
           node scripts/generate-help-guide.mjs --check
           python scripts/package-skills.py --check
           node scripts/check-repository.mjs
-      - name: Build and package boundaries
+      - name: Package boundaries
         run: |
-          npm run build
           npm run test:sites
       - name: Distributed Skill workflows
         run: python scripts/verify-skills.py
