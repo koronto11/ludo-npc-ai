@@ -60,6 +60,8 @@ packaging. Repository link checks require targets to be part of the publishable
 file inventory, even when ignored build outputs exist on the developer machine.
 Official Actions use Node 24-compatible v6 references; Ubuntu is pinned to 24.04
 to keep the operating-system baseline stable.
+The help-guide drift check also normalizes Git's Windows CRLF checkout endings
+before comparing content, while still rejecting actual text differences.
 
 This is local source/build acceptance, not clean Windows machine certification,
 a legal certification, or real-provider output-quality acceptance.

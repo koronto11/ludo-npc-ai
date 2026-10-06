@@ -7,6 +7,6 @@ for(const language of ['zh','en']){
   return `## ${index+1}. ${s.title}\n\n${s.intro}\n\n`+s.steps.map((line,i)=>`${i+1}. ${line}`).join('\n')+'\n\n'+(s.code?`\`\`\`text\n${s.code}\n\`\`\`\n\n`:'')+s.notes.map(note=>`- ${note}`).join('\n')+'\n';
  }).join('\n');
  const file=`docs/user-guide-${language}.md`;
- if(process.argv.includes('--check')){if(fs.readFileSync(file,'utf8')!==text)throw Error(`Guide drift: ${file}`);}else fs.writeFileSync(file,text);
+ if(process.argv.includes('--check')){if(fs.readFileSync(file,'utf8').replaceAll('\r\n','\n')!==text)throw Error(`Guide drift: ${file}`);}else fs.writeFileSync(file,text);
 }
 console.log('Bilingual help guides synchronized');
