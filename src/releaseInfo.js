@@ -6,6 +6,24 @@ export const releaseInfo = {
   channel: 'preview',
   updates: [
     {
+      date: '2026-10-09',
+      title: {zh: '资料排序与工作区伸缩', en: 'Library ordering and collapsible workspace panels'},
+      changes: {
+        zh: [
+          '左侧支持新建关卡，空项目提供创建第一个关卡的入口。',
+          '资料支持同级拖动排序、上移／下移和撤销；排序随项目保存，跨分组移动被阻止。',
+          '左侧资料库和底部运行面板新增收起／展开按钮，保留已有搜索、分组和预演状态。',
+          '补齐关系编辑弹窗组件，并修复开发预览的本机同源访问。',
+        ],
+        en: [
+          'Added level creation in the left library, including a first-level entry for empty projects.',
+          'Added sibling drag ordering, move up/down and undo; orders are saved with projects and cross-group moves are blocked.',
+          'Added collapse/expand controls for the left library and runtime panel while retaining search, groups and rehearsal state.',
+          'Restored the relationship editor component and corrected local same-origin access in the development preview.',
+        ],
+      },
+    },
+    {
       date: '2026-10-07',
       title: {zh: '工作台导航与平台介绍', en: 'Workbench navigation and platform overview'},
       changes: {

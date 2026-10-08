@@ -2572,6 +2572,9 @@
                   "$ref": "#/components/schemas/SetLevelControlOrder"
                 },
                 {
+                  "$ref": "#/components/schemas/SetLibraryOrder"
+                },
+                {
                   "$ref": "#/components/schemas/PutLevel"
                 },
                 {
@@ -2651,6 +2654,7 @@
                   "set_legacy_preview": "#/components/schemas/SetLegacyPreview",
                   "set_level_control_order": "#/components/schemas/SetLevelControlOrder",
                   "set_level_control_width": "#/components/schemas/SetLevelControlWidth",
+                  "set_library_order": "#/components/schemas/SetLibraryOrder",
                   "set_play_record_deleted": "#/components/schemas/SetPlayRecordDeleted"
                 }
               }
@@ -4426,6 +4430,28 @@
       },
       "Editor": {
         "properties": {
+          "library_orders": {
+            "additionalProperties": {
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+              },
+              "type": "array",
+              "maxItems": 10000
+            },
+            "propertyNames": {
+              "enum": [
+                "levels",
+                "world",
+                "characters",
+                "residents",
+                "events",
+                "texts"
+              ]
+            },
+            "type": "object",
+            "title": "Library Orders"
+          },
           "level_control_orders": {
             "patternProperties": {
               "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
@@ -7994,6 +8020,54 @@
           "width"
         ],
         "title": "SetLevelControlWidth"
+      },
+      "SetLibraryOrder": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "set_library_order",
+            "title": "Type"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "levels",
+              "world",
+              "characters",
+              "residents",
+              "events",
+              "texts"
+            ],
+            "title": "Scope"
+          },
+          "order": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Order"
+          },
+          "expected_order": {
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$"
+            },
+            "type": "array",
+            "maxItems": 10000,
+            "title": "Expected Order"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "scope",
+          "order",
+          "expected_order"
+        ],
+        "title": "SetLibraryOrder"
       },
       "SetPlayRecordDeleted": {
         "properties": {

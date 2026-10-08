@@ -13,7 +13,9 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     allowedHosts: ["terminal.local"],
-    proxy: { "/api": { target: `http://127.0.0.1:${process.env.LUDO_API_PORT || '4174'}`, changeOrigin: true } },
+    // Preserve the browser Host so the local API can validate same-origin requests
+    // on the actual development port, including 4184 and localhost aliases.
+    proxy: { "/api": { target: `http://127.0.0.1:${process.env.LUDO_API_PORT || '4174'}`, changeOrigin: false } },
     warmup: {
       clientFiles: ["./src/main.jsx"],
     },

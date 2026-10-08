@@ -572,5 +572,22 @@
   "{0} · {1} · {2}；点击编辑；上下排列，左右调整时间，跨场景移动": "{0} · {1} · {2}; click to edit; drag vertically to reorder, horizontally to adjust time, or to another scene",
   "调整控件排列": "Reorder controls",
   "控件排列已被其他编辑修改，请重新拖动": "The control order has changed in another edit. Drag it again.",
-  "控件排列包含重复或不属于关卡的控件": "The order contains duplicate controls or controls outside this level."
+  "控件排列包含重复或不属于关卡的控件": "The order contains duplicate controls or controls outside this level.",
+  "编辑关系": "Edit relationship",
+  "保存关系": "Save relationship",
+  "关系名称": "Relationship name",
+  "关系方向": "Relationship direction",
+  "关系说明": "Relationship description",
+  "关系类别": "Relationship category",
+  "收起左侧面板": "Collapse left panel",
+  "展开左侧面板": "Expand left panel",
+  "收起底部面板": "Collapse bottom panel",
+  "展开底部面板": "Expand bottom panel",
+  "同级排序 · Alt ↑ / ↓": "Reorder siblings · Alt ↑ / ↓",
+  "拖动排序：{0}": "Drag to reorder: {0}",
+  "资料排列已保存": "Library order saved",
+  "调整资料排列": "Reorder library items",
+  "资料排列已被其他编辑修改，请重新排序": "The library order changed in another edit. Reorder again.",
+  "资料排列或分组已变化，请重新排序": "The library order or group changed. Reorder again.",
+  "仅能排列同级资料，不能跨分组移动": "Only sibling items can be reordered. Moving between groups is unavailable."
 }

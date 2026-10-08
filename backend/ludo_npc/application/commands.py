@@ -2,6 +2,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field, JsonValue, StrictBool, StrictInt, StrictStr
 
+from ..domain.library_order import library_ids
 from ..domain.models import (
     COLLECTIONS,
     Canvas,
@@ -88,6 +89,13 @@ class SetLevelControlOrder(Contract):
     level_id: Id
     order: LevelControlOrder
     expected_order: LevelControlOrder
+
+
+class SetLibraryOrder(Contract):
+    type: Literal["set_library_order"]
+    scope: Literal["levels", "world", "characters", "residents", "events", "texts"]
+    order: list[Id] = Field(max_length=10_000)
+    expected_order: list[Id] = Field(max_length=10_000)
 
 
 class DeleteLevel(Contract):
@@ -193,6 +201,7 @@ Command = Annotated[
     | SetCharacterNote
     | SetLevelControlWidth
     | SetLevelControlOrder
+    | SetLibraryOrder
     | PutLevel
     | DeleteLevel
     | PutDialogueLayout
@@ -249,7 +258,8 @@ def level_control_keys(data, level):
         {f"appearance:{row['id']}" for row in level["appearances"] if not row.get("npc_group_id")}
         | {f"group:{row['id']}" for row in level["npc_groups"]}
         | {
-            f"event:{row['id']}" for row in data["content"]["events"]
+            f"event:{row['id']}"
+            for row in data["content"]["events"]
             if row.get("scope") and row["scope"]["level_id"] == level["id"]
         }
     )
@@ -352,6 +362,14 @@ def apply_commands(project: Project, batch: CommandBatch) -> Project:
             if len(command.order) != len(set(command.order)) or not set(command.order) <= allowed:
                 raise CommandError("控件排列包含重复或不属于关卡的控件")
             data["editor"]["level_control_orders"][command.level_id] = list(command.order)
+        elif isinstance(command, SetLibraryOrder):
+            current = data["editor"]["library_orders"].get(command.scope, [])
+            if current != command.expected_order:
+                raise CommandError("资料排列已被其他编辑修改，请重新排序")
+            allowed = library_ids(data["content"], data["editor"], command.scope)
+            if len(command.order) != len(set(command.order)) or not set(command.order) <= allowed:
+                raise CommandError("仅能排列同级资料，不能跨分组移动")
+            data["editor"]["library_orders"][command.scope] = list(command.order)
         elif isinstance(command, PutLevel):
             put(data["content"]["levels"], command.level.model_dump(mode="json"))
             anchors = {anchor.id: anchor.tick for anchor in command.level.anchors}
@@ -544,7 +562,9 @@ def apply_commands(project: Project, batch: CommandBatch) -> Project:
             del data["editor"]["level_control_orders"][level_id]
         else:
             allowed = level_control_keys(data, level)
-            data["editor"]["level_control_orders"][level_id] = [key for key in order if key in allowed]
+            data["editor"]["level_control_orders"][level_id] = [
+                key for key in order if key in allowed
+            ]
     for record in data["content"]["generation_history"]:
         if record["status"] == "awaiting_review" and record["draft_ids"]:
             related = [d for d in data["content"]["drafts"] if d["id"] in record["draft_ids"]]
@@ -552,6 +572,11 @@ def apply_commands(project: Project, batch: CommandBatch) -> Project:
                 record["status"] = (
                     "applied" if any(d["status"] == "accepted" for d in related) else "completed"
                 )
+    for scope, order in data["editor"]["library_orders"].items():
+        allowed = library_ids(data["content"], data["editor"], scope)
+        data["editor"]["library_orders"][scope] = [
+            identifier for identifier in order if identifier in allowed
+        ]
     content_changed = data["content"] != before["content"] or data["name"] != before["name"]
     layout_changed = data["editor"] != before["editor"]
     if not content_changed and not layout_changed:

@@ -9,7 +9,7 @@ import { TemplateLibrary } from './TemplateLibrary';
 import { ExportPanel } from './ExportPanel';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
-import { CaretDown, CaretRight, Check, CheckCircle, TreeStructure, User, Users, Flag, ChatText, FileText, Gear, Export, FolderOpen, FloppyDisk, X, ArrowCounterClockwise, ArrowClockwise, Eye, PencilSimple, WarningCircle, Sparkle, Trash, Rows, List, ArrowRight, Info, Globe, BookOpen, MagnifyingGlass, Cursor, Hand, Link, Plus, SquaresFour, ArrowsOut, Play, Circle, LockKey, Target } from '@phosphor-icons/react';
+import { CaretDown, CaretRight, CaretDoubleLeft, CaretDoubleRight, Check, CheckCircle, TreeStructure, User, Users, Flag, ChatText, FileText, Gear, Export, FolderOpen, FloppyDisk, X, ArrowCounterClockwise, ArrowClockwise, Eye, PencilSimple, WarningCircle, Sparkle, Trash, Rows, List, ArrowRight, Info, Globe, BookOpen, MagnifyingGlass, Cursor, Hand, Link, Plus, SquaresFour, ArrowsOut, Play, Circle, LockKey, Target } from '@phosphor-icons/react';
 import { Graph, kindIcons, kindLabels } from './Graph';
 import { Inspector } from './Inspector';
 import { RuntimeTimeline } from './Rehearsal';
@@ -26,6 +26,8 @@ import { WorkbenchMenu } from './WorkbenchMenu';
 import {recordDialogueId,replayRecordInputs} from './dialoguePlayModel';
 import {LibraryRow,LibraryActionMenu,LibraryUsageDialog,LibraryDeleteDialog,LibraryDeletedNotice} from './LibraryActions';
 import {libraryUsages} from './libraryActionsModel';
+import {libraryScope,librarySiblings} from './libraryOrderingModel';
+import {useLibraryOrdering} from './useLibraryOrdering';
 
 import { useLocalProject } from './useLocalProject';
 import { FilePanel } from './FilePanel';
@@ -35,6 +37,7 @@ import { LevelCanvas, PlaceCharactersModal } from './LevelCanvas';
 import { CharacterOverview } from './CharacterOverview';
 import { GenerationDock } from './GenerationDock';
 import { RelationshipCanvas } from './RelationshipCanvas';
+import { RelationModal } from './RelationModal';
 import { RoleWorkbench } from './RoleWorkbench';
 import { resolveRoleContext } from './roleDialogueTree';
 import { SceneCrowdModal, SceneTextsModal } from './SceneCrowd';
@@ -73,6 +76,7 @@ function Director() {
   const [compactLayout,setCompactLayout]=useState(window.innerWidth<=1100);
   const [libraryVisible,setLibraryVisible]=useState(true);
   const [timelineVisible,setTimelineVisible]=useState(true);
+  const [timelineExpanded,setTimelineExpanded]=useState(null);
   const [focusCanvas,setFocusCanvas]=useState(false);
   const [sessionKeys, setSessionKeys] = useState({});
   const toastTimer = useRef(null);
@@ -99,6 +103,10 @@ function Director() {
   };
   const openWorkbench = (level, appearance, actorId, dialogueId, options) => navigation.request(() => enterWorkbench(level,appearance,actorId,dialogueId,options),'角色工作台 / 出场场景');
   const locate = (identifier, appearanceId, actorId) => navigation.request(() => { setLocatedTrack(null);setLevelId(identifier);setLocatedAppearance(appearanceId || '');if(actorId)setSelectedId(actorId);setWorkspace('关卡画布'); },'关卡画布');
+  const createLevel = () => navigation.request(() => {
+    setWorkspace('关卡画布');setSidebarOpen(false);
+    setLevelSettingsRequest({creating:true,nonce:makeId('new-level')});
+  },'新建关卡');
   const viewRelations = actorId => navigation.request(() => {setSelectedId(actorId);setWorkspace('关系画布');setInspectorOpen(true);setInspectorTab('关系');},'关系画布');
   const placeCharacters = ids => { if(!local.project._document?.content.levels.length) { chooseWorkspace('关卡画布');announce(t("先创建一个关卡，再安排人物出场"));return; } setModal({type:'place',characterIds:ids}); };
   const openAuthoring = id => navigation.request(() => {const c=local.project._document?.content;const dialogue=c?.dialogues.find(d=>d.id===id);if(dialogue?.character_id){enterWorkbench(null,null,dialogue.character_id,dialogue.id);return;}const event=[...(c?.events || []),...(c?.rules || [])].find(row=>row.id===id);if(event?.scope)setLevelId(event.scope.level_id);setPlotRequest({nonce:makeId('plot-panel'),id:event?.id,global:!event?.scope,resources:!!id&&!event,resourcesId:id});setWorkspace('关卡画布');setSidebarOpen(false); },'剧情与文本资料');
@@ -185,6 +193,8 @@ function Director() {
     patch(previous => ({ ...previous, entities: [...previous.entities, item], tasks: modal.type === 'generate' ? [...previous.tasks, { id: makeId('task'), name: `${item.name} · 角色草稿`, status: 'completed', detail: '已审核并写入' }] : previous.tasks }));
     select(item.id); setModal(null); setWorkspace('关系画布'); announce(t("{0}已加入项目", [item.name])); setTimeout(fit, 100);
   };
+  const libraryOrdering=useLibraryOrdering(local,announce);
+  const orderedLibrary=scope=>librarySiblings(project,scope);
   const matches = item => `${item.name} ${item.role} ${item.summary || ''}`.includes(query.trim());
   const characters = project.entities.filter(item => item.kind === 'character' && !item.hidden && item.tier !== '背景角色');
   const residents = project.entities.filter(item => item.kind === 'character' && (item.hidden || item.tier === '背景角色'));
@@ -233,17 +243,22 @@ function Director() {
     if(target.kind==='character'){rows.push(action('打开角色工作台',()=>openWorkbench(null,null,target.id),ChatText),action('查看人物关系',()=>viewRelations(target.id),Link));}
     if(target.kind==='event'){const event=project._document.content.events.find(row=>row.id===target.id);if(event?.scope)rows.push(action('定位所属关卡',()=>navigation.request(()=>{setLevelId(event.scope.level_id);setWorkspace('关卡画布');setPlotRequest({id:event.id,nonce:makeId('locate-event')});},'关卡画布'),Target));}
     if(libraryUsages(project._document,target).length)rows.push(action('查看使用位置',()=>showLibraryUsages(target),Target));
+    const scope=target.library_scope;
+    if(scope){const siblings=orderedLibrary(scope),index=siblings.findIndex(row=>row.id===target.id);rows.push({...action('上移',()=>libraryOrdering.move(scope,target.id,-1)),disabled:libraryOrdering.busy||index<=0},{...action('下移',()=>libraryOrdering.move(scope,target.id,1)),disabled:libraryOrdering.busy||index<0||index===siblings.length-1});}
     rows.push(action(target.kind==='level'?'删除关卡':target.kind==='character'?'删除人物':target.kind==='dialogue'?'删除对白':target.kind==='event'?'删除事件':target.kind==='text'?'删除文本':'删除资料',()=>deleteLibraryTarget(target),Trash,true));return rows;
   };
-  const libraryRow=item=> <LibraryRow menuTarget={libraryMenu?.target} key={item.id} target={item} Icon={kindIcons[item.kind]} selected={selectedId===item.id} onMore={setLibraryMenu} draggable onDragStart={event=>event.dataTransfer.setData('application/ludo-entity',item.id)} onOpen={()=>{if(['event','dialogue','text','location','faction'].includes(item.kind)){editLibraryTarget(item);return;}if(['关卡画布','人物总览','草稿审核','情境预演'].includes(workspace)){openCharacter(item.id);return;}select(item.id);if(item.hidden)announce(t('将这个角色拖到画布，可显示其关系'));}}>{item.name}{item.kind==='character'&&item.role&&<small> · {item.role}</small>}</LibraryRow>;
+  const libraryRow=item=> <LibraryRow {...libraryOrdering.props(libraryScope(item),item.id)} menuTarget={libraryMenu?.target} key={item.id} target={{...item,library_scope:libraryScope(item)}} Icon={kindIcons[item.kind]} selected={selectedId===item.id} onMore={setLibraryMenu} draggable onDragStart={event=>event.dataTransfer.setData('application/ludo-entity',item.id)} onOpen={()=>{if(['event','dialogue','text','location','faction'].includes(item.kind)){editLibraryTarget(item);return;}if(['关卡画布','人物总览','草稿审核','情境预演'].includes(workspace)){openCharacter(item.id);return;}select(item.id);if(item.hidden)announce(t('将这个角色拖到画布，可显示其关系'));}}>{item.name}{item.kind==='character'&&item.role&&<small> · {item.role}</small>}</LibraryRow>;
   const groupHeader=(key,label,Icon,count)=><LibraryRow menuTarget={libraryMenu?.target} group target={{kind:'group',id:key,name:t(label)}} onMore={setLibraryMenu} onOpen={()=>setCollapsed(previous=>({...previous,[key]:!previous[key]}))}>{collapsed[key]?<CaretRight size={12}/>:<CaretDown size={12}/>}<Icon size={18}/><strong>{t(label)}</strong>{count!==undefined&&<small>{count}</small>}</LibraryRow>;
 
   const planningMode = ['关卡画布','人物总览','角色工作台'].includes(workspace);
   const reviewMode = workspace === '草稿审核';
   const showInspector = inspectorOpen && !planningMode && !reviewMode && !focusCanvas;
   const libraryShown=!focusCanvas&&(compactLayout?sidebarOpen:libraryVisible);
-  const restoreLayout=()=>{setFocusCanvas(false);setLibraryVisible(true);setSidebarOpen(false);setInspectorOpen(window.innerWidth>760);setTimelineVisible(true);};
-  return <main className={`director ${showInspector ? '' : 'inspector-hidden'} ${sidebarOpen && !focusCanvas ? 'sidebar-open' : ''} ${(!compactLayout&&!libraryVisible)||focusCanvas?'library-hidden':''} ${!timelineVisible||focusCanvas?'timeline-hidden':''} ${planningMode ? 'planning-mode' : ''} ${planningMode && timelineTab === '故事时间线' ? 'timeline-compact' : ''} ${reviewMode ? 'review-mode' : ''} ${workspace === '关系画布' ? 'relationship-mode' : ''}`}>
+  const timelineCollapsed=timelineExpanded===null?planningMode&&timelineTab==='故事时间线':!timelineExpanded;
+  const selectTimelineTab=tab=>{setTimelineTab(tab);setTimelineExpanded(true);};
+  const toggleLibrary=()=>{setLibraryMenu(null);setFocusCanvas(false);if(compactLayout)setSidebarOpen(!libraryShown);else setLibraryVisible(!libraryShown);};
+  const restoreLayout=()=>{setFocusCanvas(false);setLibraryVisible(true);setSidebarOpen(false);setInspectorOpen(window.innerWidth>760);setTimelineVisible(true);setTimelineExpanded(null);};
+  return <main className={`director ${showInspector ? '' : 'inspector-hidden'} ${sidebarOpen && !focusCanvas ? 'sidebar-open' : ''} ${(!compactLayout&&!libraryVisible)||focusCanvas?'library-hidden':''} ${!timelineVisible||focusCanvas?'timeline-hidden':''} ${planningMode ? 'planning-mode' : ''} ${timelineCollapsed ? 'timeline-compact' : ''} ${reviewMode ? 'review-mode' : ''} ${workspace === '关系画布' ? 'relationship-mode' : ''}`}>
     <header className="app-bar">
       <Brand /><button className="icon-button help-mobile-button" aria-label={t("帮助")} onClick={()=>setModal({type:'help'})}><BookOpen size={18}/></button>
       <div className="app-menus">
@@ -257,7 +272,7 @@ function Director() {
           <button disabled={!local.ready} onClick={()=>openWorldSection('rule')}><Flag/><span>{t("全局剧情规则")}</span></button>
         </WorkbenchMenu>
         <WorkbenchMenu id="view" label={t("视图")} open={activeMenu==='view'} onToggle={()=>setActiveMenu(activeMenu==='view'?null:'view')} onClose={closeMenu}>
-          <button role="menuitemcheckbox" aria-checked={libraryShown} onClick={()=>{setFocusCanvas(false);if(compactLayout)setSidebarOpen(!libraryShown);else setLibraryVisible(!libraryShown);}}><span>{t("显示左侧资料库")}</span>{libraryShown&&<Check size={16}/>}</button>
+          <button role="menuitemcheckbox" aria-checked={libraryShown} onClick={toggleLibrary}><span>{t("显示左侧资料库")}</span>{libraryShown&&<Check size={16}/>}</button>
           <button role="menuitemcheckbox" aria-checked={showInspector} disabled={planningMode||reviewMode} onClick={()=>{setFocusCanvas(false);setInspectorOpen(!showInspector);}}><span>{workspace==='情境预演'?t("显示场景人物面板"):t("显示右侧属性面板")}</span>{showInspector&&<Check size={16}/>}</button>
           {(planningMode||reviewMode)&&<small className="menu-hint">{t("当前页面使用自己的卡片详情面板。")}</small>}
           <button role="menuitemcheckbox" aria-checked={timelineVisible&&!focusCanvas&&!reviewMode} disabled={reviewMode} onClick={()=>{setFocusCanvas(false);setTimelineVisible(!(timelineVisible&&!focusCanvas));}}><span>{t("显示底部时间线")}</span>{timelineVisible&&!focusCanvas&&!reviewMode&&<Check size={16}/>}</button><hr role="separator"/>
@@ -270,26 +285,27 @@ function Director() {
       <div className="app-bar-actions"><button className={`save-indicator ${saveState === '保存失败' ? 'danger' : ''}`} onClick={save}><Check size={14} />{tm(saveState)}</button><button className="model-status" onClick={() => setModal({ type: 'model' })}><Circle size={11} weight="fill" />{local.workspaceInfo?.model_profiles?.find(p=>p.id===local.workspaceInfo.active_profile_id)?.name ? t("模型配置 · {0} 个已启用", [local.workspaceInfo.model_profiles.filter(p=>p.enabled!==false&&!p.archived).length]) : t("模型配置 · 未启用")}</button><button className="compact-button" onClick={download}><Export size={15} />{t("导出")}</button><button className="icon-button" onClick={() => setModal({ type: 'model' })} aria-label={t("模型设置")}><Gear size={18} /></button><LanguageSwitch /></div>
     </header>
     <div className="context-bar">
-      <div className="breadcrumb"><button className="icon-button library-toggle" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label={t("切换资料库")}><List /></button><TreeStructure size={18} /><div className="breadcrumb-path"><button className="breadcrumb-world" title={t("编辑世界底稿")} onClick={()=>navigation.request(()=>setModal({type:'world'}),'世界底稿')}>{project.world.name}</button><small>/</small><button className="breadcrumb-level" title={t("打开关卡设置")} onClick={()=>navigation.request(()=>{setWorkspace('关卡画布');if(currentLevel){setLevelId(currentLevel.id);setLevelSettingsRequest({nonce:makeId('settings')});}},'关卡设置')}>{currentLevel?.name || t("未创建关卡")}</button></div></div>
+      <div className="breadcrumb"><TreeStructure size={18} /><div className="breadcrumb-path"><button className="breadcrumb-world" title={t("编辑世界底稿")} onClick={()=>navigation.request(()=>setModal({type:'world'}),'世界底稿')}>{project.world.name}</button><small>/</small><button className="breadcrumb-level" title={t("打开关卡设置")} onClick={()=>navigation.request(()=>{setWorkspace('关卡画布');if(currentLevel){setLevelId(currentLevel.id);setLevelSettingsRequest({nonce:makeId('settings')});}},'关卡设置')}>{currentLevel?.name || t("未创建关卡")}</button></div><button className="icon-button library-toggle" onClick={toggleLibrary} title={t(libraryShown?'收起左侧面板':'展开左侧面板')} aria-label={t(libraryShown?'收起左侧面板':'展开左侧面板')} aria-expanded={libraryShown} aria-controls="author-library">{libraryShown?<CaretDoubleLeft size={16}/>:<CaretDoubleRight size={16}/>}</button></div>
       <nav className="workspace-tabs" aria-label={t("工作区")}>{['关卡画布', '人物总览', '角色工作台', '关系画布', '草稿审核', '情境预演'].map(name => <button key={name} className={workspace === name ? 'active' : ''} onClick={() => { if(name==='角色工作台'){openWorkbench(null,null,previewId);return;}chooseWorkspace(name); if (name === '关系画布') setInspectorTab('关系'); }}>{name==='情境预演'?t("全局预演"):t(name)}</button>)}</nav>
       <button className="mobile-rehearsal-button" title={t("全局预演")} aria-label={t("全局预演")} onClick={()=>chooseWorkspace("情境预演")}><Play size={18}/></button><div className="context-actions"><button className="primary" onClick={() => setModal({ type: 'generate', actor: null })}><Sparkle size={16} />{t("生成角色")}</button><button className="icon-button inspector-toggle" onClick={() => setInspectorOpen(!inspectorOpen)} aria-label={t("切换属性面板")}><Rows size={18} /></button></div>
     </div>
     {sidebarOpen && !focusCanvas && <div className="dock-scrim" onClick={() => setSidebarOpen(false)} />}
-    <aside className="library">
+    <aside className="library" id="author-library">
       <div className="library-tabs"><button className={libraryTab === '资料' ? 'active' : ''} onClick={() => setLibraryTab('资料')}>{t("资料")}</button><button className={libraryTab === '模板' ? 'active' : ''} onClick={() => setLibraryTab('模板')}>{t("模板")}</button></div>
       <div className="library-search"><MagnifyingGlass size={16} /><input aria-label={t("搜索资料")} placeholder={t("搜索世界、角色与文本…")} value={query} onChange={event => setQuery(event.target.value)} />{query && <button className="icon-button" onClick={() => setQuery('')} aria-label={t("清除搜索")}><X size={12} /></button>}</div>
-      <div className="library-tree">
+      <div className="library-tree" {...libraryOrdering.treeProps}>
         {libraryTab === '模板' ? <div className="template-list">{[['人物设定模板','character'],['对白结构模板','dialogue'],['我的模板与归档','all']].map(([name,kind])=><button key={name} onClick={()=>openTemplates(kind)}><FileText size={19}/><span>{t(name)}<small>{t("选择结构、预览并创建")}</small></span><Plus size={16}/></button>)}</div> : <>
-          <div className="library-planning-shortcuts"><button onClick={()=>chooseWorkspace('关卡画布')}><SquaresFour size={16}/>{t("关卡与场景")}</button><button onClick={()=>chooseWorkspace('人物总览')}><Users size={16}/>{t("全部人物 ")}<small>{project.entities.filter(e=>e.kind==='character').length}</small></button></div>
-          {(project._document?.content.levels || []).map(level=><LibraryRow menuTarget={libraryMenu?.target} key={level.id} target={{...level,kind:'level'}} Icon={Flag} selected={(levelId || project._document.content.levels[0]?.id)===level.id&&workspace==='关卡画布'} onMore={setLibraryMenu} onOpen={()=>locate(level.id)}>{level.name}<small> · {level.tracks.length}{t(" 场景")}</small></LibraryRow>)}
+          <div className="library-planning-shortcuts"><div className="library-level-shortcut"><button onClick={()=>chooseWorkspace('关卡画布')}><SquaresFour size={16}/>{t("关卡与场景")}</button><button className="library-add-level" title={t("新建关卡")} aria-label={t("新建关卡")} disabled={!local.ready || !project._document || local.historyBusy} onClick={createLevel}><Plus size={18}/></button></div><button onClick={()=>chooseWorkspace('人物总览')}><Users size={16}/>{t("全部人物 ")}<small>{project.entities.filter(e=>e.kind==='character').length}</small></button></div>
+          {project._document && !project._document.content.levels.length && <button className="library-first-level" disabled={!local.ready || local.historyBusy} onClick={createLevel}><Plus size={15}/>{t("创建第一个关卡")}</button>}
+          {orderedLibrary('levels').map(level=><LibraryRow {...libraryOrdering.props('levels',level.id)} menuTarget={libraryMenu?.target} key={level.id} target={{...level,kind:'level',library_scope:'levels'}} Icon={Flag} selected={(levelId || project._document.content.levels[0]?.id)===level.id&&workspace==='关卡画布'} onMore={setLibraryMenu} onOpen={()=>locate(level.id)}>{level.name}<small> · {level.tracks.length}{t(" 场景")}</small></LibraryRow>)}
           {groupHeader('world', '世界底稿', Globe)}
-          {!collapsed.world && <div className="library-children"><LibraryRow menuTarget={libraryMenu?.target} target={{kind:'world',id:'world',name:t('世界规则')}} Icon={BookOpen} onMore={setLibraryMenu} onOpen={()=>editLibraryTarget({kind:'world'})}>{t('世界规则')}</LibraryRow>{project.entities.filter(item => ['faction', 'location'].includes(item.kind) && matches(item)).map(libraryRow)}</div>}
+          {!collapsed.world && <div className="library-children"><LibraryRow menuTarget={libraryMenu?.target} target={{kind:'world',id:'world',name:t('世界规则')}} Icon={BookOpen} onMore={setLibraryMenu} onOpen={()=>editLibraryTarget({kind:'world'})}>{t('世界规则')}</LibraryRow>{orderedLibrary('world').filter(matches).map(libraryRow)}</div>}
           {groupHeader('characters', '角色', Users, characters.length + residents.length)}
-          {!collapsed.characters && <div className="library-children">{characters.filter(matches).map(libraryRow)}{groupHeader('residents', '背景居民', Users, residents.length)}{(!collapsed.residents || query) && residents.filter(matches).map(libraryRow)}</div>}
+          {!collapsed.characters && <div className="library-children">{orderedLibrary('characters').filter(matches).map(libraryRow)}{groupHeader('residents', '背景居民', Users, residents.length)}{(!collapsed.residents || query) && orderedLibrary('residents').filter(matches).map(libraryRow)}</div>}
           {groupHeader('events', '故事事件', Flag, events.length)}
-          {!collapsed.events && <div className="library-children">{events.filter(matches).map(libraryRow)}</div>}
+          {!collapsed.events && <div className="library-children">{orderedLibrary('events').filter(matches).map(libraryRow)}</div>}
           {groupHeader('texts', '对话与文本', ChatText, project.entities.filter(e => ['dialogue', 'text'].includes(e.kind)).length)}
-          {!collapsed.texts && <div className="library-children">{project.entities.filter(item => ['dialogue', 'text'].includes(item.kind) && matches(item)).map(libraryRow)}<button className="library-row" onClick={() => openAuthoring()}><FileText size={16} /><span>{t("剧情与文本资料")}</span></button></div>}
+          {!collapsed.texts && <div className="library-children">{orderedLibrary('texts').filter(matches).map(libraryRow)}<button className="library-row" onClick={() => openAuthoring()}><FileText size={16} /><span>{t("剧情与文本资料")}</span></button></div>}
           {query && !project.entities.some(matches) && <p className="muted-text search-empty">{t("没有匹配的资料")}</p>}
         </>}
       </div>
@@ -302,7 +318,7 @@ function Director() {
         {workspace === '关卡画布' ? <LevelCanvas onWorld={()=>setModal({type:"world"})} onCharacters={()=>chooseWorkspace("人物总览")} onNavigationHandlers={navigation.register} onNavigate={navigation.request} onDirtyChange={setAuthorDirty} local={local} levelId={levelId} initialSettingsRequest={levelSettingsRequest} onSettingsOpened={()=>setLevelSettingsRequest(null)} locatedAppearance={locatedAppearance} locatedTrack={locatedTrack} rehearsal={rehearsal} initialPlotRequest={plotRequest} onPlot={openAuthoring} onLevel={setLevelId} onSelect={select} onWorkbench={openWorkbench} onPlace={placeCharacters} onCrowd={(level,track,group,memberId)=>setModal({type:'crowd',level,track,group,memberId})} onNpcReview={draft=>setModal({type:'npc-review',request:{draftId:draft.id,taskId:draft.task_id,nonce:makeId('review')}})} onSceneContent={(level,track)=>openSceneContent({level_id:level.id,track_id:track.id})} announce={announce}/> : workspace === '人物总览' ? <CharacterOverview onEditProfile={openCharacter} onStory={openStory} local={local} selectedId={selectedId} onSelect={select} onLocate={locate} onWorkbench={openWorkbench} onRelation={viewRelations} onPlace={placeCharacters} onCreate={()=>setModal({type:'create-character'})} announce={announce}/> : workspace === '角色工作台' ? <RoleWorkbench onGlobalRecords={()=>navigation.request(()=>{setWorkspace("情境预演");levelStory.setPanel("records");},"关卡试玩记录")} onTemplate={id=>openTemplates('dialogue',id?{kind:'dialogue',id}:undefined)} onNavigationHandlers={navigation.register} onNavigate={navigation.request} local={local} rehearsal={rehearsal} characterId={previewId} context={roleContext} onWorkbench={openWorkbench} onLocate={locate} onRelation={viewRelations} onGenerate={openStory} announce={announce} onDirtyChange={setAuthorDirty}/> : workspace === '关系画布' ? <RelationshipCanvas onEditProfile={openCharacter} onStory={openStory} local={local} selectedId={selectedId} onSelect={(id,focus)=>{select(id,focus);if(!focus){setInspectorTab('关系');if(window.innerWidth<=760)setInspectorOpen(false);}}} onPositions={onPositions} onConnect={connect} onEdge={edge=>setModal({type:'relation',edge})} onReady={setFlow} onDropEntity={dropEntity} rehearsal={rehearsal} onWorkbench={id=>openWorkbench(null,null,id)} onLocate={locate} onSceneWorkbench={openWorkbench} onPlace={placeCharacters} onCreate={()=>setModal({type:'add'})} announce={announce}/> : workspace === '草稿审核' ? <DraftReviewWorkspace initialRequest={reviewRequest} onSceneContent={openSceneContent} onOpenTarget={openDraftTarget} onNavigationHandlers={navigation.register} onNavigate={navigation.request} local={local} generation={generation} announce={announce} onDirtyChange={setDraftDirty} onGenerate={() => setModal({type:'generate'})} onRetry={retry=>setModal({type:'generate',retry})}/> : <LevelStoryWorkspace local={local} onReplayCard={record=>{const graph=local.project._document.content.dialogues.find(g=>g.id===recordDialogueId(record));if(graph?.character_id)openWorkbench(null,null,graph.character_id,graph.id,{replayInputs:replayRecordInputs(record,graph.id)});}} onReload={()=>navigation.request(async()=>{try{await local.refresh(true);announce(t("已载入最新工程，正在重新计算预演。"));}catch(error){announce(error.message);}},"载入最新工程")} castOpen={showInspector} onOpenCast={()=>setInspectorOpen(true)} story={levelStory} onNavigationHandlers={navigation.register} onEdit={() => openAuthoring()} onLocate={openAuthoring} />}
       </div>
     </section>
-    {!reviewMode && <RuntimeTimeline rehearsal={rehearsal} project={project} onSelect={select} tab={timelineTab} setTab={setTimelineTab} />}
+    {!reviewMode && <RuntimeTimeline rehearsal={rehearsal} project={project} onSelect={select} tab={timelineTab} setTab={selectTimelineTab} collapsed={timelineCollapsed} onToggleCollapsed={()=>setTimelineExpanded(timelineCollapsed)} />}
     {showInspector && (workspace==='情境预演'?<LevelStoryCast story={levelStory} onClose={()=>setInspectorOpen(false)}/>:<Inspector onEditAsset={openWorldAsset} onEditProfile={openCharacter} local={local} onLocate={locate} onWorkbench={openWorkbench} rehearsal={rehearsal} onAuthoring={openAuthoring} project={project} selectedId={selectedId} onEdit={edit} onSelect={select} onClose={() => setInspectorOpen(false)} tab={inspectorTab} setTab={setInspectorTab} onGenerate={actor => setModal({ type: 'generate', actor })} onRemove={actor => setModal({ type: 'remove', actor })} />)}
     <footer className="status-bar"><button className="file-location" title={local.file.path || t("首次保存请选择文件")} onClick={() => openFile('open')}><FolderOpen size={12} />{local.file.path || t("尚未保存到文件")}</button><span>{t("世界底稿 v")}{project._document?.content_revision || project.world.revision}</span><span><CheckCircle size={12} />{t("通用预演 · 内容 v{0}", [rehearsal.result?.content_revision || project._document?.content_revision || 1])}</span><span>{selectedId ? t("已选中 1 个对象") : t("未选择对象")}</span><span className="status-spacer" /><span>{t("空格拖动画布 · 双击编辑 · Ctrl S 保存")}</span></footer>
     {local.failure && <div className="storage-error" role="alert"><WarningCircle size={18} /><span>{local.failure}</span><button onClick={save}>{t("重试保存")}</button><button onClick={() => setModal({ type: 'file', mode: 'save-as' })}>{t("另存副本")}</button>{!local.ready && <button onClick={() => window.location.reload()}>{t("重新连接")}</button>}</div>}

@@ -3748,6 +3748,54 @@
       "title": "SetLevelControlWidth",
       "type": "object"
     },
+    "SetLibraryOrder": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "set_library_order",
+          "title": "Type",
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "levels",
+            "world",
+            "characters",
+            "residents",
+            "events",
+            "texts"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "order": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "title": "Order",
+          "type": "array"
+        },
+        "expected_order": {
+          "items": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
+            "type": "string"
+          },
+          "maxItems": 10000,
+          "title": "Expected Order",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "scope",
+        "order",
+        "expected_order"
+      ],
+      "title": "SetLibraryOrder",
+      "type": "object"
+    },
     "SetPlayRecordDeleted": {
       "additionalProperties": false,
       "properties": {
@@ -4496,6 +4544,7 @@
             "set_legacy_preview": "#/$defs/SetLegacyPreview",
             "set_level_control_order": "#/$defs/SetLevelControlOrder",
             "set_level_control_width": "#/$defs/SetLevelControlWidth",
+            "set_library_order": "#/$defs/SetLibraryOrder",
             "set_play_record_deleted": "#/$defs/SetPlayRecordDeleted"
           },
           "propertyName": "type"
@@ -4527,6 +4576,9 @@
           },
           {
             "$ref": "#/$defs/SetLevelControlOrder"
+          },
+          {
+            "$ref": "#/$defs/SetLibraryOrder"
           },
           {
             "$ref": "#/$defs/PutLevel"

@@ -400,6 +400,15 @@ def validate_project(project: Project):
         "editor.deleted_play_records",
         "删除标记不能重复",
     )
+    from .library_order import library_ids
+
+    for scope, order in project.editor.library_orders.items():
+        require(
+            len(order) == len(set(order))
+            and set(order) <= library_ids(content, project.editor, scope),
+            "editor.library_orders",
+            "排列引用重复或不属于同级资料",
+        )
     for character_id in project.editor.character_notes:
         ref("character", character_id, "editor.character_notes")
     for level_id, widths in project.editor.level_control_widths.items():
@@ -426,10 +435,17 @@ def validate_project(project: Project):
         allowed = (
             {f"appearance:{row.id}" for row in level.appearances if not row.npc_group_id}
             | {f"group:{row.id}" for row in level.npc_groups}
-            | {f"event:{row.id}" for row in content.events if row.scope and row.scope.level_id == level_id}
+            | {
+                f"event:{row.id}"
+                for row in content.events
+                if row.scope and row.scope.level_id == level_id
+            }
         )
-        require(len(order) == len(set(order)) and set(order) <= allowed,
-                "editor.level_control_orders", "排列引用重复或不属于关卡的控件")
+        require(
+            len(order) == len(set(order)) and set(order) <= allowed,
+            "editor.level_control_orders",
+            "排列引用重复或不属于关卡的控件",
+        )
     for dialogue_id, positions in project.editor.dialogue_layouts.items():
         dialogue = ref("dialogue", dialogue_id, "editor.dialogue_layouts")
         require(

@@ -655,6 +655,10 @@ class LevelControlWidths(Contract):
 
 
 class Editor(Contract):
+    library_orders: dict[
+        Literal["levels", "world", "characters", "residents", "events", "texts"],
+        Annotated[list[Id], Field(max_length=10_000)],
+    ] = Field(default_factory=dict)
     level_control_orders: dict[Id, LevelControlOrder] = Field(default_factory=dict)
     level_control_widths: dict[Id, LevelControlWidths] = Field(default_factory=dict)
     canvases: list[Canvas] = Field(default_factory=list, max_length=100)

@@ -5,6 +5,12 @@
 .library-planning-shortcuts { display:grid; gap:5px; margin:0 9px 12px; }
 .library-planning-shortcuts button { display:flex; align-items:center; gap:9px; padding:9px 10px; background:#332b23; border:1px solid #584735; border-radius:4px; text-align:left; font-size:12px; }
 .library-planning-shortcuts small { margin-left:auto; }
+.library-level-shortcut { display:flex; gap:4px; min-width:0; }
+.library-level-shortcut > button:first-child { flex:1; min-width:0; }
+.library-planning-shortcuts .library-add-level { flex:none; justify-content:center; width:38px; padding:8px; }
+.library-add-level:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+.library-first-level { display:flex; align-items:center; gap:8px; margin:0 9px 12px; padding:9px 10px; width:calc(100% - 18px); border:1px dashed var(--line); border-radius:4px; color:var(--accent); text-align:left; font-size:12px; }
+.library-first-level:hover:not(:disabled) { background:#332b23; border-color:var(--accent); }
 .planning-mode .timeline-dock.dock-collapsed { height:44px; }
 .planning-mode .dock-collapsed .runtime-tracks { display:none; }
 .planning-mode .timeline-toolbar { border-bottom:0; }

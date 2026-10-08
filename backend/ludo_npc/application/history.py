@@ -24,6 +24,7 @@ MANUAL = {
     "set_character_note",
     "set_level_control_width",
     "set_level_control_order",
+    "set_library_order",
 }
 LABELS = {
     "create_entity": "创建对象",
@@ -42,6 +43,7 @@ LABELS = {
     "set_character_note": "编辑快速备注",
     "set_level_control_width": "调整控件宽度",
     "set_level_control_order": "调整控件排列",
+    "set_library_order": "调整资料排列",
 }
 EXCLUDED = {
     ("content", "drafts"),

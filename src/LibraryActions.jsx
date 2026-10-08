@@ -1,15 +1,16 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {DotsThree,Trash,ArrowCounterClockwise,X} from '@phosphor-icons/react';
+import {DotsThree,DotsSixVertical,Trash,ArrowCounterClockwise,X} from '@phosphor-icons/react';
 import {Modal} from './Modal';
 import {t,tm,useI18n} from './i18n';
 import {libraryDeleteCommands,libraryDeleteBlockers,libraryObject,libraryUsages} from './libraryActionsModel';
 import './libraryActions.css';
 
-export function LibraryRow({target,Icon,children,selected,onOpen,onMore,draggable=false,onDragStart,group=false,disabled=false,menuTarget=null}) {
+export function LibraryRow({target,Icon,children,selected,onOpen,onMore,draggable=false,onDragStart,group=false,disabled=false,menuTarget=null,sortScope,sortDisabled=false,sorting=false,insertion,onSortStart,onSortEnd,onSortOver,onSortDrop,onSortKey}) {
   useI18n();
   const more=e=>{e.preventDefault();e.stopPropagation();const trigger=e.currentTarget,rect=trigger.getBoundingClientRect();onMore({target,trigger,x:rect.right,y:rect.bottom});};
-  return <div className={`library-action-row ${selected?'selected':''} ${group?'library-action-group':''}`}>
+  return <div data-library-scope={sortScope} data-library-id={target.id} className={`library-action-row ${selected?'selected':''} ${group?'library-action-group':''} ${sorting?'library-sorting':''} ${insertion?`library-insert-${insertion}`:''}`} onDragOver={onSortOver} onDrop={onSortDrop}>
+    {sortScope&&<button className="library-sort-handle" disabled={disabled||sortDisabled} draggable={!disabled&&!sortDisabled} title={t('同级排序 · Alt ↑ / ↓')} aria-label={t('拖动排序：{0}',[target.name])} onDragStart={onSortStart} onDragEnd={onSortEnd} onKeyDown={onSortKey} onClick={e=>e.stopPropagation()}><DotsSixVertical size={14}/></button>}
     <button className={group?'library-group':'library-row'} disabled={disabled} draggable={draggable} onDragStart={onDragStart} onClick={onOpen} onContextMenu={more} onKeyDown={e=>{if(e.key==='ContextMenu'||e.key==='F10'&&e.shiftKey)more(e);}}>{Icon&&<Icon size={17}/>}<span>{children}</span></button>
     <button className="library-more icon-button" disabled={disabled} aria-label={t('更多操作：{0}',[target.name])} aria-haspopup="menu" aria-expanded={menuTarget?.kind===target.kind&&menuTarget?.id===target.id} onClick={more}><DotsThree size={20} weight="bold"/></button>
   </div>;
@@ -28,8 +29,8 @@ export function LibraryActionMenu({context,actions,onClose}) {
   return createPortal(<div ref={ref} className="library-action-menu" role="menu" aria-label={t('资料操作：{0}',[context.target.name])} style={position} onKeyDown={e=>{
     if(e.key==='Escape'||e.key==='Tab'){e.preventDefault();e.stopPropagation();onClose(true);return;}
     if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;
-    e.preventDefault();const items=[...ref.current.querySelectorAll('[role="menuitem"]')],index=items.indexOf(document.activeElement);items[e.key==='Home'?0:e.key==='End'?items.length-1:(index+(e.key==='ArrowDown'?1:-1)+items.length)%items.length]?.focus();
-  }}><header>{context.target.name}</header>{actions.map(action=><button role="menuitem" key={action.label} className={action.danger?'library-danger':''} onClick={()=>{onClose(false);action.run();}}>{action.Icon&&<action.Icon size={16}/>}<span>{t(action.label)}</span></button>)}</div>,document.body);
+    e.preventDefault();const items=[...ref.current.querySelectorAll('[role="menuitem"]:not(:disabled)')],index=items.indexOf(document.activeElement);items[e.key==='Home'?0:e.key==='End'?items.length-1:(index+(e.key==='ArrowDown'?1:-1)+items.length)%items.length]?.focus();
+  }}><header>{context.target.name}</header>{actions.map(action=><button role="menuitem" disabled={action.disabled} key={action.label} className={action.danger?'library-danger':''} onClick={()=>{onClose(false);action.run();}}>{action.Icon&&<action.Icon size={16}/>}<span>{t(action.label)}</span></button>)}</div>,document.body);
 }
 
 export function LibraryUsageList({rows,onOpen}) {
