@@ -52,9 +52,10 @@ The horizontal axis represents time or plot phases; the vertical axis contains o
 3. Double-click or press F2 to rename axis labels. Enter saves, Esc cancels. Right-click to edit, remove or assign marker colors/icons. Append nodes at either axis end.
 4. Drag time anchors horizontally and reorder scenes vertically. Colors and icons are author markers, not story effects.
 5. Drag in a character or click Arrange characters, then choose a scene and interval. Drag the control to move an appearance, adjust its endpoints or open Configure appearance.
-6. Drag appearances, NPC groups and events vertically into a mixed order; release at the insertion line. Reordering or switching scenes preserves times. Horizontal movement within the same row adjusts time. Canvas edges auto-scroll and Esc cancels. Vertical arrangement works with the time axis hidden, supports undo, and does not invalidate draft review.
-7. Characters can appear repeatedly. Appearances share the profile but have separate conditions, behavior notes and dialogue. Removing an appearance keeps the character.
-8. Dialogue linkage check inspects explicit scene/time conditions. Follow this appearance lets moves change dialogue availability; shared dialogue is copied before becoming appearance-specific.
+6. For crowded scenes, choose Group appearances, select cards from the same scene, then name and save the group. The scene sidebar also offers a member picker. Groups start collapsed; expand for individual appearance settings, dialogue editing and play. Show dialogue summaries restores detailed previews. Manage members on the group header supports search, addition, removal and confirmed dissolution with undo. Grouping retains profiles, individual times and dialogue; different times are marked as a coverage range. Whole-group movement keeps offsets. Batch generation remains explicit.
+7. Drag appearances, NPC groups and events vertically into a mixed order; release at the insertion line. Reordering or switching scenes preserves times. Horizontal movement within the same row adjusts time. Canvas edges auto-scroll and Esc cancels. Vertical arrangement works with the time axis hidden, supports undo, and does not invalidate draft review.
+8. Characters can appear repeatedly. Appearances share the profile but have separate conditions, behavior notes and dialogue. Removing an appearance keeps the character.
+9. Dialogue linkage check inspects explicit scene/time conditions. Follow this appearance lets moves change dialogue availability; shared dialogue is copied before becoming appearance-specific.
 
 - Removing an anchor detaches bindings while retaining times. Removing a scene keeps unassigned appearances; linked story scopes must be resolved first.
 - Planned behavior is a note. Runtime changes require explicit dialogue effects or story rules.
@@ -90,11 +91,14 @@ The character workbench combines editing and play. Select a specific appearance,
 
 1. Open Edit / Play from a character, appearance or NPC member. Select dialogue under the appearance. Create scene dialogue or link existing dialogue if needed.
 2. Edit the card title, speaker and text. Add a player choice, then click its text or Edit button to enter the response and save.
-3. Drag a choice output to its destination card or set the destination in its editor. No target ends dialogue. Paths may merge or intentionally loop.
-4. Conditions govern card or choice availability. Effects run on card entry or choice selection. Long text has a full editor rather than being confined to a small card.
-5. Default and conditional openings select the start card. Conditional routes are checked in order. Put a condition on the player choice when the player should choose actively.
-6. Click links to color them or add draggable routing points. Double-click a point to remove it; reset automatic routing or default color. Markers do not change dialogue execution.
-7. Save dialogue before playing saved content. Switching dialogue, appearance or page invokes the top unsaved-edit panel.
+3. Switch to Quick text to edit titles, speakers, speech, choices and destinations continuously. Click an overview node to locate its text, or Locate on canvas to return to that card. Configure complex conditions and effects through the settings buttons. Both modes share the same draft.
+4. In a quick-text input, Ctrl / Cmd Enter adds a dialogue card; Ctrl / Cmd Shift Enter adds a choice to the current card. New cards are not linked automatically: set their destinations explicitly. Save before playing from a card. On narrow screens, expand the branch overview when needed.
+5. Drag a choice output to its destination card or set the destination in its editor. No target ends dialogue. Paths may merge or intentionally loop.
+6. Conditions govern card or choice availability. Effects run on card entry or choice selection. Long text has a full editor rather than being confined to a small card.
+7. Default and conditional openings select the start card. Conditional routes are checked in order. Put a condition on the player choice when the player should choose actively.
+8. Click links to color them or add draggable routing points. Double-click a point to remove it; reset automatic routing or default color. Markers do not change dialogue execution.
+9. Beautify canvas re-layouts cards by branch structure and measured height, routing automatic links around cards with separate branch channels and fan-in approaches. It restores automatic routing and keeps link colors, without changing speech, conditions, effects or destinations. Undo beautify is available before saving; further manual edits end this shortcut. After saving, use global edit undo.
+10. Save dialogue before playing saved content. Switching dialogue, appearance or page invokes the top unsaved-edit panel.
 
 - Editing shared dialogue updates every linked appearance. Create or copy dedicated dialogue when changing only one appearance.
 

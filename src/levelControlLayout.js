@@ -9,7 +9,7 @@ export function levelControlKeys(level, events) {
   ];
 }
 
-export function layoutControls(controls, savedOrder = [], heights = {}) {
+export function layoutControls(controls, savedOrder = [], heights = {}, minimumHeight = 208) {
   const ranks = new Map(savedOrder.map((key, index) => [key, index]));
   const sorted = controls.map((row, index) => ({ ...row, rank: ranks.get(row.key) ?? savedOrder.length + index }))
     .sort((a, b) => a.rank - b.rank);
@@ -20,7 +20,7 @@ export function layoutControls(controls, savedOrder = [], heights = {}) {
     bottom += height + 12;
     return { ...row, top, height };
   });
-  return { rows, positions: Object.fromEntries(rows.map(row => [row.key, row.top])), height: Math.max(208, bottom + 8) };
+  return { rows, positions: Object.fromEntries(rows.map(row => [row.key, row.top])), height: Math.max(208, minimumHeight, bottom + 8) };
 }
 
 export function insertionPoint(rows, movingKey, y) {

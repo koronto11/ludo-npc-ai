@@ -60,6 +60,8 @@
 .scene-track-label strong { font-size:12px; line-height:1.6; }
 .scene-track-label small { color:#a3907b; font-size:10px; }
 .scene-track-label .subtle-button { font-size:10px; padding:0; text-align:left; }
+.scene-track-label>* { flex-shrink:0; }
+.scene-track-label>.subtle-button { max-width:100%; height:auto; white-space:normal; overflow-wrap:anywhere; }
 .track-order { display:flex; gap:14px; color:var(--muted); margin-top:auto; }
 .track-order button { padding:4px 8px; border:1px solid var(--line); border-radius:3px; }
 .hide-scene-axis .scene-track-label { visibility:hidden; }

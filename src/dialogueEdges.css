@@ -1,4 +1,7 @@
 .dialogue-edge-label { position:absolute; font-size:10px; background:#24211edb; color:#d5beaa; padding:2px 5px; border-radius:3px; pointer-events:none; }
+.dialogue-edge-selection-halo { fill:none; stroke:var(--edge-color); stroke-width:10; stroke-linecap:round; stroke-linejoin:round; opacity:.65; filter:drop-shadow(0 0 4px var(--edge-color)); vector-effect:non-scaling-stroke; pointer-events:none; }
+.dialogue-edge-selected-path { vector-effect:non-scaling-stroke; stroke-linecap:round; stroke-linejoin:round; }
+.dialogue-edge-label.selected { color:#fff1dc; background:#493728; box-shadow:0 0 0 1px #d8b48c; }
 .dialogue-edge-point { position:absolute; pointer-events:all; width:16px; height:16px; padding:0; border:3px solid #c59b78; background:#24211e; border-radius:50%; cursor:move; touch-action:none; box-shadow:0 0 0 3px #211e1a90; }
 .dialogue-edge-point:hover,.dialogue-edge-point:focus-visible { background:#ead7bd; outline:2px solid #ead7bd; outline-offset:3px; }
 .dialogue-edge-tools { position:absolute; z-index:12; top:12px; right:12px; width:215px; padding:12px; background:#30271ff5; border:1px solid #8d6b4b; border-radius:6px; box-shadow:0 6px 22px #0005; }

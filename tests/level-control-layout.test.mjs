@@ -6,6 +6,11 @@ import {moveNpcGroup} from '../src/npcGroups.js';
 import {movePlotEvent} from '../src/plotPlanning.js';
 
 const controls=[{key:'event:evt',height:74},{key:'appearance:actor',height:67},{key:'group:npcs',height:64}];
+test('empty scene accommodates its measured sidebar without shifting card positions',()=>{
+  assert.equal(layoutControls([],[],{},285).height,285);
+  const base=layoutControls(controls),longLabel=layoutControls(controls,[],{},510);
+  assert.deepEqual(longLabel.positions,base.positions);assert.equal(longLabel.height,510);
+});
 test('NPC group can move above both event and appearance; heights retain clear gaps',()=>{
   const legacy=layoutControls(controls);
   assert.deepEqual(legacy.rows.map(r=>r.key),controls.map(r=>r.key));

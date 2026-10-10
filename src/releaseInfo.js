@@ -6,6 +6,30 @@ export const releaseInfo = {
   channel: 'preview',
   updates: [
     {
+      date: '2026-10-10',
+      title: {zh: '角色工作台快速文本', en: 'Quick text in the character workbench'},
+      changes: {
+        zh: [
+          '关卡画布新增已有出场成组、紧凑成员列表和成员管理，支持搜索、加入、移出、解散与撤销；保留独立时间和对白。',
+          '人物出场组使用铜棕色，NPC 组保留绿色；场景高度适配侧栏内容，排序按钮不再越过边框。',
+          '文本列表升级为快速文本，可连续编辑对白标题、说话者、正文、玩家选项和跳转。',
+          '新增可收起的分支概览，支持定位正文、返回画布、快捷新增和指定卡片试玩。',
+          '快速文本与画布共用草稿和保存保护，旧项目无需转换；新增卡片不会自动接入分支。',
+          '完善手机写作空间及中英文帮助，窄屏默认收起概览。',
+          '角色画布新增一键美化和撤销，按卡片实际尺寸排版；自动连线避开卡片，分支通道与汇入走线错开。',
+        ],
+        en: [
+          'Added grouping for existing appearances, compact member lists and searchable membership management with addition, removal, dissolution and undo; individual times and dialogue are retained.',
+          'Manual appearance groups use copper/brown and NPC groups stay green; scene height accommodates sidebar content to keep reorder buttons inside its boundary.',
+          'Upgraded the text list to Quick text for continuous title, speaker, speech, choice and destination editing.',
+          'Added a collapsible branch overview, text/canvas locating, keyboard creation and play from a selected card.',
+          'Both modes share drafts and save protection. Existing projects need no conversion; new cards are not linked automatically.',
+          'Improved mobile writing space and bilingual help; the overview starts collapsed on narrow screens.',
+          'Added canvas beautification and undo, with measured card layout, obstacle-aware links, separate branch lanes and fan-in approaches.',
+        ],
+      },
+    },
+    {
       date: '2026-10-09',
       title: {zh: '资料排序与工作区伸缩', en: 'Library ordering and collapsible workspace panels'},
       changes: {

@@ -59,6 +59,7 @@ export const helpSections=[
  '双击或按 F2 修改轴标题；Enter 保存，Esc 取消。右键可编辑、移除、选择标记颜色与图标；轴末尾可以直接追加节点。',
  '拖动时间锚点左右调整时间，调整场景顺序改变上下排列。颜色和图标用于作者识别，不是剧情效果。',
  '拖入人物或点击“安排人物”，选择场景和出现区间。拖动人物控件移动出场，拖动两端调整开始和结束，也可打开“配置出场”。',
+  '人物较多时，点击组成出场组，勾选同一场景的卡片，再命名保存；也可从场景侧栏打开成员选择。组默认收起，展开后可逐人配置出场、编辑对白和试玩；显示台词摘要可恢复详细预览。组头的成员管理支持搜索、加入、移出与确认解散，可撤销。分组不复制人物、不修改独立时间或对白；混合时间显示覆盖范围。整体移动保留成员时间差，批量生成需主动发起。',
  '人物、NPC 组与事件可混合上下拖动排列；出现插入线后松开。上下排序或换场景会保留时间；同一行左右拖动调整时间。靠近画布边缘会自动滚动，Esc 取消。隐藏时间横轴后仍可上下排列；排列可以撤销，且不影响草稿审核依据。',
  '人物可重复出场，各次出场共享档案，但拥有独立条件、行为说明与对白。移除出场不会删除人物。',
  '“对白联动检查”核对明确的场景/时间条件。启用“跟随本次出场”后，移动出场或锚点可改变对白可用范围；共享对白会先复制为此次专用版本。'],notes:[
@@ -69,6 +70,7 @@ export const helpSections=[
  'Double-click or press F2 to rename axis labels. Enter saves, Esc cancels. Right-click to edit, remove or assign marker colors/icons. Append nodes at either axis end.',
  'Drag time anchors horizontally and reorder scenes vertically. Colors and icons are author markers, not story effects.',
  'Drag in a character or click Arrange characters, then choose a scene and interval. Drag the control to move an appearance, adjust its endpoints or open Configure appearance.',
+  'For crowded scenes, choose Group appearances, select cards from the same scene, then name and save the group. The scene sidebar also offers a member picker. Groups start collapsed; expand for individual appearance settings, dialogue editing and play. Show dialogue summaries restores detailed previews. Manage members on the group header supports search, addition, removal and confirmed dissolution with undo. Grouping retains profiles, individual times and dialogue; different times are marked as a coverage range. Whole-group movement keeps offsets. Batch generation remains explicit.',
  'Drag appearances, NPC groups and events vertically into a mixed order; release at the insertion line. Reordering or switching scenes preserves times. Horizontal movement within the same row adjusts time. Canvas edges auto-scroll and Esc cancels. Vertical arrangement works with the time axis hidden, supports undo, and does not invalidate draft review.',
  'Characters can appear repeatedly. Appearances share the profile but have separate conditions, behavior notes and dialogue. Removing an appearance keeps the character.',
  'Dialogue linkage check inspects explicit scene/time conditions. Follow this appearance lets moves change dialogue availability; shared dialogue is copied before becoming appearance-specific.'],notes:[
@@ -101,17 +103,23 @@ export const helpSections=[
  {id:'dialogue',zh:{title:'对白卡片、玩家选项与连线',intro:'角色工作台把对白配置与试玩放在同页。先选择人物的具体出场，再组织这次场景的对白；未关联或通用对白保留在独立折叠区。',steps:[
  '从人物卡片、关卡出场或 NPC 组成员进入“编排 / 试玩”。左侧选择出场下的对白；没有对白时新建场景对白，也可关联已有对白。',
  '编辑卡片标题、说话者和正文。添加玩家选项后，点击选项文字或编辑按钮，输入玩家说的话并保存。',
+ '切换到“快速文本”可连续编辑标题、说话者、正文、玩家选项和跳转。分支概览点击节点可定位正文，“定位到画布”返回该卡片；复杂条件和效果继续通过配置按钮编辑。两种模式共用同一份草稿。',
+ '在快速文本输入框中，Ctrl / ⌘ Enter 新增对白，Ctrl / ⌘ Shift Enter 为当前卡片添加选项。新增卡片不会自动接入分支，需要明确设置跳转。先保存，再从指定卡片试玩。窄屏可按需展开分支概览。',
  '拖动选项出口到目标卡片连接，或在选项编辑器中指定跳转。没有目标表示结束对话；可以汇合，也可以有意循环。',
  '条件决定卡片或选项是否可用，效果在进入卡片或选择选项时执行。长文本保留完整编辑窗口，不需要在小卡片中挤着写。',
  '默认开场与条件开场决定从哪里开始。条件开场按顺序匹配；希望玩家主动选择时，将条件设在玩家选项上。',
  '点击连线可以标色、添加并拖动走线控制点；双击点移除，恢复自动走线或默认颜色。连线标记不改变对白条件与运行结果。',
+ '画布顶部的“一键美化”按分支层级和卡片实际高度重新排版，自动连线绕开卡片并错开分支通道，汇入同一卡片前分开走线。它恢复自动走线并保留连线颜色，不修改对白正文、条件、效果和跳转。保存前可“撤销美化”；后续手动调整会结束这次美化的快捷撤销，保存后使用全局编辑撤销。',
  '点击“保存编排”后再试玩保存内容。切换对白、出场或页面时，顶部会处理未保存编辑。'],notes:['共享对白被修改后，引用它的出场也会更新。需要只修改一次出场时，先创建或复制专用对白。']},en:{title:'Dialogue cards, choices and links',intro:'The character workbench combines editing and play. Select a specific appearance, then organize its scene dialogue. Common and unlinked dialogues remain in separate collapsible sections.',steps:[
  'Open Edit / Play from a character, appearance or NPC member. Select dialogue under the appearance. Create scene dialogue or link existing dialogue if needed.',
  'Edit the card title, speaker and text. Add a player choice, then click its text or Edit button to enter the response and save.',
+ 'Switch to Quick text to edit titles, speakers, speech, choices and destinations continuously. Click an overview node to locate its text, or Locate on canvas to return to that card. Configure complex conditions and effects through the settings buttons. Both modes share the same draft.',
+ 'In a quick-text input, Ctrl / Cmd Enter adds a dialogue card; Ctrl / Cmd Shift Enter adds a choice to the current card. New cards are not linked automatically: set their destinations explicitly. Save before playing from a card. On narrow screens, expand the branch overview when needed.',
  'Drag a choice output to its destination card or set the destination in its editor. No target ends dialogue. Paths may merge or intentionally loop.',
  'Conditions govern card or choice availability. Effects run on card entry or choice selection. Long text has a full editor rather than being confined to a small card.',
  'Default and conditional openings select the start card. Conditional routes are checked in order. Put a condition on the player choice when the player should choose actively.',
  'Click links to color them or add draggable routing points. Double-click a point to remove it; reset automatic routing or default color. Markers do not change dialogue execution.',
+ 'Beautify canvas re-layouts cards by branch structure and measured height, routing automatic links around cards with separate branch channels and fan-in approaches. It restores automatic routing and keeps link colors, without changing speech, conditions, effects or destinations. Undo beautify is available before saving; further manual edits end this shortcut. After saving, use global edit undo.',
  'Save dialogue before playing saved content. Switching dialogue, appearance or page invokes the top unsaved-edit panel.'],notes:['Editing shared dialogue updates every linked appearance. Create or copy dedicated dialogue when changing only one appearance.']}},
  {id:'npc-groups',zh:{title:'批量背景 NPC 与环境文本',intro:'默认批量流程会先创建真实的人物档案和出场，关卡画布显示一个 NPC 组控件。每个 NPC 有自己独立的台词，可以逐人修改和试玩。',steps:[
  '在目标场景点击“添加 NPC 组”，填写组名、人数、身份组合、出场时间、话题和氛围。每批支持 1–10 人。',

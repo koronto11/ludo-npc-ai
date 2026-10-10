@@ -1,0 +1,15 @@
+# Existing appearances on the level canvas
+
+The level toolbar offers **Group appearances**: select independent cards from one scene and name the group. Each scene also has a member picker. Existing master profiles, occurrence IDs, individual intervals, anchor bindings, conditions and dialogue references remain unchanged.
+
+The implementation reuses `npc_groups` and appearance `npc_group_id`. No schema migration is required. Global character tags and narrative importance are separate. Another group's members are disabled rather than reassigned implicitly. Groups start collapsed, with compact member rows on expansion and an optional detailed speech summary. Different member times are labelled as a coverage span, not a shared availability interval.
+
+The header's member action supports search, selecting matching results, addition/removal and confirmed dissolution. Removing a member restores its independent card. Dissolution retains every appearance and profile. Both use the shared conflict-checked transaction/undo journal. Concurrent changes to the same group's member set are rejected; unrelated fields merge through the existing three-way level merge. Whole-group movement retains member offsets and durations through the existing movement path. Model generation remains an explicit action.
+
+Manual appearance groups use copper/brown, while NPC groups retain sage green. New manual groups use an `appearance-group-` ID prefix so their color remains stable even for background actors and subsequent dialogue generation. Older unmarked groups use crowd provenance/background defaults; existing IDs are retained. Both collapsed and expanded surfaces have matching header, border and action colors.
+
+Scene height also accounts for the sidebar's intrinsic children, padding and gaps, without using its stretched height or auto margin. This keeps reorder buttons inside the scene and away from the append-scene row. Long titles and English labels can wrap. In the isolated long-title fixture, the reorder buttons retained 18 px below them at desktop and narrow widths, with no browser errors.
+
+Validation: production build; 177 frontend tests, including 6 new appearance-group tests; 5 existing backend group tests; synchronized bilingual manuals. An isolated local project was used for real browser checks of four-card grouping, expansion, search/removal, unsaved-close protection, other-group exclusion, dissolution confirmation, undo and reload. In that fixture the scene was 526 px expanded and 268 px collapsed. At 390 × 844 the member dialog fit inside the viewport and retained its save actions. The fixture's profiles, times, anchors, conditions, dialogue links, generation history and appearance counts were compared after saving. User projects were not written to during validation. Publication is separate.
+
+Final accumulated mainline verification: 179 frontend tests and 358 backend tests passed, including the subsequent color and sidebar-height regressions. No real provider requests or user-project writes were made by these checks.
