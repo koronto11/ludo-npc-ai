@@ -120,3 +120,43 @@ def test_max_length_option_id_can_keep_edge_marking():
     doc = Project.model_validate(data)
     marked = edit(doc, layout(edges={f"option:{option_id}": {"color": "#85b59a"}}))
     assert marked.editor.dialogue_edges["chat"][f"option:{option_id}"].color == "#85b59a"
+
+
+def test_special_card_layout_roundtrip_undo_and_author_edit_preservation(tmp_path):
+    original = project()
+    positions = {"start": {"x": 350, "y": 40}, "__entry": {"x": -100, "y": 300}, "__end": {"x": 1100, "y": 550}}
+    store = LocalProjects(tmp_path / "data", tmp_path / "projects")
+    try:
+        store.add(original)
+        changed = store.apply(original.project_id, CommandBatch(expected_revision=original.revision, commands=[layout(positions=positions)]))
+        assert author_hash(changed) == author_hash(original)
+        assert changed.content_revision == original.content_revision
+        assert changed.content == original.content
+        undone = store.undo_edit(changed.project_id, changed.revision, "undo")
+        assert undone.editor.dialogue_layouts == original.editor.dialogue_layouts
+        redone = store.undo_edit(undone.project_id, undone.revision, "redo")
+        assert redone.editor.dialogue_layouts == changed.editor.dialogue_layouts
+        path = tmp_path / "projects" / "special-cards.ludo.json"
+        store.save(redone.project_id, redone.revision, str(path))
+    finally:
+        store.shutdown()
+    reopened = LocalProjects(tmp_path / "data", tmp_path / "projects")
+    try:
+        loaded = Project.model_validate(reopened.open_file(str(path))["project"])
+        assert loaded.editor.dialogue_layouts == changed.editor.dialogue_layouts
+    finally:
+        reopened.shutdown()
+    # Changing the authored cards prunes deleted speech IDs, retaining both editor cards.
+    nodes = [{"id": "replacement", "text": "新对白"}]
+    updated = edit(changed, {"type": "patch_entity", "target": {"kind": "dialogue", "id": "chat"}, "changes": {"nodes": nodes, "entry_node_id": "replacement", "entry_routes": []}})
+    assert set(updated.editor.dialogue_layouts["chat"]) == {"__entry", "__end"}
+    deleted = edit(updated, {"type": "delete_entity", "target": {"kind": "dialogue", "id": "chat"}})
+    assert not deleted.editor.dialogue_layouts
+
+
+@pytest.mark.parametrize("key", ["__unknown", "missing"])
+def test_special_layout_keys_do_not_weaken_node_validation(key):
+    original = project()
+    with pytest.raises(ValidationError):
+        edit(original, layout(positions={key: {"x": 1, "y": 2}}))
+    assert not original.editor.dialogue_layouts

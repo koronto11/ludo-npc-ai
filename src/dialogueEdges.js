@@ -10,6 +10,29 @@ export function pruneDialogueEdges(layouts, graph, routesChanged=false) {
   const ids = new Set(dialogueEdges(graph).map(edge=>edge.id));
   return Object.fromEntries(Object.entries(layouts).filter(([id])=>ids.has(id) && !(routesChanged && id.startsWith('route:'))));
 }
+
+// Edges are projections of author choices and entry rules, not independent records.
+export function retargetDialogueEdge(graph, edgeId, targetId) {
+  const edge=dialogueEdges(graph).find(row=>row.id===edgeId);
+  if(!edge || edge.target===targetId || !(['__end',...graph.nodes.map(node=>node.id)].includes(targetId)))return null;
+  if(edge.id==='entry:default')return targetId==='__end'?null:{entry_node_id:targetId};
+  if(edge.id.startsWith('route:'))return targetId==='__end'?null:{entry_routes:graph.entry_routes.map((route,index)=>`route:${index}`===edgeId?{...route,node_id:targetId}:route)};
+  return {nodes:graph.nodes.map(node=>node.id===edge.source?{...node,options:node.options.map(option=>option.id===edge.choiceId?{...option,target_node_id:targetId==='__end'?null:targetId}:option)}:node)};
+}
+
+export function removeDialogueEdge(graph, edgeId) {
+  const edge=dialogueEdges(graph).find(row=>row.id===edgeId);
+  if(!edge || edge.id==='entry:default')return null;
+  if(edge.id.startsWith('route:'))return {entry_routes:graph.entry_routes.filter((_,index)=>`route:${index}`!==edgeId)};
+  return {nodes:graph.nodes.map(node=>node.id===edge.source?{...node,options:node.options.filter(option=>option.id!==edge.choiceId)}:node)};
+}
+
+export function dialogueConnectionEdgeId(graph, connection) {
+  if(connection.target==='__entry')return null;
+  const edge=dialogueEdges(graph).find(row=>row.source===connection.source&&row.sourceHandle===connection.sourceHandle);
+  if(!edge || !(['__end',...graph.nodes.map(node=>node.id)].includes(connection.target)) || edge.source==='__entry'&&connection.target==='__end')return null;
+  return edge.id;
+}
 export function routedEdgePath(source, target, points) {
   const knots=[source,{x:source.x+40,y:source.y},...points,{x:target.x-40,y:target.y},target];
   let path=`M ${source.x} ${source.y}`;

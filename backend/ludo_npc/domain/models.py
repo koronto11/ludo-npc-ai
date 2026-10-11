@@ -23,9 +23,13 @@ from pydantic import (
     StringConstraints,
     field_validator,
     model_validator,
+    model_serializer,
 )
 
 Id = Annotated[StrictStr, StringConstraints(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$")]
+DialogueLayoutNodeId = Annotated[
+    StrictStr, StringConstraints(pattern=r"^(?:__entry|__end|[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$")
+]
 Name = Annotated[StrictStr, StringConstraints(strip_whitespace=True, min_length=1, max_length=150)]
 Text = Annotated[StrictStr, StringConstraints(max_length=30_000)]
 QuickNote = Annotated[StrictStr, StringConstraints(max_length=3000)]
@@ -285,12 +289,27 @@ class DialogueOption(Contract):
 
 class DialogueNode(Contract):
     id: Id
+    node_type: Literal["speech", "ending"] = "speech"
     label: Text = ""
     speaker_id: Id | None = None
     text: Text
     condition: Condition = Field(default_factory=Always)
     effects: list[Effect] = Field(default_factory=list, max_length=100)
     options: list[DialogueOption] = Field(default_factory=list, max_length=100)
+
+    @model_validator(mode="after")
+    def ending_has_no_choices(self):
+        if self.node_type == "ending" and self.options:
+            raise ValueError("结束节点不能包含玩家选项")
+        return self
+
+    @model_serializer(mode="wrap")
+    def serialize_node(self, handler):
+        data = handler(self)
+        # Old files and pending draft baselines retain exactly the same default shape.
+        if data.get("node_type") == "speech":
+            data.pop("node_type", None)
+        return data
 
 
 class DialogueEntry(Contract):
@@ -376,7 +395,15 @@ class Appearance(Contract):
     end_anchor_id: Id | None = None
     condition: Condition = Field(default_factory=Always)
     dialogue_ids: list[Id] = Field(default_factory=list, max_length=1000)
+    inherit_dialogues: bool = True
     behavior: Text = ""
+
+    @model_serializer(mode="wrap")
+    def serialize_appearance(self, handler):
+        data = handler(self)
+        if data.get("inherit_dialogues") is True:
+            data.pop("inherit_dialogues", None)
+        return data
 
     @model_validator(mode="after")
     def ordered_range(self):
@@ -662,7 +689,7 @@ class Editor(Contract):
     level_control_orders: dict[Id, LevelControlOrder] = Field(default_factory=dict)
     level_control_widths: dict[Id, LevelControlWidths] = Field(default_factory=dict)
     canvases: list[Canvas] = Field(default_factory=list, max_length=100)
-    dialogue_layouts: dict[Id, dict[Id, Position]] = Field(default_factory=dict)
+    dialogue_layouts: dict[Id, dict[DialogueLayoutNodeId, Position]] = Field(default_factory=dict)
     dialogue_edges: dict[Id, dict[DialogueEdgeId, DialogueEdgeLayout]] = Field(default_factory=dict)
     character_notes: dict[Id, QuickNote] = Field(default_factory=dict, max_length=10_000)
     # Historical labels/text survive later author edits and removed references.

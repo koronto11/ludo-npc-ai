@@ -148,6 +148,11 @@
           "title": "Dialogue Ids",
           "type": "array"
         },
+        "inherit_dialogues": {
+          "default": true,
+          "title": "Inherit Dialogues",
+          "type": "boolean"
+        },
         "behavior": {
           "default": "",
           "maxLength": 30000,
@@ -1107,6 +1112,15 @@
           "title": "Id",
           "type": "string"
         },
+        "node_type": {
+          "default": "speech",
+          "enum": [
+            "speech",
+            "ending"
+          ],
+          "title": "Node Type",
+          "type": "string"
+        },
         "label": {
           "default": "",
           "maxLength": 30000,
@@ -1564,7 +1578,7 @@
           "patternProperties": {
             "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
               "patternProperties": {
-                "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                "^(?:__entry|__end|[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
                   "$ref": "#/$defs/Position"
                 }
               },

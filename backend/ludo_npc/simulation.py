@@ -285,7 +285,7 @@ def rehearse(project: Project, request: SimulationInput):
             row
             for row in level["appearances"]
             if row["character_id"] == graph["character_id"]
-            and (not row["dialogue_ids"] or graph["id"] in row["dialogue_ids"])
+            and (graph["id"] in row["dialogue_ids"] or not row["dialogue_ids"] and row.get("inherit_dialogues", True))
         ]
         children = [appearance_reason(row) for row in appearances]
         return {
@@ -459,23 +459,29 @@ def rehearse(project: Project, request: SimulationInput):
             explain(node["condition"]),
         ):
             return False
-        cursors[graph["id"]] = {"node_id": node["id"], "closed": False}
+        ending = node.get("node_type") == "ending"
+        cursors[graph["id"]] = {"node_id": node["id"], "closed": ending}
         visits[graph["id"]] = visits.get(graph["id"], 0) + 1
         settle()
-        transcript.append(
-            {
-                "kind": "npc",
-                "label": node["label"] or graph["name"],
-                "text": node["text"],
-                "node_id": node["id"],
-                "speaker": lookup[node["speaker_id"]]["name"] if node["speaker_id"] else "旁白",
-                "tick": state["tick"],
-            }
-        )
-        if not trial:
-            append_story(
-                {**transcript[-1], "dialogue_id": graph["id"], "speaker_id": node["speaker_id"]}
+        if not ending or node["text"].strip():
+            transcript.append(
+                {
+                    "kind": "npc",
+                    "label": node["label"] or graph["name"],
+                    "text": node["text"],
+                    "node_id": node["id"],
+                    "speaker": lookup[node["speaker_id"]]["name"] if node["speaker_id"] else "旁白",
+                    "tick": state["tick"],
+                }
             )
+            if not trial:
+                append_story(
+                    {**transcript[-1], "dialogue_id": graph["id"], "speaker_id": node["speaker_id"]}
+                )
+        if ending:
+            transcript.append({"kind": "end", "text": "本段对话结束", "node_id": node["id"], "tick": state["tick"]})
+            if not trial:
+                append_story({**transcript[-1], "dialogue_id": graph["id"]})
         return True
 
     def choose(record):
@@ -772,6 +778,7 @@ def rehearse(project: Project, request: SimulationInput):
             and not (cursor and cursor["closed"])
             and explain(node["condition"])["passed"]
         )
+        ending = node if node and cursor and cursor["closed"] and node.get("node_type") == "ending" else None
         options = []
         if node:
             for option in node["options"]:
@@ -797,6 +804,7 @@ def rehearse(project: Project, request: SimulationInput):
                 "available": available,
                 "started": bool(cursor),
                 "closed": bool(cursor and cursor["closed"]),
+                "ending": {key: ending[key] for key in ("id", "label", "speaker_id", "text")} if ending else None,
                 "entry_preview": {
                     "node_id": restart_node["id"] if restart_node else None,
                     "node_label": restart_node["label"] if restart_node else "无可用开场",

@@ -5,7 +5,7 @@ export const occurrenceKey = row => `${row.level.id}:${row.appearance.id}`;
 
 export function roleDialogueTree(content, characterId) {
   const owned = content.dialogues.filter(graph => graph.character_id === characterId);
-  const scenes = appearancesFor(content,characterId).map(row => ({...row,key:occurrenceKey(row),inherited:!row.appearance.dialogue_ids.length,dialogues:dialoguesFor(content,row.appearance)}));
+  const scenes = appearancesFor(content,characterId).map(row => ({...row,key:occurrenceKey(row),inherited:!row.appearance.dialogue_ids.length && row.appearance.inherit_dialogues!==false,dialogues:dialoguesFor(content,row.appearance)}));
   const uses = new Map();
   const explicit = new Set(scenes.flatMap(row=>row.appearance.dialogue_ids));
   for (const scene of scenes) for (const graph of scene.dialogues) uses.set(graph.id,(uses.get(graph.id) || 0)+1);

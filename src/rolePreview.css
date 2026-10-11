@@ -84,3 +84,17 @@
 .play-delete-feedback { padding:9px; margin:0 0 12px; border:1px solid #62714f; border-radius:4px; background:#2d3429; font-size:11px; line-height:1.7; }
 .play-delete-feedback>span { display:block; overflow-wrap:anywhere; color:#d2dcc6; }
 .play-delete-feedback>button { color:#e4c09a; padding:5px 0; text-decoration:underline; }
+
+/* Ending speech stays in the conversation flow; completion and actions are separate. */
+.role-preview-panel .preview-finished { display:grid; gap:12px; min-width:0; }
+.role-preview-panel .preview-finished .ending-speech { position:static; box-shadow:none; }
+.role-preview-panel .preview-ending { padding:12px; background:#2c3027; border-color:#505c47; }
+.role-preview-panel .preview-ending>div { display:flex; align-items:center; gap:7px; }
+.role-preview-panel .preview-ending svg { flex:none; color:#b7c9a8; }
+.role-preview-panel .preview-ending strong { font-size:12px; line-height:1.6; color:#cbd8bf; }
+.role-preview-panel .preview-ending p { margin:7px 0 0; font-size:11px; line-height:1.8; color:#b5c0aa; }
+.role-preview-panel .ending-speech>div { align-items:baseline; flex-wrap:wrap; }
+.role-preview-panel .ending-speech>div>strong,.role-preview-panel .ending-speech>div>small { overflow-wrap:anywhere; }
+.role-preview-panel .ending-speech>div>small { margin-left:auto; }
+.play-main-footer .play-main-actions { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+.play-main-footer .play-main-actions>button { flex:1 1 110px; min-height:34px; white-space:normal; line-height:1.5; }

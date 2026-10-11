@@ -323,9 +323,9 @@ def apply_commands(project, template, request):
                 o.update(id=new_id("option"), target_node_id=ids.get(o["target_node_id"]))
     commands = [{"type": "create_entity", "entity": payload}]
     if appearance:
-        owned = appearance.dialogue_ids or [
+        owned = appearance.dialogue_ids or ([
             g.id for g in project.content.dialogues if g.character_id == appearance.character_id
-        ]
+        ] if appearance.inherit_dialogues else [])
         changed = level.model_dump(mode="json")
         next(a for a in changed["appearances"] if a["id"] == appearance.id)["dialogue_ids"] = [
             *owned,

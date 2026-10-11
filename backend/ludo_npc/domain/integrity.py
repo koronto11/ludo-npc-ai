@@ -449,7 +449,7 @@ def validate_project(project: Project):
     for dialogue_id, positions in project.editor.dialogue_layouts.items():
         dialogue = ref("dialogue", dialogue_id, "editor.dialogue_layouts")
         require(
-            set(positions) <= {node.id for node in dialogue.nodes},
+            set(positions) <= {"__entry", "__end"} | {node.id for node in dialogue.nodes},
             "editor.dialogue_layouts",
             "对白布局引用不存在的节点",
         )

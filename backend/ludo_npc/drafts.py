@@ -295,7 +295,7 @@ def apply_review(data, command, reviewed_hash=None):
         )
         if appearance is not None and target["id"] not in appearance["dialogue_ids"]:
             # Preserve legacy empty-list meaning (all existing actor/common dialogues).
-            if not appearance["dialogue_ids"]:
+            if not appearance["dialogue_ids"] and appearance.get("inherit_dialogues", True):
                 appearance["dialogue_ids"] = [
                     g["id"]
                     for g in data["content"]["dialogues"]

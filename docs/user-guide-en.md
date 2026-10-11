@@ -53,9 +53,10 @@ The horizontal axis represents time or plot phases; the vertical axis contains o
 4. Drag time anchors horizontally and reorder scenes vertically. Colors and icons are author markers, not story effects.
 5. Drag in a character or click Arrange characters, then choose a scene and interval. Drag the control to move an appearance, adjust its endpoints or open Configure appearance.
 6. For crowded scenes, choose Group appearances, select cards from the same scene, then name and save the group. The scene sidebar also offers a member picker. Groups start collapsed; expand for individual appearance settings, dialogue editing and play. Show dialogue summaries restores detailed previews. Manage members on the group header supports search, addition, removal and confirmed dissolution with undo. Grouping retains profiles, individual times and dialogue; different times are marked as a coverage range. Whole-group movement keeps offsets. Batch generation remains explicit.
-7. Drag appearances, NPC groups and events vertically into a mixed order; release at the insertion line. Reordering or switching scenes preserves times. Horizontal movement within the same row adjusts time. Canvas edges auto-scroll and Esc cancels. Vertical arrangement works with the time axis hidden, supports undo, and does not invalidate draft review.
-8. Characters can appear repeatedly. Appearances share the profile but have separate conditions, behavior notes and dialogue. Removing an appearance keeps the character.
-9. Dialogue linkage check inspects explicit scene/time conditions. Follow this appearance lets moves change dialogue availability; shared dialogue is copied before becoming appearance-specific.
+7. Select a canvas control and press Delete, or use Remove selected control. Confirm before removal; Undo can restore it. Removing an appearance retains its character and dialogue; removing a group dissolves it and retains members. Event deletion respects reference checks. The shortcut is inactive while typing, in dialogs, during drags or with unsaved edits.
+8. Drag appearances, NPC groups and events vertically into a mixed order; release at the insertion line. Reordering or switching scenes preserves times. Horizontal movement within the same row adjusts time. Canvas edges auto-scroll and Esc cancels. Vertical arrangement works with the time axis hidden, supports undo, and does not invalidate draft review.
+9. Characters can appear repeatedly. Appearances share the profile but have separate conditions, behavior notes and dialogue. Removing an appearance keeps the character.
+10. Dialogue linkage check inspects explicit scene/time conditions. Follow this appearance lets moves change dialogue availability; shared dialogue is copied before becoming appearance-specific.
 
 - Removing an anchor detaches bindings while retaining times. Removing a scene keeps unassigned appearances; linked story scopes must be resolved first.
 - Planned behavior is a note. Runtime changes require explicit dialogue effects or story rules.
@@ -65,11 +66,12 @@ The horizontal axis represents time or plot phases; the vertical axis contains o
 Characters shows profiles across the project. A profile defines identity, story and knowledge; groups organize the library, while quick notes remind the author of concepts. These differ from scene NPC groups.
 
 1. Create character in Characters opens a character-only form for name, identity, narrative role and summary, and keeps you in Characters after creation. Use the respective entries for locations and factions. You may also review a generated character draft. Select Edit character profile to continue with story, personality, voice, goals, boundaries and uncertainties.
-2. Protect individual fields to stop model candidates overwriting confirmed details. Protection does not prevent manual author edits.
-3. Quick notes are shared by Characters and the relationship canvas and saved in the project. They do not enter generation context or rehearsal. Long stories in the inspector can be expanded or collapsed.
-4. Click a group tag or Manage groups in the card menu. A character may belong to several groups. Select multiple characters to add, remove or move one membership in bulk.
-5. A dash means mixed membership: leave unchanged to preserve it, check to add all, uncheck to remove all. Renaming to an existing group merges members. Dissolving keeps characters, other groups and appearances.
-6. Use appearance counts to locate a level appearance or open its dialogue. Search and bulk selection cover all results; pages contain 60 cards.
+2. Delete from character details or the card menu; check several cards to delete in bulk. Press Delete while focused in Characters to open confirmation. Text inputs and other dialogs are protected. Resolve listed appearances, dialogues, relations or draft references first; restore a successful deletion with the header Undo or Undo deletion.
+3. Protect individual fields to stop model candidates overwriting confirmed details. Protection does not prevent manual author edits.
+4. Quick notes are shared by Characters and the relationship canvas and saved in the project. They do not enter generation context or rehearsal. Long stories in the inspector can be expanded or collapsed.
+5. Click a group tag or Manage groups in the card menu. A character may belong to several groups. Select multiple characters to add, remove or move one membership in bulk.
+6. A dash means mixed membership: leave unchanged to preserve it, check to add all, uncheck to remove all. Renaming to an existing group merges members. Dissolving keeps characters, other groups and appearances.
+7. Use appearance counts to locate a level appearance or open its dialogue. Search and bulk selection cover all results; pages contain 60 cards.
 
 - Profile groups are tags; scene NPC groups collect appearances. Changing one does not automatically change the other.
 
@@ -87,18 +89,23 @@ The relationship canvas shows characters and related objects to review factions,
 
 ## 7. Dialogue cards, choices and links
 
-The character workbench combines editing and play. Select a specific appearance, then organize its scene dialogue. Common and unlinked dialogues remain in separate collapsible sections.
+The character workbench combines editing and play. Select a specific appearance, then organize its scene dialogue. Character defaults and dialogue awaiting association remain in separate collapsible sections.
 
-1. Open Edit / Play from a character, appearance or NPC member. Select dialogue under the appearance. Create scene dialogue or link existing dialogue if needed.
-2. Edit the card title, speaker and text. Add a player choice, then click its text or Edit button to enter the response and save.
-3. Switch to Quick text to edit titles, speakers, speech, choices and destinations continuously. Click an overview node to locate its text, or Locate on canvas to return to that card. Configure complex conditions and effects through the settings buttons. Both modes share the same draft.
-4. In a quick-text input, Ctrl / Cmd Enter adds a dialogue card; Ctrl / Cmd Shift Enter adds a choice to the current card. New cards are not linked automatically: set their destinations explicitly. Save before playing from a card. On narrow screens, expand the branch overview when needed.
-5. Drag a choice output to its destination card or set the destination in its editor. No target ends dialogue. Paths may merge or intentionally loop.
-6. Conditions govern card or choice availability. Effects run on card entry or choice selection. Long text has a full editor rather than being confined to a small card.
-7. Default and conditional openings select the start card. Conditional routes are checked in order. Put a condition on the player choice when the player should choose actively.
-8. Click links to color them or add draggable routing points. Double-click a point to remove it; reset automatic routing or default color. Markers do not change dialogue execution.
-9. Beautify canvas re-layouts cards by branch structure and measured height, routing automatic links around cards with separate branch channels and fan-in approaches. It restores automatic routing and keeps link colors, without changing speech, conditions, effects or destinations. Undo beautify is available before saving; further manual edits end this shortcut. After saving, use global edit undo.
-10. Save dialogue before playing saved content. Switching dialogue, appearance or page invokes the top unsaved-edit panel.
+1. Character default dialogue belongs to the current character and is used by appearances with default inheritance enabled. Dialogue awaiting association is currently unused; its Link to an appearance action selects the destination. The creation button is shown in the section where a new unscoped dialogue will be saved. New scene dialogue links only the selected appearance. These are derived categories, not new dialogue types.
+2. Open Edit / Play from a character, appearance or NPC member. Select dialogue under the appearance. Create scene dialogue or link existing dialogue if needed.
+3. Each saved dialogue row has a More menu for unlinking one appearance or deleting the shared dialogue. Confirmation lists the affected appearances. Unlink keeps the content; deletion removes appearance links but retains saved play records. Header Undo restores the change. Resolve draft, generation or story references before deletion. Removing the final link leaves this appearance without dialogue instead of restoring default inheritance.
+4. Edit the card title, speaker and text. Add a player choice, then click its text or Edit button to enter the response and save.
+5. Switch to Quick text to edit titles, speakers, speech, choices and destinations continuously. Click an overview node to locate its text, or Locate on canvas to return to that card. Configure complex conditions and effects through the settings buttons. Both modes share the same draft.
+6. In a quick-text input, Ctrl / Cmd Enter adds a dialogue card; Ctrl / Cmd Shift Enter adds a choice to the current card. New cards are not linked automatically: set their destinations explicitly. Save before playing from a card. On narrow screens, expand the branch overview when needed.
+7. Drag a choice output to its destination card or set the destination in its editor. No target ends dialogue. Paths may merge or intentionally loop.
+8. Conditions govern card or choice availability. Effects run on card entry or choice selection. Long text has a full editor rather than being confined to a small card.
+9. Default and conditional openings select the start card. Conditional routes are checked in order. Put a condition on the player choice when the player should choose actively.
+10. Use Ending in the toolbar to add independently named endings. Set the speaker and optional NPC closing line, then link choices to the appropriate ending; branches can share it. Blank text ends directly; a closing line stays visible when dialogue finishes, without another player choice. Ordinary no-choice cards keep their legacy behavior. Deleting a referenced ending requires confirmation and changes its incoming choices to direct exits.
+11. Drag opening-rule and ending cards to reposition them; attached links follow. Save dialogue to retain the layout, discard unsaved edits or use global undo after saving to restore it. Beautify also repositions these two cards.
+12. Select a connection to change its destination to another card, an NPC ending or direct exit. Drag its target ring to reconnect; invalid drops keep the original. Retargeting retains choice text, conditions, effects and color while resetting only that link to automatic routing. Confirm deletion of its player choice or conditional entry; destination cards stay. The mandatory default entry can be retargeted but not deleted. Save to use global Undo.
+13. Click links to color them or add draggable routing points. Double-click a point to remove it; reset automatic routing or default color. Markers do not change dialogue execution.
+14. Beautify canvas re-layouts cards by branch structure and measured height, routing automatic links around cards with separate branch channels and fan-in approaches. It restores automatic routing and keeps link colors, without changing speech, conditions, effects or destinations. Undo beautify is available before saving; further manual edits end this shortcut. After saving, use global edit undo.
+15. Save dialogue before playing saved content. Switching dialogue, appearance or page invokes the top unsaved-edit panel.
 
 - Editing shared dialogue updates every linked appearance. Create or copy dedicated dialogue when changing only one appearance.
 
@@ -110,7 +117,7 @@ The default batch workflow first creates character profiles and appearances, the
 2. Create the group and write manually, or create and generate. Characters and appearances exist before requests; failures keep the NPCs.
 3. Expand the canvas group to edit each member, open Edit / Play or review candidates. Drag the right edge to resize the control.
 4. One generation item represents one NPC. Check that only this member speaks and that content respects the scene and world. Adoption links dialogue to its exact appearance.
-5. Cards per NPC includes the opening and every branch card, excluding player choices. Choose 1–6 cards and text length: Short (up to 120 characters), Medium (240) or Detailed (480), including punctuation and spaces. Before submitting, check the member-count × card-count total and per-item output cap. The token cap includes prose, choices and structure; actual usage comes from the provider.
+5. Cards per NPC includes the opening, every branch card and explicit ending nodes, excluding player choices. Choose 1–6 cards and text length: Short (up to 120 characters), Medium (240) or Detailed (480), including punctuation and spaces. Before submitting, check the member-count × card-count total and per-item output cap. The token cap includes prose, choices and structure; actual usage comes from the provider.
 6. Regeneration reuses existing members. Official dialogue remains until a new draft is adopted. Retry failed items separately.
 7. Dragging the group header moves scene and time while preserving individual intervals. Saving a shared interval applies it to all members. Dissolving keeps profiles and appearances.
 

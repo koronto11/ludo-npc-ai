@@ -1,11 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {beautifyDialoguePositions,automaticDialogueRoute,routeDialogueConnections,segmentCrossesCard,orthogonalDialoguePath,routeCenter} from '../src/dialogueBeautify.js';
+import {beautifyDialoguePositions,completeDialoguePositions,automaticDialogueRoute,routeDialogueConnections,segmentCrossesCard,orthogonalDialoguePath,routeCenter} from '../src/dialogueBeautify.js';
 import {dialogueEdges} from '../src/dialogueEdges.js';
 
 const node=(id,targets=[])=>({id,text:id,condition:{op:'always'},effects:[],options:targets.map((target,i)=>({id:`${id}-${i}`,target_node_id:target,condition:{op:'always'},effects:[],text:`选项 ${i}`}))});
 const fixture=()=>({entry_node_id:'start',entry_routes:[{node_id:'alternate'}],nodes:[node('start',['short','long',null]),node('short',['join']),node('long',['later']),node('later',['join']),node('join',[null]),node('alternate',['join']),node('unlinked',[null])]});
 const overlaps=(a,b)=>a.x<b.x+b.width&&a.x+a.width>b.x&&a.y<b.y+b.height&&a.y+a.height>b.y;
+test('special card positions retain manual moves and legacy defaults without stale nodes or end-position drift',()=>{
+  const graph=fixture(),legacy={start:{x:500,y:200},deleted:{x:9999,y:0}},before=structuredClone(legacy);
+  const defaults=completeDialoguePositions(graph,legacy,{start:{width:310}});
+  assert.deepEqual(defaults.__entry,{x:20,y:40});assert.deepEqual(defaults.__end,{x:980,y:40});
+  assert.equal(defaults.deleted,undefined);assert.deepEqual(legacy,before);
+  const moved={...defaults,__entry:{x:-180,y:350},__end:{x:1250,y:650}};
+  assert.deepEqual(completeDialoguePositions(graph,moved),moved);
+  assert.deepEqual(completeDialoguePositions(graph,completeDialoguePositions(graph,moved)),moved);
+  const beautified=completeDialoguePositions(graph,beautifyDialoguePositions(graph));
+  assert.deepEqual(beautified.__entry,{x:20,y:40});assert.equal(beautified.__end.y,40);
+  assert.ok(beautified.__end.x>Math.max(...graph.nodes.map(n=>beautified[n.id].x+280)));
+});
 function drawing(graph,sizes={}) {
   const positions=beautifyDialoguePositions(graph,sizes);
   const cards=graph.nodes.map(n=>({id:n.id,...positions[n.id],width:sizes[n.id]?.width||280,height:sizes[n.id]?.height||240+n.options.length*65}));

@@ -6,6 +6,14 @@ export const releaseInfo = {
   channel: 'preview',
   updates: [
     {
+      date: '2026-10-11',
+      title: {zh: '对白分支、结束节点与快捷删除', en: 'Dialogue branches, endings and quick deletion'},
+      changes: {
+        zh: ['人物总览新增单人及跨页批量删除，关卡画布支持选中组件后按 Del；确认、引用检查与撤销保护工程内容。','连线设置支持更换目标与删除源选项，画布卡片正文和选项默认展示三行；完善缩放控件与试玩结束样式。','人物默认对白与待关联对白明确分区、用途和创建入口，待关联对白可直接选择出场绑定。','出场与对白目录新增移除关联与确认删除；保留历史试玩记录，支持冲突保护与撤销，移除最后一项不再继承默认对白。','角色工作台的开场规则和结束节点支持拖动、布局保存及撤销；连线随位置更新，一键美化统一重排。','支持多个独立结束节点及可选 NPC 收尾台词；不同分支可分别连接或共用，预演显示最后一句后结束，无需再添加玩家回答。'],
+        en: ['Added single and cross-page bulk character deletion and Delete shortcuts for level canvas controls, with confirmation, reference checks and Undo.','Link settings can retarget destinations or delete source choices. Canvas speech and choices show three-line previews; zoom controls and rehearsal completion are clearer.','Clarified character-default and unlinked dialogue sections, creation actions and direct appearance association.','Added confirmed unlink/delete actions to the appearance dialogue list, preserving play records with conflict protection and Undo. Removing the final link no longer inherits default dialogue.','Opening-rule and ending cards can be dragged, saved and undone; attached links follow and Beautify repositions all cards.','Added multiple named endings with optional NPC closing lines. Branches can use separate or shared endings, and rehearsal closes after showing the final line without another player response.'],
+      },
+    },
+    {
       date: '2026-10-10',
       title: {zh: '角色工作台快速文本', en: 'Quick text in the character workbench'},
       changes: {

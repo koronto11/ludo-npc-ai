@@ -61,12 +61,21 @@ export function DialogueEdge({id,sourceX,sourceY,targetX,targetY,sourcePosition,
   </>;
 }
 
-export function DialogueEdgeTools({edge,layout,onChange,onClose}) {
+export function DialogueEdgeTools({edge,graph,layout,busy,onChange,onRetarget,onRemove,onClose}) {
   useI18n();
-  return <div className="dialogue-edge-tools nodrag nopan" aria-label={t("连线标记与走线")} onPointerDown={event=>event.stopPropagation()}>
-    <header><strong>{t("连线标记与走线")}</strong><button aria-label={t("收起连线设置")} onClick={onClose}>×</button></header>
+  const source=graph.nodes.find(node=>node.id===edge.source);
+  const option=source?.options.find(row=>row.id===edge.choiceId);
+  const defaultEntry=edge.id==='entry:default';
+  const entry=edge.source==='__entry';
+  return <div className="dialogue-edge-tools nodrag nopan" aria-label={t('连线设置')} onPointerDown={event=>event.stopPropagation()}>
+    <header><strong>{t('连线设置')}</strong><button aria-label={t("收起连线设置")} onClick={onClose}>×</button></header>
+    <p className="dialogue-edge-source">{defaultEntry?t('默认开场'):entry?t('条件开场 {0}',[Number(edge.id.slice(6))+1]):t('{0} · 玩家选项：{1}',[source?.label || source?.id,option?.text || t('未填写选项')])}</p>
+    <label className="dialogue-edge-target">{t('连接到')}<select aria-label={t('连线目标节点')} disabled={busy} value={edge.target} onChange={event=>onRetarget(edge.id,event.target.value)}>{!entry&&<option value="__end">{t('直接结束（不追加 NPC 台词）')}</option>}{graph.nodes.map(node=><option key={node.id} value={node.id}>{t(node.node_type==='ending'?'结束节点：{0}':'对白卡片：{0}',[node.label||node.id])}</option>)}</select></label>
+    <button className="dialogue-edge-delete" disabled={busy||defaultEntry} onClick={()=>onRemove(edge.id)}>{t(defaultEntry?'默认开场不可删除':entry?'删除条件开场连线':'删除选项与连线')}</button>
+    <p>{t(defaultEntry?'默认开场必须保留一个起点，可更换目标。':entry?'删除此线会移除该条件开场，目标卡片保留。':'删除此线会同时删除源玩家选项，目标卡片保留。')}</p>
+    <div className="dialogue-edge-divider"/>
     <div className="dialogue-edge-palette">{edgeColors.map(color=><button key={color} aria-label={t("标记连线 {0}", [color])} aria-pressed={layout.color===color} style={{background:color}} onClick={()=>onChange(edge.id,{color})}/>)}<input type="color" aria-label={t("自定义连线颜色")} value={layout.color || edgeColors[0]} onChange={event=>onChange(edge.id,{color:event.target.value})}/></div>
     <div className="dialogue-edge-actions"><button onClick={()=>onChange(edge.id,{color:null})}>{t("默认颜色")}</button><button onClick={()=>onChange(edge.id,{points:[]})}>{t("恢复自动走线")}</button></div>
-    <p>{t("拖动线上圆点调整路径")}<br/>{t("双击连线追加点 · 双击圆点移除")}<br/>{t("最多 8 个控制点，颜色仅用于标记")}</p>
+    <p>{t('拖动线尾圆环可更换目标，拖到空白处保留原连接。')}<br/>{t("拖动线上圆点调整路径")}<br/>{t("双击连线追加点 · 双击圆点移除")}<br/>{t("最多 8 个控制点，颜色仅用于标记")}</p>
   </div>;
 }

@@ -1,9 +1,17 @@
 // Presentation only: positions and routes never change authored graph topology.
 export function dialogueCardSize(node, measured = {}) {
   return {
-    width: measured.width || (node.type === 'entrance' ? 220 : node.type === 'ending' ? 160 : 280),
-    height: measured.height || (node.type === 'entrance' ? 180 : node.type === 'ending' ? 80 : 240 + (node.options?.length || 0) * 65),
+    width: measured.width || (node.type === 'entrance' ? 220 : node.type === 'ending' && !node.node_type ? 160 : 280),
+    height: measured.height || (node.type === 'entrance' ? 180 : node.node_type === 'ending' ? 200 : node.type === 'ending' ? 80 : 240 + (node.options?.length || 0) * 65),
   };
+}
+
+// Special cards are editor nodes, not authored dialogue nodes. Legacy layouts
+// omit them; materialize defaults without letting the end card chase itself.
+export function completeDialoguePositions(graph, positions = {}, sizes = {}) {
+  const cards = Object.fromEntries(graph.nodes.map(node => [node.id, positions[node.id] || {x:340,y:40}]));
+  const endX = Math.max(800, ...graph.nodes.map(node => cards[node.id].x + dialogueCardSize(node, sizes[node.id]).width + 170));
+  return {...cards, __entry:positions.__entry || {x:20,y:40}, __end:positions.__end || {x:endX,y:40}};
 }
 
 export function beautifyDialoguePositions(graph, sizes = {}) {

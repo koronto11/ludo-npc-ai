@@ -4,7 +4,16 @@
 .dialogue-edge-label.selected { color:#fff1dc; background:#493728; box-shadow:0 0 0 1px #d8b48c; }
 .dialogue-edge-point { position:absolute; pointer-events:all; width:16px; height:16px; padding:0; border:3px solid #c59b78; background:#24211e; border-radius:50%; cursor:move; touch-action:none; box-shadow:0 0 0 3px #211e1a90; }
 .dialogue-edge-point:hover,.dialogue-edge-point:focus-visible { background:#ead7bd; outline:2px solid #ead7bd; outline-offset:3px; }
-.dialogue-edge-tools { position:absolute; z-index:12; top:12px; right:12px; width:215px; padding:12px; background:#30271ff5; border:1px solid #8d6b4b; border-radius:6px; box-shadow:0 6px 22px #0005; }
+.dialogue-edit-stage.with-edge-tools { grid-template-columns:minmax(0,1fr) 245px; }
+.dialogue-edge-tools { min-width:0; min-height:0; overflow:auto; padding:12px; background:#30271f; border-left:1px solid #8d6b4b; }
+@media(max-width:760px) { .dialogue-edit-stage.with-edge-tools { grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(160px,1fr) auto; }.dialogue-edge-tools { max-height:210px; border-left:0; border-top:1px solid #8d6b4b; } }
+.dialogue-edge-target { display:flex; flex-direction:column; gap:6px; margin:10px 0; font-size:11px; }
+.dialogue-edge-target select { width:100%; min-width:0; padding:7px; background:#211e1a; color:#ead7bd; border:1px solid #826448; border-radius:3px; font-size:12px; }
+.dialogue-edge-tools .dialogue-edge-source { color:#ead7bd; overflow-wrap:anywhere; }
+.dialogue-edge-delete { width:100%; padding:7px; font-size:11px; color:#f0b4a6; border:1px solid #9c6254; border-radius:3px; }
+.dialogue-edge-delete:disabled { color:var(--muted); border-color:var(--line); }
+.dialogue-edge-divider { height:1px; background:#6b513a; margin:12px 0; }
+.role-workspace .react-flow__edge.selected .react-flow__edgeupdater-target { fill:#30271f; stroke:#fff1dc; stroke-width:2.5; cursor:crosshair; filter:drop-shadow(0 0 3px #d8b48c); }
 .dialogue-edge-tools header { display:flex; justify-content:space-between; align-items:center; color:#dfbb92; font-size:12px; margin-bottom:12px; }.dialogue-edge-tools header button { font-size:20px; line-height:1; }
 .dialogue-edge-palette { display:flex; align-items:center; gap:6px; }.dialogue-edge-palette button { width:18px; height:18px; border:2px solid transparent; border-radius:50%; flex:none; }.dialogue-edge-palette button[aria-pressed=true] { border-color:#fff1dc; outline:1px solid #9e8063; }.dialogue-edge-palette input { width:26px; height:25px; padding:2px; flex:none; background:#211e1a; border:1px solid #826448; }
 .dialogue-edge-actions { display:flex; gap:6px; margin-top:12px; }.dialogue-edge-actions button { font-size:10px; padding:6px; border:1px solid #6b513a; border-radius:3px; color:#dbc0a1; }

@@ -2,7 +2,7 @@ import {t,tm} from './i18n.js';
 export const uid = prefix => `${prefix}-${crypto.randomUUID()}`;
 export const clone = value => structuredClone(value);
 export const appearancesFor = (content, characterId) => (content.levels || []).flatMap(level => level.appearances.filter(a => a.character_id === characterId).map(appearance => ({ level, appearance, track: level.tracks.find(t => t.id === appearance.track_id) })));
-export const dialoguesFor = (content, appearance) => content.dialogues.filter(d => appearance.dialogue_ids.length ? appearance.dialogue_ids.includes(d.id) : d.character_id === appearance.character_id);
+export const dialoguesFor = (content, appearance) => content.dialogues.filter(d => appearance.dialogue_ids.length ? appearance.dialogue_ids.includes(d.id) : appearance.inherit_dialogues!==false && d.character_id === appearance.character_id);
 export function moveAnchor(level, id, tick) {
   tick = Math.max(0, Math.round(tick));
   const next = { ...level, anchors: level.anchors.map(a => a.id === id ? { ...a, tick } : a), appearances: level.appearances.map(a => ({ ...a, ...(a.start_anchor_id === id ? { start_tick: tick } : {}), ...(a.end_anchor_id === id ? { end_tick: tick } : {}) })) };

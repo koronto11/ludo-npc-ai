@@ -391,7 +391,7 @@ class GenerationEngine:
                             **item.output_limits.model_dump(mode="json"),
                             "max_text_chars": maximum,
                             "max_output_tokens": call_profile.max_tokens,
-                            "instruction": "卡片数为 nodes 的准确长度，包含开场与所有分支卡片，玩家选项不计数；正文字符上限包括标点与空格。不增设其他卡片或长篇说明。"
+                            "instruction": "卡片数为 nodes 的准确长度，包含开场、所有分支卡片和显式结束节点，玩家选项不计数；正文字符上限包括标点与空格。不增设其他卡片或长篇说明。"
                             if item.kind == "dialogue"
                             else "仅生成一份 body，遵守正文字符上限（包括标点与空格）。",
                         }

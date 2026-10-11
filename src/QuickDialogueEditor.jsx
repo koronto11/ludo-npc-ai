@@ -4,6 +4,7 @@ import {Plus,Play,Gear,GitBranch,ArrowRight,ArrowsOut,X} from '@phosphor-icons/r
 import {t,useI18n} from './i18n';
 import {conditionLabel} from './planning';
 import {quickDialogueMatches,quickDialogueStructure,quickDialogueTopology} from './quickDialogueModel';
+import {isDialogueEnding} from './dialogueEndings';
 import './quickDialogue.css';
 
 function GrowingText({value,inputRef,...props}) {
@@ -23,7 +24,7 @@ function SummaryNode({data}) {
       <button className="nodrag" title={option.text} onClick={event=>{event.stopPropagation();onLocate(option.target_node_id || node.id);}}>{option.text || t('新选项')}{!option.target_node_id&&<small> · {t('结束')}</small>}</button>
       <Handle type="source" id={option.id} position={Position.Right}/>
     </div>)}
-    {!node.options.length&&<small className="quick-summary-end">{t('结束节点')}</small>}
+    {!node.options.length&&<small className="quick-summary-end">{t(isDialogueEnding(node)?'结束节点':'末尾卡片')}</small>}
   </div>;
 }
 const summaryTypes={summary:SummaryNode};
@@ -73,18 +74,18 @@ export function QuickDialogueEditor({graph,content,search,selectedId,focusReques
     <div className="quick-text-body">
       <div className="quick-text-scroll" aria-label={t('快速文本编辑区')}>
         {!rows.length&&<div className="quick-text-empty"><p>{t('没有匹配的对白或选项。')}</p><button className="secondary" onClick={()=>onLocate(locateId)}>{t('显示全部对白')}</button></div>}
-        {rows.map((node,index)=><article key={node.id} className={`quick-text-article ${locateId===node.id?'active':''}`} ref={element=>bind(node.id,'article',element)} onFocusCapture={()=>onSelect(node.id)} onKeyDown={event=>shortcut(event,node.id)}>
+        {rows.map((node,index)=><article key={node.id} className={`quick-text-article ${isDialogueEnding(node)?'quick-ending':''} ${locateId===node.id?'active':''}`} ref={element=>bind(node.id,'article',element)} onFocusCapture={()=>onSelect(node.id)} onKeyDown={event=>shortcut(event,node.id)}>
           <fieldset disabled={busy}>
             <header><span className="quick-node-number">{index+1}</span><input className="quick-node-title" placeholder={t('对白标题')} aria-label={t('快速编辑标题 {0}',[node.id])} value={node.label || ''} onChange={event=>onNodeChange(node.id,{label:event.target.value})}/><select aria-label={t('快速编辑说话者 {0}',[node.id])} value={node.speaker_id || ''} onChange={event=>onNodeChange(node.id,{speaker_id:event.target.value || null})}><option value="">{t('旁白')}</option>{content.characters.map(actor=><option key={actor.id} value={actor.id}>{actor.name}</option>)}</select><button className="icon-button" aria-label={t('配置对白 {0}',[node.label || node.id])} onClick={()=>onEdit(node.id)}><Gear size={14}/></button></header>
-            <div className="quick-node-metadata">{node.id===graph.entry_node_id&&<span>{t('默认开场')}</span>}{node.condition.op!=='always'&&<button title={conditionLabel(node.condition,content)} onClick={()=>onEdit(node.id)}>{t('出现条件')}</button>}{node.effects.length>0&&<button onClick={()=>onEdit(node.id)}>{t('{0} 个进入效果',[node.effects.length])}</button>}</div>
-            <GrowingText inputRef={element=>bind(node.id,'text',element)} aria-label={t('快速编辑对白 {0}',[node.id])} placeholder={t('填写这张卡片的对白…')} value={node.text} onChange={event=>onNodeChange(node.id,{text:event.target.value})}/>
+            <div className="quick-node-metadata">{isDialogueEnding(node)&&<span>{t("结束节点")} · {t("无玩家选项")}</span>}{node.id===graph.entry_node_id&&<span>{t('默认开场')}</span>}{node.condition.op!=='always'&&<button title={conditionLabel(node.condition,content)} onClick={()=>onEdit(node.id)}>{t('出现条件')}</button>}{node.effects.length>0&&<button onClick={()=>onEdit(node.id)}>{t('{0} 个进入效果',[node.effects.length])}</button>}</div>
+            <GrowingText inputRef={element=>bind(node.id,'text',element)} aria-label={t('快速编辑对白 {0}',[node.id])} placeholder={t(isDialogueEnding(node)?'收尾台词留空时直接结束':'填写这张卡片的对白…')} value={node.text} onChange={event=>onNodeChange(node.id,{text:event.target.value})}/>
             <div className="quick-text-options">{node.options.map((option,i)=><div className="quick-text-option" key={option.id}>
               <span className="quick-choice-number">{i+1}</span><input ref={element=>bind(node.id,option.id,element)} aria-label={t('快速编辑选项 {0}',[option.id])} placeholder={t('玩家选项')} value={option.text} onChange={event=>onOptionChange(node.id,option.id,{text:event.target.value})}/>
-              <div className="quick-target"><ArrowRight size={12}/><select aria-label={t('快速编辑跳转 {0}',[option.id])} value={option.target_node_id || ''} onChange={event=>onOptionChange(node.id,option.id,{target_node_id:event.target.value || null})}><option value="">{t('结束对话')}</option>{graph.nodes.map(target=><option key={target.id} value={target.id}>{target.label || target.id}</option>)}</select><button className="icon-button" disabled={!option.target_node_id} aria-label={t('定位选项目标 {0}',[option.id])} onClick={()=>onLocate(option.target_node_id)}><ArrowRight size={13}/></button></div>
+              <div className="quick-target"><ArrowRight size={12}/><select aria-label={t('快速编辑跳转 {0}',[option.id])} value={option.target_node_id || ''} onChange={event=>onOptionChange(node.id,option.id,{target_node_id:event.target.value || null})}><option value="">{t('结束对话')}</option>{graph.nodes.map(target=><option key={target.id} value={target.id}>{isDialogueEnding(target)?`${t('结束节点')} · ${target.label || target.id}`:target.label || target.id}</option>)}</select><button className="icon-button" disabled={!option.target_node_id} aria-label={t('定位选项目标 {0}',[option.id])} onClick={()=>onLocate(option.target_node_id)}><ArrowRight size={13}/></button></div>
               <button className={`icon-button quick-option-settings ${option.condition.op!=='always'||option.effects.length?'configured':''}`} aria-label={t('配置选项条件与效果 {0}',[option.id])} title={option.condition.op!=='always'?conditionLabel(option.condition,content):t('条件与效果')} onClick={()=>onEdit(node.id,option.id)}><Gear size={13}/></button>
               {(option.condition.op!=='always'||option.effects.length>0)&&<small className="quick-option-meta">{option.condition.op!=='always'&&t('条件分支')}{option.condition.op!=='always'&&option.effects.length>0&&' · '}{option.effects.length>0&&t('{0} 个效果',[option.effects.length])}</small>}
             </div>)}</div>
-            <footer><button onClick={()=>onAddOption(node.id)}><Plus size={12}/>{t('玩家选项')}</button><button disabled={dirty||playBusy} title={dirty?t('先保存编排，再试玩这张卡片'):t('从这张卡片试玩')} onClick={()=>onTrial(node.id)}><Play size={12}/>{t('试玩本卡片')}</button>{!node.options.length&&<small>{t('结束节点')}</small>}</footer>
+            <footer>{!isDialogueEnding(node)&&<button onClick={()=>onAddOption(node.id)}><Plus size={12}/>{t('玩家选项')}</button>}<button disabled={dirty||playBusy} title={dirty?t('先保存编排，再试玩这张卡片'):t('从这张卡片试玩')} onClick={()=>onTrial(node.id)}><Play size={12}/>{t('试玩本卡片')}</button>{!node.options.length&&<small>{t(isDialogueEnding(node)?'结束节点':'末尾卡片')}</small>}</footer>
           </fieldset>
         </article>)}
         {rows.length>0&&<button className="quick-add-node secondary" disabled={busy} onClick={onAddNode}><Plus size={14}/>{t('新增对白卡片')}</button>}

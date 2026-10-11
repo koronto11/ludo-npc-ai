@@ -10,6 +10,7 @@ from ..domain.models import (
     ControlWidth,
     DialogueEdgeId,
     DialogueEdgeLayout,
+    DialogueLayoutNodeId,
     Draft,
     Entity,
     EntityRef,
@@ -106,7 +107,7 @@ class DeleteLevel(Contract):
 class PutDialogueLayout(Contract):
     type: Literal["put_dialogue_layout"]
     dialogue_id: Id
-    positions: dict[Id, Position]
+    positions: dict[DialogueLayoutNodeId, Position]
     edges: dict[DialogueEdgeId, DialogueEdgeLayout] | None = None
 
 
@@ -299,7 +300,7 @@ def apply_commands(project: Project, batch: CommandBatch) -> Project:
                     data["editor"]["dialogue_layouts"][row["id"]] = {
                         key: value
                         for key, value in positions.items()
-                        if key in {node["id"] for node in row["nodes"]}
+                        if key in {"__entry", "__end"} | {node["id"] for node in row["nodes"]}
                     }
             else:
                 items.remove(row)

@@ -78,3 +78,6 @@
  .role-workspace.quick-text-mode .role-stage {flex:0 0 560px;min-height:560px;}
  .role-workspace.quick-text-mode .quick-text-shortcuts {padding:4px 8px;}
 }
+/* Authored ending cards stay distinct in continuous editing. */
+.quick-text-article.quick-ending { border-color:#6d7860; }
+.quick-ending .quick-node-metadata { color:#b6c2aa; }

@@ -37,7 +37,7 @@ def dialogue_scope(project, level_id):
     ids = {
         identifier
         for _, a in appearances
-        for identifier in (a.dialogue_ids or by_actor.get(a.character_id, []))
+        for identifier in (a.dialogue_ids or (by_actor.get(a.character_id, []) if a.inherit_dialogues else []))
     }
     graphs = [g for g in c.dialogues if not level_id or g.id in ids]
     actor_ids = (
@@ -176,7 +176,7 @@ def markdown(project, level_id):
                             if key in graph_index
                         ]
                         if a.dialogue_ids
-                        else by_actor.get(a.character_id, [])
+                        else (by_actor.get(a.character_id, []) if a.inherit_dialogues else [])
                     )
                     lines += [
                         f"- {name(a.character_id)}：{a.start_tick}–{a.end_tick}；行为：{a.behavior}；出场条件：{condition_label(a.condition, c)}；对白："
@@ -208,7 +208,7 @@ def markdown(project, level_id):
         for n in g.nodes:
             lines += [
                 f"#### {n.label or n.id}",
-                f"节点 ID：{n.id}；说话者：{name(n.speaker_id)}",
+                f"节点 ID：{n.id}；说话者：{name(n.speaker_id)}" + ("；结束节点（台词后结束）" if n.node_type == "ending" else ""),
                 n.text,
                 "可用条件：" + condition_label(n.condition, c),
             ]
@@ -321,7 +321,7 @@ def dialogue_csv(project, level_id):
             "condition": a.condition.model_dump(mode="json"),
             "behavior": a.behavior,
         }
-        for graph_id in a.dialogue_ids or by_actor.get(a.character_id, []):
+        for graph_id in a.dialogue_ids or (by_actor.get(a.character_id, []) if a.inherit_dialogues else []):
             by_graph.setdefault(graph_id, []).append(binding)
     for g in graphs:
         bindings = by_graph.get(g.id, [])
@@ -363,7 +363,7 @@ def dialogue_csv(project, level_id):
             )
         for n in g.nodes:
             write(
-                "对白",
+                "结束节点" if n.node_type == "ending" else "对白",
                 n.speaker_id,
                 n.id,
                 n.label,

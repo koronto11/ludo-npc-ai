@@ -43,7 +43,7 @@ export function sceneContent(content,level,track,editor) {
   const hasScene=condition=>condition?.op==='scene'?condition.location_id===track.location_id:condition?.op==='all'&&condition.conditions.some(hasScene);
   const texts=content.texts.filter(t=>scopedTargets.has(t.id)?sceneScopeMatches(scopedTargets.get(t.id),level,track):hasScene(t.condition));
   const appearances=level.appearances.filter(a=>a.track_id===track.id);
-  const dialogues=appearances.flatMap(appearance=>content.dialogues.filter(g=>(g.character_id===appearance.character_id||!g.character_id)&&(!appearance.dialogue_ids.length||appearance.dialogue_ids.includes(g.id))).map(graph=>({graph,appearance,actor:content.characters.find(a=>a.id===appearance.character_id)})));
+  const dialogues=appearances.flatMap(appearance=>content.dialogues.filter(g=>(g.character_id===appearance.character_id||!g.character_id)&&(appearance.dialogue_ids.includes(g.id)||!appearance.dialogue_ids.length&&appearance.inherit_dialogues!==false)).map(graph=>({graph,appearance,actor:content.characters.find(a=>a.id===appearance.character_id)})));
   return {texts,dialogues,drafts,pending:drafts.filter(d=>d.status==='pending')};
 }
 export function draftScopeLabel(draft,content) {

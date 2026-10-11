@@ -147,16 +147,27 @@
 .dialogue-title-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 15px; min-height:54px; border-bottom:1px solid #42352a; font-size:10px; color:var(--muted); flex:none; }.dialogue-title-row input { flex:1; min-width:0; background:transparent; border-color:transparent; padding:4px; font-size:12px; }.dialogue-title-row input:focus { border-color:#82603f; }
 .dialogue-edit-stage { display:grid; grid-template-columns:minmax(0,1fr); flex:1; min-height:0; }.dialogue-edit-stage.with-properties { grid-template-columns:minmax(0,1fr) 280px; }
 .dialogue-canvas { min-height:0; min-width:0; position:relative; background:#211e1a; }
+.role-workspace .react-flow__controls { border:1px solid #69523e; border-radius:5px; overflow:hidden; box-shadow:0 4px 14px #0005; }
+.role-workspace .react-flow__controls-button { background:#2b241e; color:#d8b28a; border-bottom:1px solid #514132; }
+.role-workspace .react-flow__controls-button:hover { background:#473526; color:#fff0dd; }
+.role-workspace .react-flow__controls-button:focus-visible { background:#473526; color:#fff0dd; outline:2px solid #e1b589; outline-offset:-3px; }
+.role-workspace .react-flow__controls-button:disabled { color:#92795f; background:#25211d; }
 .dialogue-flow-card { width:280px; border:1px solid #69523e; border-radius:6px; background:#30271f; box-shadow:0 6px 18px #0002; }
 .dialogue-flow-card.selected { border-color:#d6aa7c; box-shadow:0 0 0 2px #c59b7828; }.dialogue-flow-card.visited { border-color:#759181; }.dialogue-flow-card.active-preview { border-color:#aec6b4; box-shadow:0 0 0 2px #adc6b42f; }
 .dialogue-flow-card>header { display:flex; align-items:center; gap:8px; padding:10px 12px; background:#3a2d22; border-radius:5px 5px 0 0; color:#e1bb91; }.dialogue-flow-card>header strong { flex:1; font-size:12px; }.dialogue-flow-card>header .icon-button { width:22px; height:22px; }
-.dialogue-speaker { display:block; margin:11px 14px 0; color:#bca285; font-size:10px; }.dialogue-flow-card>p { padding:0 14px; margin:8px 0 13px; line-height:1.8; font-size:12px; color:#ded0bf; white-space:pre-wrap; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+.dialogue-speaker { display:block; margin:11px 14px 0; color:#bca285; font-size:10px; }.dialogue-flow-card>p { padding:0 14px; margin:8px 0 13px; line-height:1.8; font-size:12px; color:#ded0bf; }
+.dialogue-text-preview { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; }
 .flow-condition,.flow-effect { display:block; margin:8px 12px; color:#d5b48b; font-size:9px; line-height:1.6; max-height:32px; overflow:hidden; }.flow-effect { color:#aebfac; }
 .flow-options { border-top:1px solid #584431; }.flow-options>div { position:relative; border-bottom:1px solid #514032; }.flow-options>div>button { width:100%; text-align:left; padding:10px 17px; font-size:11px; color:#d5c0a5; }.flow-options small { display:block; font-size:9px; margin-top:3px; color:#b69a79; }
 .dialogue-flow-card>footer { display:flex; justify-content:space-between; align-items:center; padding:9px 12px; font-size:9px; color:#b69775; }.dialogue-flow-card>footer button { font-size:10px; }
 .dialogue-flow-card .react-flow__handle,.dialogue-entry-card .react-flow__handle,.dialogue-end-card .react-flow__handle { width:10px; height:10px; background:#caa078; border:2px solid #30271f; }
 .dialogue-entry-card { width:220px; border:1px solid #8c6946; border-radius:6px; background:#392d21; padding:12px 0; }.dialogue-entry-card>strong { display:block; padding:0 13px 9px; font-size:12px; color:#e0b98d; }.dialogue-entry-card>div { position:relative; border-top:1px solid #634a33; padding:11px 13px; font-size:11px; }.dialogue-entry-card>div>button { text-align:left; width:100%; }.dialogue-entry-card small { display:block; color:#b69b7b; font-size:9px; line-height:1.7; padding:5px 13px 0; }.dialogue-entry-card button small { padding:5px 0 0; }
 .dialogue-end-card { width:160px; background:#2d3028; border:1px solid #6d7860; border-radius:6px; padding:16px; }.dialogue-end-card strong { display:block; font-size:12px; color:#b6c2aa; }.dialogue-end-card small { display:block; margin-top:7px; font-size:10px; color:#929e86; }
+.dialogue-end-card.authored-ending { width:280px; padding:14px; }
+.dialogue-end-card.authored-ending>strong { display:flex; align-items:center; justify-content:space-between; gap:8px; overflow-wrap:anywhere; }
+.dialogue-end-card.authored-ending p { font-size:13px; line-height:1.7; margin:10px 0; }
+.dialogue-end-card.authored-ending footer { border-top:1px solid #4c5845; margin-top:12px; padding-top:9px; font-size:10px; color:#b6c2aa; }
+.dialogue-end-card.selected,.dialogue-end-card.active-ending { border-color:#e8c297; box-shadow:0 0 0 1px #e8c297; }
 .dialogue-properties { min-height:0; overflow:auto; padding:14px; background:#2b231c; border-left:1px solid #705336; }
 .dialogue-properties>header { position:sticky; top:-14px; background:#2b231c; padding:8px 0 12px; z-index:1; color:#d7af82; }
 .dialogue-properties label { display:flex; flex-direction:column; gap:7px; font-size:10px; color:#bda387; margin:12px 0; }.dialogue-properties input,.dialogue-properties textarea,.dialogue-properties select { width:100%; font-size:11px; }.dialogue-properties textarea { min-height:120px; }.dialogue-properties h4 { margin:18px 0 10px; font-size:11px; color:#c5a07a; }
@@ -299,6 +310,7 @@
 /* Make option editing distinct from selecting or dragging its dialogue card. */
 .flow-options>div>button { display:flex; align-items:center; gap:10px; }
 .flow-option-label { flex:1; min-width:0; overflow-wrap:anywhere; }
+.flow-option-preview { line-height:1.7; }
 .flow-option-edit { flex:none; color:#b69a79; }
 .flow-options>div.editing-option { background:#493827; box-shadow:inset 3px 0 #d6aa7c; }
 .flow-options>div>button:hover { background:#c59b7814; }
@@ -321,6 +333,22 @@
 .role-tree-dialogue { display:flex; gap:7px; align-items:flex-start; text-align:left; width:100%; padding:9px 7px; border:1px solid transparent; border-radius:4px; margin:2px 0; }
 .role-tree-dialogue>svg { flex:none; margin-top:2px; color:#bca082; }.role-tree-dialogue>span { flex:1; min-width:0; }.role-tree-dialogue strong { display:block; font-size:11px; line-height:1.6; overflow-wrap:anywhere; }.role-tree-dialogue small { display:block; font-size:9px; margin-top:4px; color:var(--muted); line-height:1.6; }
 .role-tree-dialogue.active { background:#483524; border-color:#b48b61; }.role-tree-dialogue:hover { background:#3a2e23; }
+.role-tree-dialogue-row { display:flex; align-items:center; gap:2px; min-width:0; }
+.role-tree-dialogue-row .role-tree-dialogue { flex:1; width:auto; min-width:0; }
+.role-tree-more { flex:none; width:24px; height:28px; color:var(--muted); padding:2px; }
+.role-tree-more:hover,.role-tree-more[aria-expanded="true"] { color:var(--text); background:#483524; }
+.role-tree-dialogue-row.awaiting-association { flex-wrap:wrap; margin-bottom:7px; }
+.awaiting-association .role-tree-dialogue { order:1; }
+.awaiting-association .role-tree-more { order:2; }
+.role-tree-link { order:3; flex:0 0 100%; display:flex; align-items:center; justify-content:center; gap:4px; padding:5px; font-size:10px; color:#d0aa7e; border:1px solid #514132; border-radius:4px; }
+.role-tree-link:hover { background:#483524; color:#fff0dd; }
+.role-tree-purpose { border-top:1px solid var(--line); padding-top:4px; }
+.role-tree-purpose-help { margin:0 5px 7px; font-size:11px; line-height:1.7; color:var(--muted); overflow-wrap:anywhere; }
+.role-tree-create { padding:5px; }
+.role-tree-create button { display:flex; align-items:center; gap:5px; width:100%; justify-content:center; font-size:11px; }
+.role-tree-create small { display:block; margin-top:6px; color:var(--muted); font-size:10px; line-height:1.7; }
+.role-destination-option { width:100%; text-align:left; }
+.role-dialogue-removal { padding:20px 24px; font-size:13px; line-height:1.8; overflow-wrap:anywhere; }
 .role-tree-actions { display:flex; align-items:center; flex-wrap:wrap; gap:5px; border-top:1px solid #493a2e; padding:8px 4px 2px; }.role-tree-actions button { display:flex; align-items:center; gap:3px; font-size:9px; color:#d0aa7e; padding:4px 2px; }.role-tree-actions button:last-child { margin-left:auto; }
 .role-tree-misc { margin:16px 0 8px; }.role-tree-section { display:flex; width:100%; align-items:center; gap:7px; padding:8px 5px; color:#cba984; }.role-tree-section strong { flex:1; text-align:left; font-size:11px; }.role-tree-section small { font-size:10px; color:var(--muted); }
 .role-tree-empty,.role-tree-default { font-size:9px; line-height:1.8; color:var(--muted); padding:2px 7px; margin:6px 0; }.role-tree-default { color:#cba984; }
@@ -348,3 +376,13 @@
 .cast-collection .cast-grid {flex:1;grid-auto-rows:max-content;}
 .cast-pagination {display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:10px 24px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);flex-wrap:wrap;}
 .cast-pagination>span:first-child {margin-right:auto;}
+
+.level-scroll:focus-visible { outline:2px solid #bd9167; outline-offset:-2px; }
+.level-scroll .canvas-delete-selected { outline:2px solid #deb58a; outline-offset:2px; }
+.canvas-removal-name { font-size:14px; color:#e5c39c; overflow-wrap:anywhere; }
+.canvas-removal-body { padding:8px 24px 16px; }
+.canvas-removal-body p { line-height:1.8; }
+
+.cast-deleted-notice{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:9px 24px;background:#30271f;border-bottom:1px solid var(--line);font-size:12px;flex:none;}
+.cast-deleted-notice>.icon-button{margin-left:auto;}
+.character-delete-names{overflow-wrap:anywhere;max-height:100px;overflow:auto;color:var(--accent);}

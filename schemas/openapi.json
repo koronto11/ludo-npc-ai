@@ -1810,6 +1810,11 @@
             "maxItems": 1000,
             "title": "Dialogue Ids"
           },
+          "inherit_dialogues": {
+            "type": "boolean",
+            "title": "Inherit Dialogues",
+            "default": true
+          },
           "behavior": {
             "type": "string",
             "maxLength": 30000,
@@ -1956,6 +1961,11 @@
             "type": "array",
             "maxItems": 1000,
             "title": "Dialogue Ids"
+          },
+          "inherit_dialogues": {
+            "type": "boolean",
+            "title": "Inherit Dialogues",
+            "default": true
           },
           "behavior": {
             "type": "string",
@@ -3711,6 +3721,15 @@
             "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
             "title": "Id"
           },
+          "node_type": {
+            "type": "string",
+            "enum": [
+              "speech",
+              "ending"
+            ],
+            "title": "Node Type",
+            "default": "speech"
+          },
           "label": {
             "type": "string",
             "maxLength": 30000,
@@ -3846,6 +3865,15 @@
             "type": "string",
             "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$",
             "title": "Id"
+          },
+          "node_type": {
+            "type": "string",
+            "enum": [
+              "speech",
+              "ending"
+            ],
+            "title": "Node Type",
+            "default": "speech"
           },
           "label": {
             "type": "string",
@@ -4487,7 +4515,7 @@
             "patternProperties": {
               "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
                 "patternProperties": {
-                  "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+                  "^(?:__entry|__end|[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
                     "$ref": "#/components/schemas/Position"
                   }
                 },
@@ -6927,7 +6955,7 @@
           },
           "positions": {
             "patternProperties": {
-              "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$": {
+              "^(?:__entry|__end|[A-Za-z0-9][A-Za-z0-9_.:-]{0,99})$": {
                 "$ref": "#/components/schemas/Position"
               }
             },

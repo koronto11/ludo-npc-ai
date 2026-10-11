@@ -43,6 +43,6 @@ export function groupDialogueCommands(content,level,appearance,graph,nodes,makeI
   if(graph)return [{type:'patch_entity',target:{kind:'dialogue',id:graph.id},changes:{nodes}}];
   const actor=content.characters.find(c=>c.id===appearance.character_id), identifier=makeId('dialogue');
   const entity={id:identifier,kind:'dialogue',name:`${actor.name} · 场景闲聊`,character_id:actor.id,entry_node_id:nodes[0].id,entry_routes:[],nodes};
-  const existing=(appearance.dialogue_ids.length?appearance.dialogue_ids:content.dialogues.filter(g=>!g.character_id||g.character_id===appearance.character_id).map(g=>g.id));
+  const existing=(appearance.dialogue_ids.length?appearance.dialogue_ids:appearance.inherit_dialogues===false?[]:content.dialogues.filter(g=>!g.character_id||g.character_id===appearance.character_id).map(g=>g.id));
   return [{type:'create_entity',entity},{type:'put_level',level:{...level,appearances:level.appearances.map(a=>a.id===appearance.id?{...a,dialogue_ids:[...existing,identifier]}:a)}}];
 }

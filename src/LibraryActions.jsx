@@ -35,7 +35,7 @@ export function LibraryActionMenu({context,actions,onClose}) {
 
 export function LibraryUsageList({rows,onOpen}) {
   useI18n();
-  return <div className="library-usages">{rows.map(row=><button className="secondary" key={`${row.kind}:${row.levelId || ''}:${row.id}`} onClick={()=>onOpen(row)}><strong>{row.name}</strong><small>{t(usageLabels[row.kind] || '资料')}</small></button>)}</div>;
+  return <div className="library-usages">{rows.map(row=><button className="secondary" key={`${row.characterId || ''}:${row.kind}:${row.levelId || ''}:${row.id}`} onClick={()=>onOpen(row)}><strong>{row.name}</strong><small>{t(usageLabels[row.kind] || '资料')}</small></button>)}</div>;
 }
 const usageLabels={level:'关卡',track:'场景轨道',appearance:'人物出场',relation:'人物关系',initial:'初始状态',case:'已保存预演输入',draft:'草稿记录',generation:'生成记录',character:'人物',location:'地点',faction:'阵营',event:'剧情事件',rule:'条件规则',dialogue:'对白',text:'文本'};
 

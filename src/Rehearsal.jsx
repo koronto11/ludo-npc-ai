@@ -1,4 +1,5 @@
 import { t, tm, useI18n } from './i18n';
+import {DialogueEndingSpeech} from './DialogueEndingSpeech';
 import { useState } from 'react';
 import { activeSimulationCases } from './dialoguePlayModel';
 import { ArrowCounterClockwise, ArrowRight, CaretDoubleDown, CaretDoubleUp, CheckCircle, Flag, Play, WarningCircle, MapPin } from '@phosphor-icons/react';
@@ -30,7 +31,7 @@ export function RuntimeConversation({ rehearsal: r, characterId, dialogueId, exp
     <div className="section-label">{t("通用对话预演")}{related.length > 0 && <select aria-label={t("预演对话图")} value={active?.id || ''} onChange={e => r.setSelectedDialogue(e.target.value)}>{related.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select>}</div>
     {r.busy && <p className="muted-text">{t("按当前设定重新计算…")}</p>}
     {!active ? <p className="muted-text">{t("这个人物还没有对话图，可以在对话编排中创建。")}</p> : <>
-      <blockquote>{active.closed ? t("本段对话已结束。") : active.available ? active.text : t("当前条件下没有可用对白。")}</blockquote>
+      {active.closed&&<DialogueEndingSpeech ending={active.ending} content={r.document.content}/>}<blockquote>{active.closed ? t("本段对话已结束。") : active.available ? active.text : t("当前条件下没有可用对白。")}</blockquote>
       <div className="conversation-options">{active.options.map(option => <div key={option.id}><button disabled={!option.available || r.busy} onClick={() => r.record(active.id, option.id)} title={option.reason.reason}><ArrowRight size={14} />{option.text}{!option.available && <small>{t("条件未满足")}</small>}</button>{!option.available && <Reason value={option.reason}/>}</div>)}</div>
       <div className="rehearsal-actions"><button className="secondary" disabled={r.busy || !r.result?.complete || !active.available} onClick={() => r.record(active.id, null, active.started ? 'restart' : 'start')}><Play size={13} />{active.started ? t("重开对话") : t("开始对话")}</button>{active.closed && <button className="secondary" disabled={r.busy || !r.result?.complete} onClick={() => r.record(active.id, null, 'restart')}><ArrowCounterClockwise size={13} />{t("重新开始")}</button>}</div>
       <div className="condition-label">{t("节点条件")}</div><Reason value={active.reason} />

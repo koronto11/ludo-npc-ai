@@ -19,7 +19,7 @@ function MixedCheck({ checked, mixed, label, onChange }) {
   useEffect(() => { ref.current.indeterminate = mixed; }, [mixed]);
   return <input ref={ref} type="checkbox" aria-label={label} aria-checked={mixed ? 'mixed' : checked} checked={checked} onChange={e => onChange(e.target.checked)}/>;
 }
-export function CharacterGroupMenu({ context, onClose, onManage, onMove, onStory, onEdit }) {
+export function CharacterGroupMenu({ context, onClose, onManage, onMove, onStory, onEdit, onDelete }) {
   useI18n();
   const ref = useRef(null);
   const [position, setPosition] = useState({ left: context.x, top: context.y });
@@ -43,7 +43,7 @@ export function CharacterGroupMenu({ context, onClose, onManage, onMove, onStory
       const next = e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1 : (current + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
       items[next]?.focus();
     }
-  }}><header>{context.name}</header>{onEdit&&<button role="menuitem" onClick={onEdit}><PencilSimple/>{t("编辑人物档案")}</button>}{onStory&&<button role="menuitem" onClick={onStory}><Sparkle/>{t("生成人物故事")}</button>}<button role="menuitem" onClick={onManage}><Tag/>{t("管理分组")}</button><button role="menuitem" disabled={!context.hasGroups} title={context.hasGroups ? t("替换一个分组归属") : t("先加入分组")} onClick={onMove}><ArrowRight/>{t("移动分组")}</button></div>, document.body);
+  }}><header>{context.name}</header>{onEdit&&<button role="menuitem" onClick={onEdit}><PencilSimple/>{t("编辑人物档案")}</button>}{onStory&&<button role="menuitem" onClick={onStory}><Sparkle/>{t("生成人物故事")}</button>}<button role="menuitem" onClick={onManage}><Tag/>{t("管理分组")}</button><button role="menuitem" disabled={!context.hasGroups} title={context.hasGroups ? t("替换一个分组归属") : t("先加入分组")} onClick={onMove}><ArrowRight/>{t("移动分组")}</button>{onDelete&&<button role="menuitem" className="library-confirm-delete" onClick={onDelete}><Trash/>{t("删除人物 · Del")}</button>}</div>, document.body);
 }
 export function MembershipModal({ characters, ids, onClose, onSave }) {
   useI18n();

@@ -28,5 +28,5 @@ export function quickDialogueStructure(graph) {
 
 // Text changes do not reset the overview's pan/zoom. Only topology affects layout.
 export function quickDialogueTopology(graph) {
-  return JSON.stringify([graph.entry_node_id,graph.entry_routes.map(route=>route.node_id),graph.nodes.map(node=>[node.id,node.options.map(option=>[option.id,option.target_node_id])])]);
+  return JSON.stringify([graph.entry_node_id,graph.entry_routes.map(route=>route.node_id),graph.nodes.map(node=>[node.id,node.node_type || 'speech',node.options.map(option=>[option.id,option.target_node_id])])]);
 }
