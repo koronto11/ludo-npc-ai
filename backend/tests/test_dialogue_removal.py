@@ -3,9 +3,10 @@ from ludo_npc.application.projects import MemoryProjects
 from ludo_npc.camp_sample import campfire_project
 from ludo_npc.domain.models import Project
 from ludo_npc.drafts import author_hash
-from ludo_npc.exports import markdown, dialogue_csv
+from ludo_npc.exports import dialogue_csv, markdown
 from ludo_npc.simulation import SimulationInput, rehearse
-from ludo_npc.templates import ApplyTemplate, capture, apply_commands as template_commands
+from ludo_npc.templates import ApplyTemplate, capture
+from ludo_npc.templates import apply_commands as template_commands
 
 
 def unlinked_project():
@@ -71,7 +72,7 @@ def test_template_applied_to_empty_explicit_appearance_links_only_the_new_dialog
 
 def test_new_candidate_adoption_does_not_resurrect_removed_default_dialogue(tmp_path):
     from tests.test_generation import FixtureProvider, setup_client, start, wait_job
-    from tests.test_scene_crowd_workflow import commands, setup_scene, item
+    from tests.test_scene_crowd_workflow import commands, item, setup_scene
     client, identifier, _ = setup_client(tmp_path, FixtureProvider())
     try:
         level=setup_scene(client, identifier)

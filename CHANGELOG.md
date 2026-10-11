@@ -2,6 +2,11 @@
 
 ## Unreleased / 未发行
 
+- Add local stdio MCP collaboration for Codex / Claude Code: mark current text,
+  selected cards or an entire dialogue flow, submit text-only candidates, and
+  review and adopt changes per card with baseline conflict protection.
+- Add recoverable collaboration-task deletion, fixed-height review windows and
+  independently scrolling task/detail areas; document setup in both READMEs.
 - Adopt MIT for project-authored code, documentation and bilingual Skills.
 - Add third-party notices, asset/brand scope, contributor and security guidance.
 - Consolidate historical visual evidence outside the current mainline.

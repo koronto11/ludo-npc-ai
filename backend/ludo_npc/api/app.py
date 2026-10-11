@@ -24,6 +24,7 @@ from pydantic import Field, JsonValue, SecretStr, ValidationError
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .. import __version__
+from ..agent_tasks import AgentCandidate, AgentTasks, MarkDialogue
 from ..application.commands import CommandBatch, CommandError, ProjectConflict
 from ..application.projects import ProjectNotFound
 from ..camp_sample import campfire_project
@@ -130,6 +131,7 @@ def create_app(
     )
     adapter = provider or ChatProvider()
     templates = TemplateLibrary(store.data_dir)
+    agent_tasks = AgentTasks(store)
     engine = GenerationEngine(store, adapter)
     frontend = (
         Path(frontend_dir)
@@ -640,6 +642,46 @@ def create_app(
             "project": project.model_dump(mode="json"),
             "author_hash": author_hash(project),
         }
+
+    @app.get("/api/v2/projects/{project_id}/agent-connection")
+    def agent_connection(project_id: str, request: Request):
+        store.get(project_id)
+        if getattr(sys, "frozen", False):
+            args = ["--mcp"]
+        else:
+            args = [str(Path(__file__).resolve().parents[3] / "scripts" / "npcs_mcp.py")]
+        args.extend(["--base-url", str(request.base_url).rstrip("/"), "--project-id", project_id])
+        return {"transport": "stdio", "command": sys.executable, "args": args,
+                "project_id": project_id,
+                "capabilities": ["marked_tasks", "text_candidates", "author_review"]}
+
+    @app.get("/api/v2/projects/{project_id}/agent-tasks")
+    def list_agent_tasks(project_id: str, deleted: bool = False):
+        return agent_tasks.deleted(project_id) if deleted else agent_tasks.list(project_id)
+
+    @app.post("/api/v2/projects/{project_id}/agent-tasks", status_code=201)
+    def mark_dialogue(project_id: str, body: MarkDialogue):
+        return agent_tasks.mark(project_id, body)
+
+    @app.get("/api/v2/projects/{project_id}/agent-tasks/{task_id}")
+    def get_agent_task(project_id: str, task_id: str):
+        return agent_tasks.get(project_id, task_id)
+
+    @app.delete("/api/v2/projects/{project_id}/agent-tasks/{task_id}")
+    def delete_agent_task(project_id: str, task_id: str):
+        return agent_tasks.delete(project_id, task_id)
+
+    @app.post("/api/v2/projects/{project_id}/agent-tasks/{task_id}/restore")
+    def restore_agent_task(project_id: str, task_id: str):
+        return agent_tasks.restore(project_id, task_id)
+
+    @app.post("/api/v2/projects/{project_id}/agent-tasks/{task_id}/cancel")
+    def cancel_agent_task(project_id: str, task_id: str):
+        return agent_tasks.cancel(project_id, task_id)
+
+    @app.post("/api/v2/projects/{project_id}/agent-tasks/{task_id}/candidate")
+    def submit_agent_candidate(project_id: str, task_id: str, body: AgentCandidate):
+        return agent_tasks.submit(project_id, task_id, body)
 
     @app.post("/api/v2/projects/{project_id}/commands", response_model=Project)
     def commands(project_id: str, body: CommandBatch):

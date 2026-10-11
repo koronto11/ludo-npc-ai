@@ -271,12 +271,18 @@ export const helpSections=[
  'Generate and inspect a preview, then save to project exports or download elsewhere. Repeated folder saves create new filenames. If the project changes, prepare a fresh preview.',
  'Notes and tables contain official content only. Backups also include layouts, drafts and records, but exclude templates, profiles and keys.'],notes:['Design notes include author secrets and unfiltered global context. Review before sharing with players. CSV is a generic integration table; no dedicated game-engine exporter exists yet.']}},
  {id:'ai',zh:{title:'与自己的 AI 工具协作',intro:'中英文 Skill 可以帮助用户的 AI 将故事变成可视化工程，或给已有工程提交待审核修改。这条协作路径不需要另配工具内的模型 API Key。',steps:[
+  '在角色工作台点击“标记对白”，选择当前文字、选中多张卡片或整个对白流程。多卡片可在画布按住 Shift 多选或在弹窗中勾选；整个流程包含所有分支和结束台词。最多 200 张卡片，只允许修改台词和玩家选项文字，完整流程作为上下文。填写要求后点击“保存并创建协作任务”，再让自己的智能体主动读取。',
+ '首次打开“智能体协作 → 连接 Codex / Claude”，将本机 stdio MCP 配置合并到自己的客户端。保持编辑器运行，切换工程或端口时更新配置。让智能体“读取 NPCs 最新标记的任务，按要求提交修改候选”，然后在协作任务中查看并进入草稿审核。无需复制对白；不会自动向聊天发送消息或采用候选。',
+ '协作任务列表右侧可直接删除任务，并立即撤销；在“已删除”中可恢复。删除后智能体不能再读取该任务或提交候选，已有候选和已采用对白保留。',
  '获取完整 skills/npcs-ai-studio-zh 或 skills/npcs-ai-studio-en 文件夹，通过自己的 AI 工具支持的 Skill 方式加载，通常选择一种语言即可。',
  '故事转新工程：让 AI 提取世界规则、人物、关卡、场景、出场和对白，将推断的补充设定列出来，校验后保存独立新文件，再从项目菜单打开。',
  '已有工程协作：先在工具中打开项目并保存编辑，让 AI 读取当前工程上下文，为具体人物或对白提交待审核草稿，保留已确认设定。',
  '本地 AI 需要能在你的电脑执行命令，使用 Skill 的桥接脚本，或新版 NPCsAIStudio.exe --skill-bridge，连接工具实际运行地址。',
  '云端聊天没有本地执行能力时，只能交付内容或文件，由用户或本地 AI 执行。AI 云端的 localhost 不是你的电脑。',
  '回到草稿审核比较并采用。工程发生版本冲突时，让 AI 重新读取上下文再提案，不能用旧快照强行覆盖。'],notes:['协作桥接不自动采用、不读取密钥、不执行任意命令。Skill 生成的独立单文件可通过“整理为项目文件夹”集中管理。'],code:'任务示例：\n使用 NPCs AI Studio Skill，把下面的故事整理为独立新工程。\n提取世界规则与人物，拆分关卡场景，安排出场并编排对白。\n列出补充设定，校验后保存新文件，告诉我从哪里打开。'},en:{title:'Collaborate with your own AI',intro:'The Chinese and English Skills help your AI turn stories into visible projects or propose reviewable edits. This collaboration path needs no additional built-in model API Key.',steps:[
+  'Click Mark dialogue in the role workbench and choose Current text, Selected cards or Entire dialogue flow. Hold Shift to select cards on the canvas or check cards in the dialog. The full flow includes all branches and closing lines. Up to 200 cards may be marked; only speech and player-choice text can change, with the complete flow supplied as context. Describe the change, click Save and create collaboration task, then ask your own agent to read it.',
+ 'Open Agent collaboration → Connect Codex / Claude once and merge the local stdio MCP configuration into your client. Keep the editor running; update configuration after switching project or port. Ask your agent to “read the latest marked NPCs task and submit a candidate following its requirements”, then inspect it in Collaboration tasks and open Draft review. No dialogue copy/paste is needed; MCP does not send chat messages or adopt candidates automatically.',
+ 'Delete tasks directly using the button on each task row, then undo immediately or restore from Deleted. Deleted tasks cannot be read by the agent or receive new candidates. Existing candidates and adopted dialogue are kept.',
  'Get the complete skills/npcs-ai-studio-zh or skills/npcs-ai-studio-en folder and load it through your AI tool’s supported Skill mechanism. Usually choose one language pack.',
  'For a new story project, ask the AI to extract world rules, characters, levels, scenes, appearances and dialogue, list inferred additions, validate and save a separate file. Open it from Project.',
  'For an existing project, open it and save your edits first. Ask the AI to read current author context and propose drafts for specific characters or dialogue while preserving confirmed fields.',

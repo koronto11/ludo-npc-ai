@@ -13,13 +13,14 @@
   <a href="#status"><img src="https://img.shields.io/badge/preview-0.1.0-c99f78?style=flat-square" alt="0.1.0 预览版"></a>
   <a href="#local-data"><img src="https://img.shields.io/badge/storage-local_JSON-8da88f?style=flat-square" alt="本地 JSON 保存"></a>
   <a href="#ai-skills"><img src="https://img.shields.io/badge/AI_Skills-ZH_%2F_EN-849fae?style=flat-square" alt="中英文 AI Skills"></a>
+  <a href="#local-mcp"><img src="https://img.shields.io/badge/MCP-local_agents-8da88f?style=flat-square" alt="本地 MCP 智能体协作"></a>
   <a href="#workflow"><img src="https://img.shields.io/badge/drafts-author_review-b49ab9?style=flat-square" alt="草稿需作者审核"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-849fae?style=flat-square" alt="MIT 许可证"></a>
 </p>
 
 <p align="center">
   <a href="README.md">English</a> · <b>简体中文</b><br><br>
-  <a href="#overview">平台介绍</a> · <a href="#workbench">工作台展示</a> · <a href="#ai-skills">AI 协作</a> · <a href="#quick-start">快速开始</a> · <a href="#example">故事示例</a> · <a href="#local-data">数据保存</a> · <a href="#documentation">文档</a> · <a href="#star-history">Star 历史</a> · <a href="#support">支持项目</a>
+  <a href="#overview">平台介绍</a> · <a href="#workbench">工作台展示</a> · <a href="#ai-skills">AI Skills</a> · <a href="#local-mcp">本地 MCP 协作</a> · <a href="#quick-start">快速开始</a> · <a href="#example">故事示例</a> · <a href="#local-data">数据保存</a> · <a href="#documentation">文档</a> · <a href="#star-history">Star 历史</a> · <a href="#support">支持项目</a>
 </p>
 
 ---
@@ -29,7 +30,7 @@
 
 **NPCs AI Studio 将故事大纲整理为直观的创作空间。** 先确定世界事实，再创建人物、安排场景出场、连接对白选项，最后模拟玩家会遇见什么。适合 RPG 任务、互动小说、叙事原型与 NPC 台词规划。
 
-你的 AI 可以通过中英文 Skill 协助整理故事，平台内的模型连接也可以生成指定内容的候选稿。两条路径都保留作者对最终文本的决定权。
+你的 AI 可以通过中英文 Skill 协助整理故事，也可以通过本地 MCP 修改已标记对白；平台内的模型连接还可以生成指定内容的候选稿。所有修改都保留作者对最终文本的决定权。
 
 > **世界底稿 → 人物设定 → 场景与出场 → 对白与事件 → 草稿审核 → 实际预演 → 内容交付**
 
@@ -95,6 +96,36 @@
 ```
 
 能够在本机执行命令的 AI 工具，可以通过桥接脚本完成校验、导入与提交草稿。无法访问本机的云端聊天可以准备交接文件，但不能直接操作你的本地工作台。桥接脚本本身不调用模型，也不需要平台 API Key。支持协作入口的 Windows 版本可使用 `NPCsAIStudio.exe --skill-bridge`；独立脚本需要 Python 3.10+。
+
+<a id="local-mcp"></a>
+## 通过本地 MCP，与自己的 Codex / Claude Code 快速协作
+
+**在编辑器中标记对白，再让自己的智能体读取任务。** MCP 提供准确的卡片位置、已保存原文、世界底稿及相关人物和场景背景。即使零散修改了多张卡片，也能一起交给智能体调整，无需反复复制正文、JSON 或截图。
+
+### 首次连接
+
+打开已保存的工程，进入**智能体协作 → 连接 Codex / Claude**，将页面生成的配置合并到客户端的 MCP 设置中，保留已有连接。编辑器会提供实际解释器或程序路径、本机服务地址和工程 ID。
+
+智能体客户端负责启动 **本地 stdio 适配器**，编辑器需保持运行，所配置工程需已打开。连接本身无需部署云服务器，也无需额外配置平台模型密钥；智能体仍使用自己的模型与账号。更换工程或服务地址后更新配置。源码使用 `scripts/npcs_mcp.py`，新构建的 Windows 包可使用 `NPCsAIStudio.exe --mcp`。
+
+### 标记 → 读取 → 提交候选 → 审核采用
+
+1. **编辑并选择范围。** 在角色画布或快速文本中点击**标记对白**，选择**当前文字、选中多张卡片、整个对白流程**。多卡片可按住 Shift 在画布选择，也可在任务窗口勾选。整个流程包括未连接分支和已编写的结束台词，每份任务最多覆盖 200 张卡片。
+2. **创建协作任务。** 填写修改要求，点击**保存并创建协作任务**。这只保存本地任务，不会自动发送到智能体聊天；需要在自己的智能体中主动要求读取。
+3. **提交修改候选。** 智能体读取指定任务，通过 MCP 提交文本修改。候选显示在**智能体协作 → 协作任务**和草稿审核中。
+4. **按卡片审核。** 比较原台词、玩家选项与候选，可以编辑后采用，也可以拒绝。采用一张卡片不会覆盖其他已审核卡片。
+
+可以直接对自己的智能体说：
+
+```text
+读取 NPCs 中最新创建的协作任务。
+根据世界背景和人物身份统一台词口吻，保留剧情信息。
+只修改已标记卡片的 NPC 台词和玩家选项文字，提交修改候选供我审核。
+```
+
+存在多份任务时可指定任务编号。当前协作范围为**文本修改**，说话者、卡片标题、连线、条件、效果和稳定 ID 保持不变；作者内容发生变化时需重新比较。旧工程继续可读，无需迁移。
+
+完成的任务支持快速删除、立即撤销及从**已删除**列表恢复。删除会阻止智能体继续向该任务提交候选，已有候选和已采用对白仍保留。完整连接方式、工具说明、数据保存和冲突处理见[本地 MCP 协作指南](docs/local-mcp-collaboration.md)。
 
 <a id="workflow"></a>
 ## 把生成范围说清楚，把采用权留给作者
@@ -196,6 +227,7 @@ backend/.venv/Scripts/python.exe skills/npcs-ai-studio-zh/scripts/npc_studio_bri
 | **工程内容** | 用户选择的项目文件夹，包含世界、人物、关卡、场景、对白、草稿、生成记录和已保存试玩记录。 |
 | **备份与导出** | 集中在项目文件夹中。完整 JSON 备份可重新打开；Markdown 设计稿和 UTF-8 CSV 对白表用于交付。 |
 | **模型与模板** | 本机应用数据目录，跨项目共用，与项目备份分开管理。 |
+| **MCP 协作任务** | 本机应用数据目录，按工程区分，不进入项目导出；提交的候选沿用工程内的草稿保存方式。 |
 | **API Key** | Windows 可用当前用户 DPAPI 加密保存在独立凭据文件中，也可仅保留本次会话，支持明确清除。其他系统当前仅支持会话输入。 |
 
 工程导出、模板和 Skill 不包含已保存模型密钥。修改连接目的地需要重新输入密钥；复制模型配置不会复制密钥。编辑与确定性预演可以离线使用，平台远程生成会把所需故事上下文发送到你选择的连接。
@@ -209,6 +241,7 @@ backend/.venv/Scripts/python.exe skills/npcs-ai-studio-zh/scripts/npc_studio_bri
 | :--- | :--- |
 | 学会完整创作流程 | [中文使用手册](docs/user-guide-zh.md) · [English user guide](docs/user-guide-en.md) |
 | 和自己的 AI 一起创作 | [中英文 Skill 协作说明](docs/skill-collaboration-guide.md) |
+| 连接本地 Codex / Claude Code | [本地 MCP 协作指南](docs/local-mcp-collaboration.md) |
 | 理解台词数量与长度 | [场景生成限量说明](docs/scene-generation-limits-delivery.md) |
 | 理解草稿与恢复 | [草稿收件箱](docs/draft-inbox-delivery.md) · [项目文件夹](docs/project-folder-delivery.md) |
 | 开发或接入其他工具 | [Python 本地服务](backend/README.md) · [架构说明](docs/architecture.md) · [工程 Schema](schemas/project-v2.schema.json) |
@@ -217,7 +250,7 @@ backend/.venv/Scripts/python.exe skills/npcs-ai-studio-zh/scripts/npc_studio_bri
 <a id="status"></a>
 ## 当前版本与下一步
 
-**当前主线：0.1.0 预览版。** 已实现创作编排、本地保存、草稿审核、模型连接流程、中英文 Skill 与确定性预演。服务商兼容性和输出质量取决于实际连接；协议测试夹具不能替代真实模型质量验收。
+**当前主线：0.1.0 预览版。** 已实现创作编排、本地保存、草稿审核、模型连接流程、中英文 Skill、本地 MCP 协作与确定性预演。服务商兼容性和输出质量取决于实际连接；协议测试夹具不能替代真实模型质量验收。
 
 下一步包括干净 Windows 机器验收、发行打包、更多真实服务商验证，以及专用游戏引擎交付适配。当前导出为 JSON、Markdown 和 CSV。平台规划叙事文本，不创建 3D 人物或运行游戏引擎。人物认知、条件与效果需要明确配置，自然语言中的秘密和矛盾仍由作者审核。
 

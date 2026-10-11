@@ -233,12 +233,15 @@ Templates copy reusable starting structures. Exports hand off official content o
 
 The Chinese and English Skills help your AI turn stories into visible projects or propose reviewable edits. This collaboration path needs no additional built-in model API Key.
 
-1. Get the complete skills/npcs-ai-studio-zh or skills/npcs-ai-studio-en folder and load it through your AI tool’s supported Skill mechanism. Usually choose one language pack.
-2. For a new story project, ask the AI to extract world rules, characters, levels, scenes, appearances and dialogue, list inferred additions, validate and save a separate file. Open it from Project.
-3. For an existing project, open it and save your edits first. Ask the AI to read current author context and propose drafts for specific characters or dialogue while preserving confirmed fields.
-4. A local AI needs command execution on your computer. Use the Skill bridge script or a recent NPCsAIStudio.exe --skill-bridge against the tool’s actual running URL.
-5. Cloud chat without local execution can only deliver content or files for you or a local AI to run. The cloud AI’s localhost is not your computer.
-6. Review and adopt proposals in Draft review. On revision conflicts, ask the AI to reread context before proposing again, rather than overwriting from an old snapshot.
+1. Click Mark dialogue in the role workbench and choose Current text, Selected cards or Entire dialogue flow. Hold Shift to select cards on the canvas or check cards in the dialog. The full flow includes all branches and closing lines. Up to 200 cards may be marked; only speech and player-choice text can change, with the complete flow supplied as context. Describe the change, click Save and create collaboration task, then ask your own agent to read it.
+2. Open Agent collaboration → Connect Codex / Claude once and merge the local stdio MCP configuration into your client. Keep the editor running; update configuration after switching project or port. Ask your agent to “read the latest marked NPCs task and submit a candidate following its requirements”, then inspect it in Collaboration tasks and open Draft review. No dialogue copy/paste is needed; MCP does not send chat messages or adopt candidates automatically.
+3. Delete tasks directly using the button on each task row, then undo immediately or restore from Deleted. Deleted tasks cannot be read by the agent or receive new candidates. Existing candidates and adopted dialogue are kept.
+4. Get the complete skills/npcs-ai-studio-zh or skills/npcs-ai-studio-en folder and load it through your AI tool’s supported Skill mechanism. Usually choose one language pack.
+5. For a new story project, ask the AI to extract world rules, characters, levels, scenes, appearances and dialogue, list inferred additions, validate and save a separate file. Open it from Project.
+6. For an existing project, open it and save your edits first. Ask the AI to read current author context and propose drafts for specific characters or dialogue while preserving confirmed fields.
+7. A local AI needs command execution on your computer. Use the Skill bridge script or a recent NPCsAIStudio.exe --skill-bridge against the tool’s actual running URL.
+8. Cloud chat without local execution can only deliver content or files for you or a local AI to run. The cloud AI’s localhost is not your computer.
+9. Review and adopt proposals in Draft review. On revision conflicts, ask the AI to reread context before proposing again, rather than overwriting from an old snapshot.
 
 ```text
 Example request:

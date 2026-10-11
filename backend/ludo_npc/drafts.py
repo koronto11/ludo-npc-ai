@@ -176,7 +176,10 @@ def same_batch_basis_matches(data, draft):
 def draft_is_stale(data, draft, basis=None):
     if not draft["basis_hash"]:
         return draft["base_content_revision"] != data["content_revision"]
-    return draft["basis_hash"] != (basis or author_hash(data)) and not same_batch_basis_matches(data, draft)
+    from .agent_card_review import is_card_draft, sibling_basis_matches
+    return (draft["basis_hash"] != (basis or author_hash(data))
+            and not same_batch_basis_matches(data, draft)
+            and not (is_card_draft(draft) and sibling_basis_matches(data, draft)))
 
 
 def review(project, draft_id):
@@ -203,7 +206,7 @@ def review(project, draft_id):
                 and before != current,
             }
         )
-    return {
+    result = {
         "draft": draft,
         "fields": fields,
         "stale": stale,
@@ -212,6 +215,15 @@ def review(project, draft_id):
         "issues": draft["issues"],
         "status": draft["status"],
     }
+    from .agent_card_review import card_changes, is_card_draft
+    if is_card_draft(draft):
+        identity, _ = card_changes(draft)
+        result["agent_card_id"] = identity
+        field = fields[0]
+        base = next(n for n in field["base"] if n["id"] == identity)
+        current = next((n for n in field["current"] or [] if n["id"] == identity), None)
+        field["conflict"] = base != current
+    return result
 
 
 def scene_destination(data, scope, kind, actor_id):
@@ -256,6 +268,15 @@ def apply_review(data, command, reviewed_hash=None):
     if not command.values or not set(command.values) <= set(draft["patch"]):
         raise ReviewError("请选择草稿中的字段，不允许增加未审核字段")
     row = target_row(data, draft["target"])
+    from .agent_card_review import is_card_draft, merged_nodes
+    if is_card_draft(draft):
+        nodes = merged_nodes(data, draft, command.values)
+        # Keep the exact adopted text for proving independent sibling adoption.
+        draft["patch"] = deepcopy(command.values)
+        row["nodes"] = nodes
+        draft["status"] = "accepted"
+        draft["applied_fields"] = ["nodes"]
+        return
     if draft["operation"] == "update":
         if row is None:
             raise ReviewError("目标对象已不存在")
@@ -314,6 +335,12 @@ def rebase(data, draft_id, expected_hash):
     if not draft or draft["status"] != "pending":
         raise ReviewError("只有待审核草稿可以更新基准")
     row = target_row(data, draft["target"])
+    from .agent_card_review import is_card_draft, rebase_card
+    if is_card_draft(draft):
+        rebase_card(data, draft)
+        draft["basis_hash"] = author_hash(data)
+        draft["base_content_revision"] = data["content_revision"]
+        return
     draft["base_values"] = {key: deepcopy(row.get(key)) for key in draft["patch"]} if row else {}
     draft["basis_hash"] = author_hash(data)
     draft["base_content_revision"] = data["content_revision"]

@@ -524,7 +524,11 @@ def apply_commands(project: Project, batch: CommandBatch) -> Project:
                 )
                 if any(existing[key] != candidate[key] for key in immutable):
                     raise CommandError("修改候选不能改变审核目标或基准，请使用重新比较")
-            put(data["content"]["drafts"], command.draft.model_dump(mode="json"))
+            from ..agent_card_review import card_changes, is_card_draft
+            candidate = command.draft.model_dump(mode="json")
+            if is_card_draft(candidate):
+                card_changes(candidate)
+            put(data["content"]["drafts"], candidate)
         elif isinstance(command, (ReviewDraft, RebaseDraft)):
             if any(
                 row["source"] == "draft" and row["record_id"] == command.draft_id

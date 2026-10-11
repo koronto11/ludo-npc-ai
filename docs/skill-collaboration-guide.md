@@ -4,6 +4,10 @@
 
 Author-facing collaboration: your AI reads stories and projects, structures levels, characters, NPC groups, dialogue and plot; NPCs AI Studio provides visualization, validation, review and rehearsal. This workflow needs no additional NPCs AI Studio model API key.
 
+针对编辑器中某句对白的迭代，可使用 [本地 MCP 协作](local-mcp-collaboration.md)：选中文字并标记，自己的 Codex / Claude Code 读取冻结任务、提交候选，作者在草稿审核中采用。它与整篇故事的 Skill 工作流互补，不要求额外安装 Skill。
+
+For a specific line in the editor, use [Local MCP collaboration](local-mcp-collaboration.md): mark text, let your Codex / Claude Code read the frozen task and submit a candidate, then review and adopt it. This complements the whole-story Skill workflow and needs no additional Skill installation.
+
 ## 当前主线版本 / Current mainline
 
 平台与两份 Skill 统一为 **0.1.0 预览版**。版本以根目录 `package.json` 为依据，打包时检查后端一致性并同步到 SKILL.md；故事板 v1、草稿协议 v1、工程 Schema v2 是数据格式版本，保持兼容。

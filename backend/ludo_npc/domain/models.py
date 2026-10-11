@@ -22,8 +22,8 @@ from pydantic import (
     StrictStr,
     StringConstraints,
     field_validator,
-    model_validator,
     model_serializer,
+    model_validator,
 )
 
 Id = Annotated[StrictStr, StringConstraints(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,99}$")]

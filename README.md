@@ -13,13 +13,14 @@
   <a href="#status"><img src="https://img.shields.io/badge/preview-0.1.0-c99f78?style=flat-square" alt="Version 0.1.0 preview"></a>
   <a href="#local-data"><img src="https://img.shields.io/badge/storage-local_JSON-8da88f?style=flat-square" alt="Local JSON storage"></a>
   <a href="#ai-skills"><img src="https://img.shields.io/badge/AI_Skills-ZH_%2F_EN-849fae?style=flat-square" alt="Chinese and English AI Skills"></a>
+  <a href="#local-mcp"><img src="https://img.shields.io/badge/MCP-local_agents-8da88f?style=flat-square" alt="Local MCP collaboration"></a>
   <a href="#workflow"><img src="https://img.shields.io/badge/drafts-author_review-b49ab9?style=flat-square" alt="Drafts require author review"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-849fae?style=flat-square" alt="MIT license"></a>
 </p>
 
 <p align="center">
   <b>English</b> · <a href="README.zh-CN.md">简体中文</a><br><br>
-  <a href="#overview">Overview</a> · <a href="#workbench">Workbench</a> · <a href="#ai-skills">AI Skills</a> · <a href="#quick-start">Quick start</a> · <a href="#example">Example</a> · <a href="#local-data">Your data</a> · <a href="#documentation">Docs</a> · <a href="#star-history">Star History</a> · <a href="#support">Support</a>
+  <a href="#overview">Overview</a> · <a href="#workbench">Workbench</a> · <a href="#ai-skills">AI Skills</a> · <a href="#local-mcp">Local MCP</a> · <a href="#quick-start">Quick start</a> · <a href="#example">Example</a> · <a href="#local-data">Your data</a> · <a href="#documentation">Docs</a> · <a href="#star-history">Star History</a> · <a href="#support">Support</a>
 </p>
 
 ---
@@ -29,7 +30,7 @@
 
 **NPCs AI Studio turns a story outline into a visible authoring workspace.** Establish the world's facts, build a cast, place characters in scenes, connect dialogue choices and rehearse what the player encounters. Use it for RPG quests, interactive fiction, narrative prototypes and NPC dialogue planning.
 
-Your own AI can prepare the material through the bilingual Skills. The built-in model connection can generate focused candidates. Both workflows leave you in control of the final text.
+Your own AI can prepare the material through the bilingual Skills, or revise marked dialogue through local MCP. The built-in model connection can also generate focused candidates. Every workflow leaves you in control of the final text.
 
 > **World brief → Characters → Scenes & appearances → Dialogue & events → Review → Rehearsal → Handoff**
 
@@ -95,6 +96,37 @@ Explain your assumptions and tell me where to open the result.
 ```
 
 An AI tool with local execution can use the bridge to validate, import and submit drafts. A cloud chat without access to your computer can prepare files for handoff; it cannot directly operate your local workbench. The bridge itself makes no model requests and does not need a platform API key. Supported collaboration Windows builds offer `NPCsAIStudio.exe --skill-bridge`; the standalone helper uses Python 3.10+.
+
+<a id="local-mcp"></a>
+## Revise dialogue with your local Codex or Claude Code
+
+**Mark the dialogue in the editor, then ask your own agent to read the task.** Local MCP provides the exact card IDs, saved text, world brief and relevant character/scene context. You can revise scattered cards together without copying passages, JSON or screenshots between tools.
+
+### Connect once
+
+Open a saved project and choose **Agent collaboration → Connect Codex / Claude**. Merge the generated configuration into your client's MCP settings, keeping existing connections. The editor supplies the actual Python/executable path, service URL and project ID.
+
+Your client starts the **local stdio adapter**; keep the editor running and the configured project open. No cloud server deployment or additional workbench model key is needed for the connection. Your agent uses its own model/account. Update the configuration when the project or local service address changes. Source checkouts use `scripts/npcs_mcp.py`; newly built Windows packages can use `NPCsAIStudio.exe --mcp`.
+
+### Mark → Read → Propose → Review
+
+1. **Edit and mark.** In the role canvas or Quick text, choose **Mark dialogue** and select **Current text**, **Selected cards** or **Entire dialogue flow**. Shift-select cards on the canvas or use the task checkboxes. A flow includes disconnected branches and authored ending lines; one task can cover up to 200 cards.
+2. **Create the task.** Write your instructions and choose **Save and create collaboration task**. This saves a local task; it does not automatically send a message to your agent. Ask the agent to read it in your own chat.
+3. **Submit a candidate.** The agent reads the exact task and submits text changes through MCP. Candidates appear in **Agent collaboration → Agent tasks** and Draft Review.
+4. **Review each card.** Compare original speech and player choices with the candidate, edit if needed, then adopt or reject. Adopting one card preserves other cards already reviewed.
+
+For example, tell your agent:
+
+```text
+Read the latest collaboration task in NPCs.
+Use the world and character context to make the dialogue voice consistent,
+while preserving the story information.
+Only revise marked NPC speech and player-choice text. Submit candidates for review.
+```
+
+Specify the task ID when several tasks are active. This workflow changes **text only**: speakers, card titles, connections, conditions, effects and stable IDs remain intact. Changes to the author baseline require a fresh comparison. Existing projects remain readable without migration.
+
+Finished tasks can be deleted quickly, with immediate undo or restoration from **Deleted**. Deletion stops further submissions to that task while preserving its candidates and adopted dialogue. See the [local MCP collaboration guide](docs/local-mcp-collaboration.md) for setup, tools, storage and conflict handling.
 
 <a id="workflow"></a>
 ## Generate less guesswork, review more deliberately
@@ -187,6 +219,7 @@ Replace the URL with your actual local address when it differs. Compilation vali
 | **Project content** | Your chosen project folder: world, characters, levels, scenes, dialogue, drafts, generation records and saved play records. |
 | **Backups & exported files** | Beside the project in its folder. Full JSON backups can be reopened; Markdown design notes and UTF-8 CSV dialogue tables support handoff. |
 | **Models & templates** | The local application data folder, shared across projects and separate from project backups. |
+| **MCP collaboration tasks** | The local application data folder, scoped by project and separate from project exports. Submitted candidates use the project's existing draft storage. |
 | **API keys** | On Windows, optionally remembered using current-user DPAPI in a separate credential file. Session-only mode and explicit clearing are available. Other systems currently use session-only input. |
 
 Project exports, templates and Skills do not include stored model credentials. Changing a connection destination requires re-entering its key; copying a model profile does not copy the key. Editing and deterministic rehearsal work offline. Built-in remote generation sends its story context to the connection you choose.
@@ -200,6 +233,7 @@ The interface and help switch between **中文 / English**. This changes the UI 
 | :--- | :--- |
 | Learn the author workflow | [English user guide](docs/user-guide-en.md) · [中文使用手册](docs/user-guide-zh.md) |
 | Work with my own AI | [Bilingual Skill collaboration guide](docs/skill-collaboration-guide.md) |
+| Connect my local Codex / Claude Code | [Local MCP collaboration guide](docs/local-mcp-collaboration.md) |
 | Understand generation limits | [Scene generation quantity and length](docs/scene-generation-limits-delivery.md) |
 | Understand drafts and recovery | [Draft inbox](docs/draft-inbox-delivery.md) · [Local project folders](docs/project-folder-delivery.md) |
 | Develop or integrate | [Python service](backend/README.md) · [Architecture](docs/architecture.md) · [Project Schema](schemas/project-v2.schema.json) |
@@ -208,7 +242,7 @@ The interface and help switch between **中文 / English**. This changes the UI 
 <a id="status"></a>
 ## Preview status & next milestones
 
-**Current mainline: 0.1.0 preview.** Authoring, local storage, draft review, model connection workflows, bilingual Skills and deterministic rehearsal are implemented. Provider compatibility and output quality depend on the selected service; protocol fixtures do not establish real-model quality acceptance.
+**Current mainline: 0.1.0 preview.** Authoring, local storage, draft review, model connection workflows, bilingual Skills, local MCP collaboration and deterministic rehearsal are implemented. Provider compatibility and output quality depend on the selected service; protocol fixtures do not establish real-model quality acceptance.
 
 Next milestones include clean Windows machine acceptance, release packaging, broader real-provider verification, and dedicated engine handoff adapters. Current exports are JSON, Markdown and CSV. The workbench plans narrative text; it does not create 3D characters or run a game engine. Knowledge, conditions and effects are authored explicitly; natural-language secrets and contradictions still need the author's review.
 

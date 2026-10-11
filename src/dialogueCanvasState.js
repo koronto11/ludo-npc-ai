@@ -9,6 +9,8 @@ export function updateDialogueNodeState(state, changes) {
       patch = { measured: { ...change.dimensions } };
     } else if (change.type === 'position' && typeof change.dragging === 'boolean' && previous.dragging !== change.dragging) {
       patch = { dragging: change.dragging };
+    } else if (change.type === 'select' && typeof change.selected === 'boolean' && previous.selected !== change.selected) {
+      patch = { selected: change.selected };
     }
     if (patch) {
       if (next === state) next = { ...state };
@@ -16,4 +18,11 @@ export function updateDialogueNodeState(state, changes) {
     }
   }
   return next;
+}
+
+// Use the click modifier itself: an open text inspector can hold keyboard focus.
+export function dialogueCardSelectionChanges(state, cardIds, clickedId, additive) {
+  return cardIds.map(id => ({id, type:'select', selected: additive
+    ? id === clickedId ? !state[id]?.selected : !!state[id]?.selected
+    : id === clickedId}));
 }

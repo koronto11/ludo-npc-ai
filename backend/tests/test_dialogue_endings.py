@@ -9,7 +9,8 @@ from ludo_npc.domain.models import Project
 from ludo_npc.drafts import author_hash
 from ludo_npc.exports import dialogue_csv, markdown
 from ludo_npc.simulation import SimulationInput, rehearse
-from ludo_npc.templates import ApplyTemplate, apply_commands as template_commands, capture
+from ludo_npc.templates import ApplyTemplate, capture
+from ludo_npc.templates import apply_commands as template_commands
 
 
 def project():

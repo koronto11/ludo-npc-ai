@@ -42,6 +42,11 @@ def main():
 
         cli_main(sys.argv[2:])
         return
+    if len(sys.argv) > 1 and sys.argv[1] == "--mcp":
+        from .mcp_server import main as mcp_main
+
+        mcp_main(sys.argv[2:])
+        return
     parser = argparse.ArgumentParser(description="NPCs AI Studio 本地文件与导演台服务")
     parser.add_argument("--port", type=int, default=4174)
     parser.add_argument("--data-dir")

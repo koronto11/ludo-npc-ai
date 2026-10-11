@@ -15,6 +15,11 @@ export function reviewEntries(document,jobs=[]){
 }
 export function draftPreview(draft){
   const patch=draft.patch;
+  if(draft.id.startsWith('draft-agent-card-')){
+    const base=new Map((draft.base_values.nodes||[]).map(n=>[n.id,n]));
+    const node=patch.nodes?.find(n=>JSON.stringify(base.get(n.id))!==JSON.stringify(n));
+    if(node)return node.text!==base.get(node.id)?.text?node.text:node.options.find(o=>o.text!==base.get(node.id)?.options.find(b=>b.id===o.id)?.text)?.text || node.text;
+  }
   return patch.body || patch.story || patch.description || patch.nodes?.find(node=>node.text)?.text || patch.role || '点击卡片查看内容与审核详情';
 }
 export function filterReviewEntries(entries,{scope='',status='pending',query=''}={}){
