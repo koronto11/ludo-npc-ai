@@ -19,7 +19,7 @@
 
 <p align="center">
   <b>English</b> · <a href="README.zh-CN.md">简体中文</a><br><br>
-  <a href="#overview">Overview</a> · <a href="#workbench">Workbench</a> · <a href="#ai-skills">AI Skills</a> · <a href="#quick-start">Quick start</a> · <a href="#example">Example</a> · <a href="#local-data">Your data</a> · <a href="#documentation">Docs</a>
+  <a href="#overview">Overview</a> · <a href="#workbench">Workbench</a> · <a href="#ai-skills">AI Skills</a> · <a href="#quick-start">Quick start</a> · <a href="#example">Example</a> · <a href="#local-data">Your data</a> · <a href="#documentation">Docs</a> · <a href="#star-history">Star History</a> · <a href="#support">Support</a>
 </p>
 
 ---
@@ -215,6 +215,31 @@ Next milestones include clean Windows machine acceptance, release packaging, bro
 Built with **React · Vite · React Flow · Python · FastAPI · Pydantic**, backed by local JSON files. Start with [Contributing](CONTRIBUTING.md), [backend setup](backend/README.md), [Security](SECURITY.md) and the [Changelog](CHANGELOG.md). Historical visual evidence is indexed [here](docs/archive-index.md).
 
 Project-authored code, documentation and bilingual Skills are **[MIT licensed](LICENSE)**. Third-party fonts and libraries retain their [upstream licenses](THIRD_PARTY_NOTICES.md). See [asset and brand licensing](ASSET-LICENSING.md) for visual material and brand scope. Public installer acceptance remains a separate milestone.
+
+---
+
+<a id="star-history"></a>
+## Star History
+
+<p align="center">
+  <a href="https://www.star-history.com/?repos=koronto11%2Fludo-npc-ai&amp;type=date&amp;legend=top-left">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;theme=dark&amp;legend=top-left">
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;legend=top-left">
+      <img src="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;legend=top-left" alt="GitHub star history for NPCs AI Studio" width="800">
+    </picture>
+  </a>
+</p>
+
+<a id="support"></a>
+## Support the project
+
+If NPCs AI Studio helps your creative work, consider starring the repository, sharing it, reporting issues or contributing. You can also buy the maintainer a coffee through WeChat. Contributions are entirely voluntary; no payment is required to use the project.
+
+<p align="center">
+  <a href="docs/assets/wechat-appreciation.jpg"><img src="docs/assets/wechat-appreciation.jpg" alt="koronto's WeChat appreciation code" width="320"></a><br>
+  <sub>Scan with WeChat · Click the image for full size</sub>
+</p>
 
 ---
 

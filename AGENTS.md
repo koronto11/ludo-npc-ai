@@ -15,6 +15,9 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 
 ## NPCs AI Studio product decisions
 
+- User wants the supplied WeChat appreciation code in both READMEs. Keep it unchanged in a compact, centered Support section near the end, link to the original image, and state that support is voluntary and project use requires no payment.
+- User wants a live Star History chart in both READMEs, before the Support section. Use the actual GitHub repository, theme-aware image sources and a link to the detailed chart; never substitute sample growth data or expose raw credentials.
+
 - User wants Delete shortcuts for selected level-canvas controls, including appearances, groups, events and axis nodes. Keep clear selection and an accessible remove action, confirm the actual removal semantics, ignore typing/IME/repeat/modifier keys and open dialogs, menus, active drags or unsaved editors, and scope the shortcut to canvas focus. Removing an appearance keeps profiles/dialogue; removing a group dissolves it with members preserved; removing axes retains times/unassigned appearances. Reuse sparse atomic commands, reference/conflict validation and shared undo; reject changed targets or group memberships.
 
 - User wants a clear role-preview completion layout: show NPC closing speech as an independent normal-flow conversation card, then a compact completion notice with spacing. Keep save/restart actions together in the fixed footer, retain full playable speech and allow long speaker/node labels to wrap; avoid nested speech cards inside a large green completion container or sticky closing speech covering the notice. This is presentation only.

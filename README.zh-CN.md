@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="README.md">English</a> · <b>简体中文</b><br><br>
-  <a href="#overview">平台介绍</a> · <a href="#workbench">工作台展示</a> · <a href="#ai-skills">AI 协作</a> · <a href="#quick-start">快速开始</a> · <a href="#example">故事示例</a> · <a href="#local-data">数据保存</a> · <a href="#documentation">文档</a>
+  <a href="#overview">平台介绍</a> · <a href="#workbench">工作台展示</a> · <a href="#ai-skills">AI 协作</a> · <a href="#quick-start">快速开始</a> · <a href="#example">故事示例</a> · <a href="#local-data">数据保存</a> · <a href="#documentation">文档</a> · <a href="#star-history">Star 历史</a> · <a href="#support">支持项目</a>
 </p>
 
 ---
@@ -224,6 +224,31 @@ backend/.venv/Scripts/python.exe skills/npcs-ai-studio-zh/scripts/npc_studio_bri
 技术构成：**React · Vite · React Flow · Python · FastAPI · Pydantic**，数据保存在本地 JSON 文件。参与开发可先阅读 [贡献指南](CONTRIBUTING.md)、[后端环境](backend/README.md)、[安全问题报告](SECURITY.md) 和 [更新记录](CHANGELOG.md)。历史视觉资料见 [归档索引](docs/archive-index.md)。
 
 项目自有代码、文档和中英文 Skill 采用 **[MIT 许可证](LICENSE)**。第三方字体与组件保留 [各自许可](THIRD_PARTY_NOTICES.md)；视觉素材和品牌使用范围见 [素材与品牌授权](ASSET-LICENSING.md)。公开安装包验收仍是独立里程碑。
+
+---
+
+<a id="star-history"></a>
+## Star History · 星标增长
+
+<p align="center">
+  <a href="https://www.star-history.com/?repos=koronto11%2Fludo-npc-ai&amp;type=date&amp;legend=top-left">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;theme=dark&amp;legend=top-left">
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;legend=top-left">
+      <img src="https://api.star-history.com/chart?repos=koronto11/ludo-npc-ai&amp;type=date&amp;legend=top-left" alt="NPCs AI Studio 的 GitHub 星标增长历史" width="800">
+    </picture>
+  </a>
+</p>
+
+<a id="support"></a>
+## 支持项目
+
+如果 NPCs AI Studio 对你的创作有所帮助，欢迎点亮 Star、分享项目、反馈问题或参与贡献。也可以通过微信赞赏，请维护者喝杯咖啡。赞赏完全自愿，使用本项目无需付费。
+
+<p align="center">
+  <a href="docs/assets/wechat-appreciation.jpg"><img src="docs/assets/wechat-appreciation.jpg" alt="koronto 的微信赞赏码" width="320"></a><br>
+  <sub>微信扫码赞赏 · 点击图片查看原图</sub>
+</p>
 
 ---
 

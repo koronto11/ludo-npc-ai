@@ -17,9 +17,15 @@ retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
   third-party fonts and icons keep their upstream licenses.
 - `docs/examples/` and Skill examples: authored demonstrations for development
   and testing, licensed under MIT. They are not licensed game-world adaptations.
+- `docs/assets/wechat-appreciation.jpg`: maintainer-provided WeChat appreciation
+  code, displayed unchanged to identify the voluntary support recipient. It is
+  separate from the MIT-licensed project artwork; third-party marks and the avatar
+  retain their respective rights.
 
 像素字标为项目自有绘制；横幅为本项目生成的 AI 辅助视觉素材；README 截图使用原创潮汐小镇示例。
 项目拥有的部分按 MIT 提供，字体、图标等第三方内容仍保留上游许可。
+微信赞赏码由维护者提供，原样展示以标识自愿支持的收款对象；它不属于按 MIT 提供的项目美术素材，
+其中第三方标识与头像保留各自权利。
 
 Historical concept/reference images are outside the current distribution.
 An old commit or linked reference does not establish ownership or grant rights
