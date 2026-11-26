@@ -2,6 +2,10 @@
   <img src="docs/assets/readme-banner-en-v1.png" alt="NPCs AI Studio — Turn stories into NPC worlds you can arrange, converse with, and rehearse." width="100%">
 </p>
 
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/koronto11/ludo-npc-ai/version.svg)](https://yarkr.com/arks/koronto11/ludo-npc-ai)
+<!-- yarkr:badges:end -->
+
 <h3 align="center">Build the world. Meet the cast. Play the conversation.</h3>
 
 <p align="center">
@@ -278,3 +282,36 @@ If NPCs AI Studio helps your creative work, consider starring the repository, sh
 ---
 
 <p align="center"><b>Give every NPC a place, a voice and a reason to be there.</b><br><sub>NPCs AI Studio · Story, cast, conversation.</sub></p>
+
+<!-- yarkr:install:start -->
+## Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/koronto11/ludo-npc-ai) as the ark [koronto11/ludo-npc-ai](https://yarkr.com/arks/koronto11/ludo-npc-ai), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync koronto11/ludo-npc-ai
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:koronto11/ludo-npc-ai/npcs-ai-studio-en
+npx yarkr-cli add skill:koronto11/ludo-npc-ai/npcs-ai-studio-zh
+```
+
+No Node.js? `curl -fsSL https://yarkr.com/install.sh | sh` (macOS, Linux) or `irm https://yarkr.com/install.ps1 | iex` (Windows PowerShell) installs `yarkr` as a standalone binary; then type `yarkr` in place of `npx yarkr-cli`.
+
+### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add koronto11/ludo-npc-ai
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/koronto11/ludo-npc-ai`.
+<!-- yarkr:install:end -->
